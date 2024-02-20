@@ -79,8 +79,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          name: next
-          path: ./out
+          path: build/
 
   # Deployment job
   deploy:
