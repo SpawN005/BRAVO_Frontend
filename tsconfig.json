@@ -33,7 +33,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "dist/types/**/*.ts"
-, "src/app/MatchLogging/page.jsx"  ],
+, "src/app/MatchLogging/page.jsx", "src/app/auth/signup/page.Jsx"  ],
   "exclude": [
     "node_modules"
   ]

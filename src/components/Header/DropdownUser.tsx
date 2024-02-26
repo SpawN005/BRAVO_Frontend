@@ -1,12 +1,17 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import authService from "@/services/auth/authService";
+import { useRouter } from 'next/navigation';
+import useStore from '@/store'; // Adjust the path as necessary
 
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-
+  const { user, permissionLevel } = useStore();
+console.log(permissionLevel)
   const trigger = useRef<any>(null);
   const dropdown = useRef<any>(null);
+  const router = useRouter();
 
   // close on click outside
   useEffect(() => {
@@ -34,6 +39,11 @@ const DropdownUser = () => {
     return () => document.removeEventListener("keydown", keyHandler);
   });
 
+
+  const handleLogout = () => {
+    authService.logout();
+    router.push('/auth/signin');
+  };
   return (
     <div className="relative">
       <Link
@@ -44,10 +54,12 @@ const DropdownUser = () => {
       >
         <span className="hidden text-right lg:block">
           <span className="block text-sm font-medium text-black dark:text-white">
-            Thomas Anree
-          </span>
-          <span className="block text-xs">UX Designer</span>
+          {user.firstName} {/* Display the user's first name */}
+                    </span>
+                    <span className="block text-xs">
+          {permissionLevel === 4 ? <p>Organizer</p> : null}
         </span>
+                </span>
 
         <span className="h-12 w-12 rounded-full">
           <Image
@@ -161,7 +173,7 @@ const DropdownUser = () => {
             </Link>
           </li>
         </ul>
-        <button className="flex items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
+        <button onClick={handleLogout} className="flex items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
           <svg
             className="fill-current"
             width="22"
