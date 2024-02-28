@@ -1,6 +1,7 @@
 import ECommerce from "@/components/Dashboard/E-commerce";
 import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
+import LandingPage from "@/components/LandingPage";
 
 export const metadata: Metadata = {
   title:
@@ -9,11 +10,13 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
+  const loggedIn=false;
   return (
     <>
-      <DefaultLayout>
+      {loggedIn? <LandingPage/> :
+        <DefaultLayout>
         <ECommerce />
-      </DefaultLayout>
+      </DefaultLayout>}
     </>
   );
 }

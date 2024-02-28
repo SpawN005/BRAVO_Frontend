@@ -1,6 +1,7 @@
 {
   "/page": "app/page.js",
-  "/calendar/page": "app/calendar/page.js",
+  "/profile/page": "app/profile/page.js",
+  "/chart/page": "app/chart/page.js",
   "/auth/signin/page": "app/auth/signin/page.js",
-  "/settings/page": "app/settings/page.js"
+  "/tournament/create/page": "app/tournament/create/page.js"
 }
