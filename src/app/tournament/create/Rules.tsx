@@ -1,6 +1,6 @@
 import React from "react";
 
-const Rules = () => {
+const Rules = ({ onNextStep }: any) => {
   return (
     <div className="flex h-96 w-1/3 flex-col justify-between rounded-lg border border-slate-400 p-7">
       <h1 className="text-2xl font-bold text-black">Teams</h1>

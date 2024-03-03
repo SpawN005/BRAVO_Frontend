@@ -10,13 +10,11 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
-  const loggedIn=false;
   return (
     <>
-      {loggedIn? <LandingPage/> :
-        <DefaultLayout>
+      <DefaultLayout>
         <ECommerce />
-      </DefaultLayout>}
+      </DefaultLayout>
     </>
   );
 }
