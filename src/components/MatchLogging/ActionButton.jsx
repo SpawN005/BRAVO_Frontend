@@ -1,7 +1,7 @@
 'use client'
 import React, { useState } from 'react';
 import PlayersList from './PlayersList'
-export default function ActionButton({ teamName, actionType, players, listPosition, onAction }) {
+export default function ActionButton({ teamName, actionType, players, listPosition, backgroundColor, onAction }) {
     const [isHovering, setIsHovering] = useState(false);
     const handlePlayerClick = playerName => {
         console.log(`Action: ${actionType}, Team: ${teamName}, Player: ${playerName}`);
@@ -19,7 +19,7 @@ export default function ActionButton({ teamName, actionType, players, listPositi
         onMouseLeave={() => setIsHovering(false)}
     >
         <div className="action-button-container">
-            <button className="w-40 h-24 rounded-md border-2 flex items-center justify-center text-black">
+            <button className="w-40 h-24 font-semibold  rounded-md border-2 flex items-center justify-center text-white border-0 "  style={{ backgroundColor: backgroundColor }}>
                 {actionType}
             </button>
         </div>
