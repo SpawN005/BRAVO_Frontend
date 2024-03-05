@@ -6,14 +6,17 @@ import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import authService from '@/services/auth/authService'; // Adjust the path as per your project structure
+import { useRouter } from "next/navigation";
 
 
 const SignUp: React.FC = () => {
+  const router= useRouter()
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: '',
     confirmPassword: '',
+
   });
 
   const handleChange = (e:any) => {
@@ -32,12 +35,18 @@ const SignUp: React.FC = () => {
         email: formData.email,
         password: formData.password,
         firstName: formData.name,
+        permissionLevel:4
         // Add other fields if necessary
+
       });
-      console.log('Signup successful', response);
+      if(response.code==201){
+
+        router.push('/auth/signin')
+      }
+     
       // Redirect or perform additional actions on successful signup
     } catch (error) {
-      alert('Signup failed');
+      alert('Signup failed'+ e);
       // Handle signup failure (e.g., show error message)
     }
   };
