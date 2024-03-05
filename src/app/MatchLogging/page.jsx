@@ -15,6 +15,8 @@ const LoggingPage = () => {
     const actions = ['Goal', 'Red Card', 'Yellow Card', "Subtitute", "Penalty"]; // Define more actions as needed
   const homeTeam = { name: 'SC Freiburg' };
   const awayTeam = { name: 'Lens' };
+
+
   const homeTeamPlayers = [{ id: 1, name: 'Player 1' }, { id: 2, name: 'Player 2' }]; // Replace with actual data
   const awayTeamPlayers = [{ id: 3, name: 'Player 3' }, { id: 4, name: 'Player 4' }]; // Replace with actual data
   const homeTeamActions = matchActions.filter(action => action.team === homeTeam.name);
@@ -46,13 +48,14 @@ const LoggingPage = () => {
     return <div>Loading match details...</div>;
   }
 
-  const handleAction = (teamName, actionType, playerName) => {
-    const newAction = {
-      team: teamName,
-      action: actionType,
-      player: playerName,
-      time: new Date() // or any other time logic
-    };
+const handleAction = (teamName, actionType, playerName) => {
+  const newAction = {
+    team: teamName,
+    action: actionType,
+    player: playerName,
+    time: new Date()
+  };
+  
     setMatchActions(prevActions => [...prevActions, newAction]);
   };
   return (

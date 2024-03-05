@@ -1,12 +1,37 @@
 'use client'
 import React, { useState } from 'react';
 import PlayersList from './PlayersList'
+import matchLoggingService from '@/services/MatchLogging/MatchLoggingService'; // adjust the path as needed
+
 export default function ActionButton({ teamName, actionType, players, listPosition, backgroundColor, onAction }) {
     const [isHovering, setIsHovering] = useState(false);
     const handlePlayerClick = playerName => {
         console.log(`Action: ${actionType}, Team: ${teamName}, Player: ${playerName}`);
-        onAction(teamName, actionType, playerName);
-
+        const matchId= "65e5c560c17097502c672541"
+        const playerId= "65d4ce5a0eeffca291e9761c"
+        const teamId= "65d4ce5a0eefffa291e9761f"
+        
+        if (actionType === 'Goal') {
+            // Assuming you have the matchId and other necessary data available
+            matchLoggingService.scoreGoal(matchId, playerId,playerId, teamId) // Adjust parameters as needed
+                .then(response => {
+                    console.log('Goal scored:', response);
+                    onAction(teamName, actionType, playerName);
+                })
+                .catch(error => {
+                    console.error('Error in scoring goal:', error);
+                });
+        } else if (actionType === 'Yellow Card') {
+            matchLoggingService.addYellowCard(matchId, playerId, teamId) // Adjust parameters as needed
+                .then(response => {
+                    console.log('Yellow card added:', response);
+                    onAction(teamName, actionType, playerName);
+                })
+                .catch(error => {
+                    console.error('Error in adding yellow card:', error);
+                });
+        }
+        
     };
     const listStyle = listPosition === 'left' ? { right: '100%' } : { left: '100%' };
 

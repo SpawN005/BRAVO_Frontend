@@ -13,6 +13,31 @@ const getMatchDetails = async (matchId) => {
   }
 };
 
+const scoreGoal = async (matchId, idplayer1, idplayer2, idteam) => {
+  try {
+    const matchId= "65e5c560c17097502c672541"
+
+    const response = await axios.post(`${API_URL}/match-stats/score/${matchId}`, { idplayer1, idplayer2, idteam });
+    console.log(first)
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+// Function to add a yellow card
+const addYellowCard = async (matchId, idplayer, idteam) => {
+  try {
+    const response = await axios.post(`${API_URL}/yellow-card/${matchId}`, { idplayer, idteam });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
 export default {
+  scoreGoal,
+  addYellowCard,
   getMatchDetails
 };

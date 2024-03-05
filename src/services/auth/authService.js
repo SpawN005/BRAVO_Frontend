@@ -1,11 +1,10 @@
 import getUserFromToken from '@/utilities/getUserFromToken '
 import axios from 'axios';
 import useStore from '@/store'; // Adjust the path as necessary
-
+import { useRouter } from 'next/navigation'; // Corrected import statement
 const API_URL = 'http://localhost:3001'; // Replace with your API URL
 
 const register = async (userData) => {
-    console.log(userData)
   try {
     const response = await axios.post(`${API_URL}/users/create`, userData);
     if (response.data) {
@@ -20,7 +19,7 @@ const register = async (userData) => {
 const login = async (email, password) => {
     try {
       const response = await axios.post(`${API_URL}/auth`, { email, password });
-  
+      
       if (response.data) {
     const accessToken = response.data.data.accessToken;
     const refreshToken = response.data.data.refreshToken;
@@ -30,6 +29,9 @@ const login = async (email, password) => {
         localStorage.setItem('accessToken', accessToken);
         localStorage.setItem('refreshToken', refreshToken);
         localStorage.setItem('user', JSON.stringify(response.data));
+        const userDetails = getUserFromToken()
+        console.log(userDetails)
+        localStorage.setItem('userId', userDetails.userId);
         fetchUserData()
       }
       return response.data;
@@ -42,6 +44,7 @@ const login = async (email, password) => {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
     localStorage.removeItem('user');
+    localStorage.removeItem('selectedTournamentId');
     
   };
 
