@@ -234,85 +234,85 @@ export default function Form() {
         
         )}
 
-        {currentStep === 1 && (
-          <motion.div
-            initial={{ x: delta >= 0 ? '50%' : '-50%', opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ duration: 0.3, ease: 'easeInOut' }}
-          >
-            <h2 className='text-base font-semibold leading-7 text-gray-900'>
-              Joueurs 
-            </h2>
-            <p className='mt-1 text-sm leading-6 text-gray-600'>
-              Ajoutez des joueurs a l'equipe
-            </p>
-
-            {players.map((player, index) => (
-  <div key={index} className="mt-4 border p-4 rounded-md">
-    <h2 className="text-lg font-semibold">Joueur {index + 1}</h2>
-    <div className="mt-2">
-      <label htmlFor={`firstName${index}`} className="block text-sm font-medium leading-5 text-gray-700">Nom</label>
-      <input
-        type="text"
-        {...register(`players.${index}.firstName`)}
-        id={`firstName${index}`}
-        className="mt-1 block w-full rounded-md pl-2 text-black  border-gray-300 shadow-sm focus:border-sky-500 focus:ring focus:ring-sky-500 focus:ring-opacity-50"
-        placeholder="Nom"
-      />
-    </div>
-    <div className="mt-2">
-      <label htmlFor={`lastName${index}`} className="block text-sm font-medium leading-5 text-gray-700">Prénom</label>
-      <input
-        type="text"
-        {...register(`players.${index}.lastName`)}
-        id={`lastName${index}`}
-        className="mt-1 block w-full pl-2 text-black rounded-md border-gray-300 shadow-sm focus:border-sky-500 focus:ring focus:ring-sky-500 focus:ring-opacity-50"
-        placeholder="Prénom"
-      />
-    </div>
-    <div className="mt-2">
-      <label htmlFor={`email${index}`} className="block text-sm font-medium leading-5 text-gray-700">Email</label>
-      <input
-        type="email"
-        {...register(`players.${index}.email`)}
-        id={`email${index}`}
-        className="mt-1 block w-full pl-2 text-black rounded-md border-gray-300 shadow-sm focus:border-sky-500 focus:ring focus:ring-sky-500 focus:ring-opacity-50"
-        placeholder="Email"
-      />
-    </div>
-    <div className="mt-2">
-  <label htmlFor={`position${index}`} className="block  text-sm font-medium leading-5 text-gray-700">Poste</label>
-  <select
-    id={`position${index}`}
-    {...register(`players.${index}.position`)}
-    className="mt-1 block w-full pl-2 text-black rounded-md border-gray-300 shadow-sm focus:border-sky-500 focus:ring focus:ring-sky-500 focus:ring-opacity-50"
+{currentStep === 1 && (
+  <motion.div
+    initial={{ x: delta >= 0 ? '50%' : '-50%', opacity: 0 }}
+    animate={{ x: 0, opacity: 1 }}
+    transition={{ duration: 0.3, ease: 'easeInOut' }}
   >
-    <option value="gardien">Gardien</option>
-    <option value="defenseur">Défenseur</option>
-    <option value="milieu">Milieu</option>
-    <option value="attaquant">Attaquant</option>
-  </select>
-</div>
+    <h2 className='text-base font-semibold leading-7 text-gray-900'>
+      Joueurs 
+    </h2>
+    <p className='mt-1 text-sm leading-6 text-gray-600'>
+      Ajoutez des joueurs à l'équipe
+    </p>
+
+    {players.map((player, index) => (
+      <div key={index} className="mt-4 border p-4 rounded-md">
+        <h2 className="text-lg font-semibold">Joueur {index + 1}</h2>
+        <div className="mt-2 grid grid-cols-2 gap-x-6 gap-y-8 ">
+          <div className="sm:col-span-1">
+            <label htmlFor={`firstName${index}`} className="block text-sm font-medium   text-black">Nom</label>
+            <input
+              type="text"
+              {...register(`players.${index}.firstName`)}
+              id={`firstName${index}`}
+              className='block w-full rounded-md pl-2 text-black border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6'
+              placeholder="Nom"
+            />
+          </div>
+          <div className="sm:col-span-1">
+            <label htmlFor={`lastName${index}`} className="block text-sm font-medium leading-5  text-black">Prénom</label>
+            <input
+              type="text"
+              {...register(`players.${index}.lastName`)}
+              id={`lastName${index}`}
+              className='block w-full rounded-md pl-2 text-black border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6'
+              placeholder="Prénom"
+            />
+          </div>
+          <div className="sm:col-span-1">
+            <label htmlFor={`email${index}`} className="block text-sm font-medium leading-5 text-black">Email</label>
+            <input
+              type="email"
+              {...register(`players.${index}.email`)}
+              id={`email${index}`}
+              className='block w-full rounded-md pl-2 text-black border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6'
+              placeholder="Email"
+            />
+          </div>
+          <div className="sm:col-span-1">
+            <label htmlFor={`position${index}`} className="block  text-sm font-medium leading-5  text-black">Poste</label>
+            <select
+              id={`position${index}`}
+              {...register(`players.${index}.position`)}
+              className='block w-full rounded-md pl-2 text-black border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6'
+            >
+              <option value="gardien">Gardien</option>
+              <option value="defenseur">Défenseur</option>
+              <option value="milieu">Milieu</option>
+              <option value="attaquant">Attaquant</option>
+            </select>
+          </div>
+        </div>
+        <button
+          type="button"
+          onClick={() => removePlayer(index)}
+          className="mt-4 inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-red hover:bg-red-500 focus:outline-none focus:border-red-700 focus:shadow-outline-red active:bg-red-700 transition ease-in-out duration-150"
+        >
+          Supprimer ce joueur
+        </button>
+      </div>
+    ))}
     <button
       type="button"
-      onClick={() => removePlayer(index)}
-      className="mt-4 inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-red hover:bg-red-500 focus:outline-none focus:border-red-700 focus:shadow-outline-red active:bg-red-700 transition ease-in-out duration-150"
+      onClick={addPlayer}
+      className="mt-4 inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-sky-600 hover:bg-sky-500 focus:outline-none focus:border-sky-700 focus:shadow-outline-sky active:bg-sky-700 transition ease-in-out duration-150"
     >
-      Supprimer ce joueur
+      Ajouter un joueur
     </button>
-  </div>
-))}
-<button
-  type="button"
-  onClick={addPlayer}
-  className="mt-4 inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-sky-600 hover:bg-sky-500 focus:outline-none focus:border-sky-700 focus:shadow-outline-sky active:bg-sky-700 transition ease-in-out duration-150"
->
-  Ajouter un joueur
-</button>
-
-          </motion.div>
-        )}
-
+  </motion.div>
+)}
         {currentStep === 2 && (
           <>
             <h2 className='text-base font-semibold leading-7 text-gray-900'>
