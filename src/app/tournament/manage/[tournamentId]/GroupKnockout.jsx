@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { Droppable, Draggable, DragDropContext } from "@hello-pangea/dnd";
-import tournamentsService from "@/app/service/tournament/tournamentsService";
+import tournamentsService from "@/services/tournament/tournamentsService";
 
 const GroupKnockout = ({ tournamentData, onTournamentDataChange }) => {
   const [isSubmitted, setIsSubmitted] = useState(false);

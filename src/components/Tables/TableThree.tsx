@@ -1,35 +1,72 @@
-import { Package } from "@/types/package";
+"use client"
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
-const packageData: Package[] = [
-  {
-    name: "Free package",
-    price: 0.0,
-    invoiceDate: `Jan 13,2023`,
-    status: "Paid",
-  },
-  {
-    name: "Standard Package",
-    price: 59.0,
-    invoiceDate: `Jan 13,2023`,
-    status: "Paid",
-  },
-  {
-    name: "Business Package",
-    price: 99.0,
-    invoiceDate: `Jan 13,2023`,
-    status: "Unpaid",
-  },
-  {
-    name: "Standard Package",
-    price: 59.0,
-    invoiceDate: `Jan 13,2023`,
-    status: "Pending",
-  },
-];
+const TeamDetails = () => {
+  const [teamData, setTeamData] = useState(null);
+  const [selectedPlayer, setSelectedPlayer] = useState(null);
+  const [showEditPopup, setShowEditPopup] = useState(false); // État pour afficher la pop-up d'édition
 
-const TableThree = () => {
+  useEffect(() => {
+    const fetchTeamDetails = async () => {
+      try {
+        const response = await axios.get('http://localhost:3001/team/team/65df4a77413766bede36e741');
+        setTeamData(response.data);
+      } catch (error) {
+        console.error('Error fetching team details:', error);
+      }
+    };
+
+    fetchTeamDetails();
+  }, []);
+
+  const deletePlayer = async (playerId) => {
+    try {
+      await axios.delete(`http://localhost:3001/player/${playerId}`);
+      setTeamData(prevTeamData => ({
+        ...prevTeamData,
+        players: prevTeamData.players.filter(player => player._id !== playerId)
+      }));
+    } catch (error) {
+      console.error('Error deleting player:', error);
+    }
+  };
+
+  const handleUpdatePlayer = async (playerId) => {
+    try {
+      const response = await axios.get(`http://localhost:3001/player/${playerId}`);
+      setSelectedPlayer(response.data); // Stocker les détails du joueur sélectionné dans l'état
+      setShowEditPopup(true); // Afficher la pop-up d'édition
+    } catch (error) {
+      console.error('Error fetching player details:', error);
+    }
+  };
+
+  const handleCancelUpdate = () => {
+    setSelectedPlayer(null); // Réinitialiser les détails du joueur sélectionné
+    setShowEditPopup(false); // Cacher la pop-up d'édition
+  };
+
+  const handleSavePlayer = async (updatedPlayerData) => {
+    try {
+      await axios.put(`http://localhost:3001/player/${selectedPlayer._id}`, updatedPlayerData);
+  console.log(updatedPlayerData)
+      // Mettre à jour les détails du joueur dans l'état local
+      setTeamData(prevTeamData => ({
+        ...prevTeamData,
+        players: prevTeamData.players.map(player =>
+          player._id === selectedPlayer._id ? { ...player, ...updatedPlayerData } : player
+        )
+      }));
+      setShowEditPopup(false); 
+    } catch (error) {
+      console.error('Error updating player:', error);
+    }
+  };
+
   return (
     <div className="rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+      {teamData ? (
       <div className="max-w-full overflow-x-auto">
         <table className="w-full table-auto">
           <thead>
@@ -49,35 +86,26 @@ const TableThree = () => {
             </tr>
           </thead>
           <tbody>
-            {packageData.map((packageItem, key) => (
-              <tr key={key}>
-                <td className="border-b border-[#eee] px-4 py-5 pl-9 dark:border-strokedark xl:pl-11">
+            {teamData.players.map((player) => (
+                    <tr key={player._id} className="border-b">
+                    <td className="border-b border-[#eee] px-4 py-5 pl-9 dark:border-strokedark xl:pl-11">
                   <h5 className="font-medium text-black dark:text-white">
-                    {packageItem.name}
+                    {player.firstName}
                   </h5>
-                  <p className="text-sm">${packageItem.price}</p>
                 </td>
                 <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
                   <p className="text-black dark:text-white">
-                    {packageItem.invoiceDate}
+                    {player.lastName}
                   </p>
                 </td>
                 <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
-                  <p
-                    className={`inline-flex rounded-full bg-opacity-10 px-3 py-1 text-sm font-medium ${
-                      packageItem.status === "Paid"
-                        ? "bg-success text-success"
-                        : packageItem.status === "Unpaid"
-                          ? "bg-danger text-danger"
-                          : "bg-warning text-warning"
-                    }`}
-                  >
-                    {packageItem.status}
+                  <p>
+                    {player.position}
                   </p>
                 </td>
                 <td className="border-b border-[#eee] px-4 py-5 dark:border-strokedark">
                   <div className="flex items-center space-x-3.5">
-                    <button className="hover:text-primary">
+                  <button onClick={() => handleUpdatePlayer(player._id)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 mr-2 rounded">
                       <svg
                         className="fill-current"
                         width="18"
@@ -96,7 +124,7 @@ const TableThree = () => {
                         />
                       </svg>
                     </button>
-                    <button className="hover:text-primary">
+                    <button onClick={() => deletePlayer(player._id)} className="bg-red hover:bg-red-700 text-white font-bold py-1 px-2 rounded">
                       <svg
                         className="fill-current"
                         width="18"
@@ -123,25 +151,7 @@ const TableThree = () => {
                         />
                       </svg>
                     </button>
-                    <button className="hover:text-primary">
-                      <svg
-                        className="fill-current"
-                        width="18"
-                        height="18"
-                        viewBox="0 0 18 18"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M16.8754 11.6719C16.5379 11.6719 16.2285 11.9531 16.2285 12.3187V14.8219C16.2285 15.075 16.0316 15.2719 15.7785 15.2719H2.22227C1.96914 15.2719 1.77227 15.075 1.77227 14.8219V12.3187C1.77227 11.9812 1.49102 11.6719 1.12539 11.6719C0.759766 11.6719 0.478516 11.9531 0.478516 12.3187V14.8219C0.478516 15.7781 1.23789 16.5375 2.19414 16.5375H15.7785C16.7348 16.5375 17.4941 15.7781 17.4941 14.8219V12.3187C17.5223 11.9531 17.2129 11.6719 16.8754 11.6719Z"
-                          fill=""
-                        />
-                        <path
-                          d="M8.55074 12.3469C8.66324 12.4594 8.83199 12.5156 9.00074 12.5156C9.16949 12.5156 9.31012 12.4594 9.45074 12.3469L13.4726 8.43752C13.7257 8.1844 13.7257 7.79065 13.5007 7.53752C13.2476 7.2844 12.8539 7.2844 12.6007 7.5094L9.64762 10.4063V2.1094C9.64762 1.7719 9.36637 1.46252 9.00074 1.46252C8.66324 1.46252 8.35387 1.74377 8.35387 2.1094V10.4063L5.40074 7.53752C5.14762 7.2844 4.75387 7.31252 4.50074 7.53752C4.24762 7.79065 4.27574 8.1844 4.50074 8.43752L8.55074 12.3469Z"
-                          fill=""
-                        />
-                      </svg>
-                    </button>
+                    
                   </div>
                 </td>
               </tr>
@@ -149,8 +159,39 @@ const TableThree = () => {
           </tbody>
         </table>
       </div>
+      ) : (
+        <p className="text-center">Loading team details...</p>
+      )}
+      {/* Pop-up pour modifier les détails du joueur */}
+      {selectedPlayer && showEditPopup && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+        <div className="bg-white p-6 rounded-md w-100">
+          <h2 className="text-lg font-semibold mb-4">Edit Player</h2>
+          <form>
+            <div className="mb-4">
+              <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">First Name:</label>
+              <input type="text" id="firstName" name="firstName" value={selectedPlayer.firstName} onChange={(e) => setSelectedPlayer({ ...selectedPlayer, firstName: e.target.value })} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
+            </div>
+            <div className="mb-4">
+              <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">Last Name:</label>
+              <input type="text" id="lastName" name="lastName" value={selectedPlayer.lastName} onChange={(e) => setSelectedPlayer({ ...selectedPlayer, lastName: e.target.value })} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
+            </div>
+            <div className="mb-4">
+              <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">email:</label>
+              <input type="text" id="email" name="email" value={selectedPlayer.email} onChange={(e) => setSelectedPlayer({ ...selectedPlayer, email: e.target.value })} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
+            </div>
+            <div className="flex justify-end">
+              <button type="button" onClick={handleCancelUpdate} className="bg-red hover:bg-gray-700 text-white font-bold py-1 px-2 mr-2 rounded">Cancel</button>
+              <button type="button" onClick={() => handleSavePlayer(selectedPlayer)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded">Save</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      
+      )}
     </div>
+    
   );
 };
 
-export default TableThree;
+export default TeamDetails;

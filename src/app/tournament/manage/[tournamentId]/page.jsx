@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import tournamentsService from "@/app/service/tournament/tournamentsService";
+import tournamentsService from "@/services/tournament/tournamentsService";
 import Loader from "@/components/common/Loader";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import GroupKnockout from "@/app/tournament/manage/[tournamentId]/GroupKnockout";

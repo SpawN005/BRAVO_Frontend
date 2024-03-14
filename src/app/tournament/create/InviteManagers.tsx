@@ -2,7 +2,7 @@ import { useTournamentStore } from "@/app/store/zustand";
 import FormInput from "@/components/DefaultInput/FormInput";
 import React from "react";
 import { useForm } from "react-hook-form";
-import touramentsService from "@/app/service/tournament/tournamentsService";
+import touramentsService from "@/services/tournament/tournamentsService";
 import { useRouter } from "next/navigation";
 
 const InviteManagers = ({ onNextStep, onPrevStep }: any) => {

@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <>
-      <DefaultLayout>
+      <DefaultLayout >
         <ECommerce />
       </DefaultLayout>
     </>
