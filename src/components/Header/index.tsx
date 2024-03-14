@@ -82,11 +82,21 @@ const Header = (props: {
 { userData &&  userData.permissionLevel === 4 && 
 <div className="flex w-full">
           <TournamentSelect/>   
-          <button onClick={()=>{router.push("/tournament/create")}}className="flex w-40 ml-4 justify-center rounded bg-primary p-3 font-normal  text-gray hover:bg-opacity-90">
+          <button onClick={()=>{router.push("/tournament/create")}}className="flex w-40 ml-4 justify-center rounded bg-primary p-3 font-normal  text-white hover:bg-opacity-90">
               + New Tournament
             </button>    
     </div>
 }
+
+
+{ userData &&  userData.permissionLevel === 3 && 
+<div className="flex w-full">
+          <button onClick={()=>{router.push("/team/add")}}className="flex w-40 ml-4 justify-center rounded bg-primary p-3 font-normal  text-white hover:bg-opacity-90">
+              + Add Team
+            </button>    
+    </div>
+}
+
 
         <div className="flex items-center gap-3 2xsm:gap-7">
           <ul className="flex items-center gap-2 2xsm:gap-4">

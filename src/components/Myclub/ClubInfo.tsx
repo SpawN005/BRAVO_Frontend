@@ -45,22 +45,8 @@ const ClubTableRowBody = styled.div`
   flex-flow: column;
 `;
 
-const TeamDetails = () => {
-  const [teamData, setTeamData] = useState(null);
-
-  useEffect(() => {
-    const fetchTeamDetails = async () => {
-      try {
-        const response = await axios.get('http://localhost:3001/team/team/65df4a77413766bede36e741');
-        setTeamData(response.data);
-      } catch (error) {
-        console.error('Error fetching team details:', error);
-      }
-    };
-
-    fetchTeamDetails();
-  }, []);
-
+const TeamDetails = ({teamData}) => {
+  
   return (
     <ClubInfoContainer>
     {teamData ? (

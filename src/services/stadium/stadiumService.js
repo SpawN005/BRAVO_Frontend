@@ -31,6 +31,7 @@ const StadiumService = {
 
       if (response.ok) {
         const addedStadium = await response.json();
+        console.log(addedStadium)
         StadiumService.cachedStadiums.push(addedStadium);
         return addedStadium;
       } else {

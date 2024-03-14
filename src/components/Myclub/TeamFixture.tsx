@@ -102,7 +102,7 @@ const parseDate = (date) => new Date(date).toDateString();
 const parseTime = (date) => new Date(date).toLocaleTimeString([],
   { hour: 'numeric', minute: '2-digit', hour12: true });
 
-const TeamFixtures = ({  }) => (
+const TeamFixtures = () => (
   <section>
       <FixturesTableHeader>
         <Club>Upcoming Fixtures</Club>

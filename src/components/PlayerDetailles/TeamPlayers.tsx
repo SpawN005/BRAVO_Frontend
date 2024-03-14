@@ -107,24 +107,25 @@ const PlayerLastName = styled.div`
 `;
 
 const TeamPlayers = ({ players, highlightPlayerInfo }) => (
+
   <TeamPlayersContainer>
     <TeamPlayersTabelHeader>
       <PlayerFirstName>Name</PlayerFirstName>
       <PlayerLastName>prenom</PlayerLastName>
-      <PlayerPosition>Position</PlayerPosition>
+      <PlayerPosition>Position </PlayerPosition>
    
       
       
     </TeamPlayersTabelHeader>
     <TeamPlayersTabelContainer>
-      {players.map((player) => (
+      {players?.map((player,index) => (
         <TeamPlayersTabelRow
-        key={player._id}        
-        onClick={() => highlightPlayerInfo(player._id)}
+        key={index}        
+        onClick={() => { highlightPlayerInfo(player._id)  }}
         >
-            <PlayerFirstName>{player.firstName}</PlayerFirstName>
-            <PlayerLastName>{player.lastName}</PlayerLastName>
-            <PlayerPosition>{player.position}</PlayerPosition>
+            <PlayerFirstName>{player?.firstName}</PlayerFirstName>
+            <PlayerLastName>{player?.lastName} </PlayerLastName>
+            <PlayerPosition>{player?.position} </PlayerPosition>
           
           
         </TeamPlayersTabelRow>

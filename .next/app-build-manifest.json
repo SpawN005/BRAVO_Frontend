@@ -47,6 +47,46 @@
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/team/add/page.js"
+    ],
+    "/observer/dashboard/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/observer/dashboard/page.js"
+    ],
+    "/MatchLogging/[MatchId]/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/MatchLogging/[MatchId]/page.js"
+    ],
+    "/observers/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/observers/page.js"
+    ],
+    "/referees/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/referees/page.js"
+    ],
+    "/stadium/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/stadium/page.js"
+    ],
+    "/stadium/add/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/stadium/add/page.js"
+    ],
+    "/tournament/create/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/tournament/create/page.js"
+    ],
+    "/tournament/manage/[tournamentId]/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/tournament/manage/[tournamentId]/page.js"
     ]
   }
 }

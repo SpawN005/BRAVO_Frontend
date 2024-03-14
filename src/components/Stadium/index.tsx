@@ -75,7 +75,7 @@ const StadiumList: React.FC = () => {
       {/* Add New Stadium Form */}
       <div className="mt-8">
         {/* Link to the CreateStadium page */}
-        <Link href="/AddStadium">
+        <Link href="/stadium/add">
           <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
             Add Stadium
           </button>

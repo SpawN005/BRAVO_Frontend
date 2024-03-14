@@ -1,17 +1,18 @@
 "use client"
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import getUserFromToken from '@/utilities/getUserFromToken ';
 
 const TeamDetails = () => {
   const [teamData, setTeamData] = useState(null);
   const [selectedPlayer, setSelectedPlayer] = useState(null);
   const [showEditPopup, setShowEditPopup] = useState(false); // État pour afficher la pop-up d'édition
-
+const user = getUserFromToken()
   useEffect(() => {
     const fetchTeamDetails = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/team/team/65df4a77413766bede36e741');
-        setTeamData(response.data);
+        const response = await axios.get(`http://localhost:3001/team/team/manager/${user.userId}`);
+        setTeamData(response.data[0]);
       } catch (error) {
         console.error('Error fetching team details:', error);
       }

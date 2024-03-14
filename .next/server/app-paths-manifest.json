@@ -1,7 +1,8 @@
 {
-  "/dashboard/page": "app/dashboard/page.js",
-  "/auth/signin/page": "app/auth/signin/page.js",
-  "/team/detail/page": "app/team/detail/page.js",
-  "/team/page": "app/team/page.js",
-  "/team/add/page": "app/team/add/page.js"
+  "/referees/page": "app/referees/page.js",
+  "/MatchLogging/[MatchId]/page": "app/MatchLogging/[MatchId]/page.js",
+  "/stadium/page": "app/stadium/page.js",
+  "/tournament/manage/[tournamentId]/page": "app/tournament/manage/[tournamentId]/page.js",
+  "/stadium/add/page": "app/stadium/add/page.js",
+  "/tournament/create/page": "app/tournament/create/page.js"
 }
