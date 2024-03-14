@@ -17,11 +17,6 @@
       "static/chunks/main-app.js",
       "static/chunks/app/team/detail/page.js"
     ],
-    "/profile/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/profile/page.js"
-    ],
     "/tournament/create/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
@@ -76,6 +71,26 @@
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/observers/new/page.js"
+    ],
+    "/observer/dashboard/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/observer/dashboard/page.js"
+    ],
+    "/tournament/manage/[tournamentId]/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/tournament/manage/[tournamentId]/page.js"
+    ],
+    "/team/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/team/page.js"
+    ],
+    "/team/add/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/team/add/page.js"
     ],
     "/not-found": [
       "static/chunks/webpack.js",
