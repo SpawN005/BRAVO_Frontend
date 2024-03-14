@@ -78,7 +78,6 @@ export default function Form() {
 
       data.logo=selectedFile?.name
       console.log(data.logo);
-
       const response = await axios.post("http://localhost:3001/team/teamP", data );
       console.log('Team and players created successfully:', response.data);
       reset();
@@ -88,7 +87,7 @@ export default function Form() {
       console.error('Error creating team and players:', error);
     }
   };
-  
+  console.log(formData)
   
   type FieldName = keyof Inputs;
 
@@ -101,6 +100,7 @@ export default function Form() {
     if (currentStep < steps.length - 1) {
       if (currentStep === steps.length - 2) {
         await handleSubmit(processForm)();
+      
       }
       setPreviousStep(currentStep);
       setCurrentStep(step => step + 1);

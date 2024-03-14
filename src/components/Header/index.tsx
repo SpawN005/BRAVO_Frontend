@@ -8,11 +8,13 @@ import SelectGroupOne from "../SelectGroup/SelectGroupOne";
 import TournamentSelect from "../SelectGroup/TournamentSelect";
 import getUserFromToken from '@/utilities/getUserFromToken ';
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 
 const Header = (props: {
   sidebarOpen: string | boolean | undefined;
   setSidebarOpen: (arg0: boolean) => void;
 }) => {
+  const router = useRouter();
   const [userData, setUserData] = useState<any>(null); // Added explicit type annotation for userData
   useEffect(() => {
     const user = getUserFromToken();
@@ -78,9 +80,9 @@ const Header = (props: {
         </div>
 
 { userData &&  userData.permissionLevel === 4 && 
-<div className="flex">
+<div className="flex w-full">
           <TournamentSelect/>   
-          <button className="flex w-40 ml-4 justify-center rounded bg-primary p-3 font-normal  text-gray hover:bg-opacity-90">
+          <button onClick={()=>{router.push("/tournament/create")}}className="flex w-40 ml-4 justify-center rounded bg-primary p-3 font-normal  text-gray hover:bg-opacity-90">
               + New Tournament
             </button>    
     </div>

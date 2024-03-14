@@ -43,11 +43,11 @@ const LoggingPage = () => {
       });
   }, []);
 
-
+/*
   if (!matchDetails) {
     return <div>Loading match details...</div>;
   }
-
+*/
 const handleAction = (teamName, actionType, playerName) => {
   const newAction = {
     team: teamName,
