@@ -6,11 +6,15 @@
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
     ],
-    "/page": [
+    "/tournament/manage/[tournamentId]/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/css/app/page.css",
-      "static/chunks/app/page.js"
+      "static/chunks/app/tournament/manage/[tournamentId]/page.js"
+    ],
+    "/tables/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/tables/page.js"
     ],
     "/tournament/create/page": [
       "static/chunks/webpack.js",
