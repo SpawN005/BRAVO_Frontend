@@ -23,7 +23,7 @@ const SignIn: React.FC = () => {
     try {
       const data = await authService.login(email, password);
       console.log(data);
-      router.push('/');
+      router.push('/dashboard');
     } catch (error) {
       console.error('Login failed:', error);
     }
