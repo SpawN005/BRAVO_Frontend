@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import axios from 'axios';
 import{FormDataSchema} from '../../types/schema'
+import getUserFromToken from '@/utilities/getUserFromToken '
 type Inputs = z.infer<typeof FormDataSchema>
 
 const steps = [
@@ -32,6 +33,7 @@ type Player = {
 
 
 export default function Form() {
+  const user = getUserFromToken();
   const [previousStep, setPreviousStep] = useState(0);
   const [currentStep, setCurrentStep] = useState(0);
   const delta = currentStep - previousStep;
@@ -53,6 +55,7 @@ export default function Form() {
     reset,
     trigger,
     control,
+    
     formState: { errors },
   } = useForm<Inputs>({
     resolver: zodResolver(FormDataSchema),
@@ -74,10 +77,13 @@ export default function Form() {
     }
   };  
   const processForm: SubmitHandler<Inputs> = async (data) => {
+    console.log("out")
     try {
-
+      console.log("out")
       data.logo=selectedFile?.name
       console.log(data.logo);
+      data.manager = user.userId;
+      console.log(data)
       const response = await axios.post("http://localhost:3001/team/teamP", data );
       console.log('Team and players created successfully:', response.data);
       reset();
@@ -87,7 +93,7 @@ export default function Form() {
       console.error('Error creating team and players:', error);
     }
   };
-  console.log(formData)
+  
   
   type FieldName = keyof Inputs;
 
@@ -100,7 +106,7 @@ export default function Form() {
     if (currentStep < steps.length - 1) {
       if (currentStep === steps.length - 2) {
         await handleSubmit(processForm)();
-      
+        console.log("test")
       }
       setPreviousStep(currentStep);
       setCurrentStep(step => step + 1);

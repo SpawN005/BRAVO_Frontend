@@ -7,6 +7,7 @@ import ClubInfomation from '../Myclub/ClubInfo';
 import TeamFixture from '../Myclub/TeamFixture';
 import TeamPlayers from '../PlayerDetailles/TeamPlayers';
 import PlayerHighlightedStats from '../PlayerDetailles/PlayerStats';
+import getUserFromToken from '@/utilities/getUserFromToken ';
 
 const MainBody = styled.div`
   display: flex;
@@ -44,14 +45,17 @@ const SoccerStats = () => {
   const [teamData, setTeamData] = useState(null);
   const [playerHighlightInfo, setPlayerHighlightInfo] = useState(null); 
   const [teamHighlightFixtures, setteamHighlightFixtures] = useState(null); 
-
+  const user = getUserFromToken();
 
   teamHighlightFixtures
   useEffect(() => {
+   
     const fetchTeamDetails = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/team/team/65df4a77413766bede36e741');
-        setTeamData(response.data);
+        const response = await axios.get(`http://localhost:3001/team/team/manager/${user.userId}`);
+        setTeamData(response?.data[0]);
+   
+       
       } catch (error) {
         console.error('Error fetching team details:', error);
       }
@@ -61,7 +65,9 @@ const SoccerStats = () => {
   }, []);
 
   const highlightPlayerInfo = async (playerId) => {
+    
     try {
+     
       const response = await axios.get(`http://localhost:3001/player/${playerId}`);
       setPlayerHighlightInfo(response.data);
     } catch (error) {
@@ -74,17 +80,17 @@ const SoccerStats = () => {
       <GlobalStyle />
       <ClubInformationSections>
       
-      <ClubInfomation />
+      <ClubInfomation teamData={teamData} />
       <TeamFixture
-              fixtures={teamHighlightFixtures}
+             
             />
       </ClubInformationSections>
     
            
-      {teamData && teamData.players.length ? (
+      {teamData && teamData?.players?.length ? (
         <ClubInformationSection>
           <TeamPlayers
-            players={teamData.players}
+            players={teamData?.players}
             highlightPlayerInfo={highlightPlayerInfo}
           />
         <PlayerHighlightedStats playerHighlightInfo={playerHighlightInfo} />
