@@ -8,9 +8,9 @@ import DefaultLayout from "@/components/Layouts/DefaultLayout";
 const Home: React.FC = () => {
   return (
     <DefaultLayout>
-    <div>
+ 
       <Stadium />
-    </div>
+    
     </DefaultLayout>
   );
 };

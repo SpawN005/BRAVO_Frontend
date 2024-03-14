@@ -1076,6 +1076,9 @@ body{
 .min-w-\[220px\]{
   min-width: 220px;
 }
+.min-w-full{
+  min-width: 100%;
+}
 .max-w-242\.5{
   max-width: 60.625rem;
 }
@@ -1093,6 +1096,9 @@ body{
 }
 .max-w-screen-2xl{
   max-width: 1536px;
+}
+.max-w-md{
+  max-width: 28rem;
 }
 .flex-1{
   flex: 1 1 0%;
@@ -1205,6 +1211,9 @@ body{
 }
 .items-center{
   align-items: center;
+}
+.justify-start{
+  justify-content: flex-start;
 }
 .justify-end{
   justify-content: flex-end;
@@ -1742,6 +1751,10 @@ body{
 .py-8{
   padding-top: 2rem;
   padding-bottom: 2rem;
+}
+.px-3{
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
 }
 .pb-2{
   padding-bottom: 0.5rem;

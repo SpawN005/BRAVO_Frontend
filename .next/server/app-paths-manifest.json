@@ -1,6 +1,10 @@
 {
   "/not-found": "app/not-found.js",
-  "/dashboard/page": "app/dashboard/page.js",
-  "/team/detail/page": "app/team/detail/page.js",
-  "/profile/page": "app/profile/page.js"
+  "/stadium/page": "app/stadium/page.js",
+  "/observers/page": "app/observers/page.js",
+  "/tournament/create/page": "app/tournament/create/page.js",
+  "/observers/new/page": "app/observers/new/page.js",
+  "/referees/page": "app/referees/page.js",
+  "/profile/page": "app/profile/page.js",
+  "/tables/page": "app/tables/page.js"
 }
