@@ -1,5 +1,9 @@
 {
-  "/tournament/manage/[tournamentId]/page": "app/tournament/manage/[tournamentId]/page.js",
-  "/tables/page": "app/tables/page.js",
-  "/tournament/create/page": "app/tournament/create/page.js"
+  "/not-found": "app/not-found.js",
+  "/auth/signin/page": "app/auth/signin/page.js",
+  "/auth/signup/page": "app/auth/signup/page.js",
+  "/dashboard/page": "app/dashboard/page.js",
+  "/profile/page": "app/profile/page.js",
+  "/settings/page": "app/settings/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js"
 }
