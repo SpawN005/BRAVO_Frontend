@@ -4,16 +4,22 @@ import Image from "next/image";
 import authService from "@/services/auth/authService";
 import { useRouter } from 'next/navigation';
 import useStore from '@/store'; // Adjust the path as necessary
+import getUserFromToken from '@/utilities/getUserFromToken ';
 
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const { user, permissionLevel } = useStore();
-console.log(permissionLevel)
+  const [userData, setUserData] = useState<any>(null); // Added explicit type annotation for userData
   const trigger = useRef<any>(null);
   const dropdown = useRef<any>(null);
   const router = useRouter();
 
-  // close on click outside
+  useEffect(() => {
+    const user = getUserFromToken();
+    if (user !== null) {
+      setUserData(user); 
+    }
+    }, []);
+
   useEffect(() => {
     const clickHandler = ({ target }: MouseEvent) => {
       if (!dropdown.current) return;
@@ -54,11 +60,27 @@ console.log(permissionLevel)
       >
         <span className="hidden text-right lg:block">
           <span className="block text-sm font-medium text-black dark:text-white">
-          {user.firstName} {/* Display the user's first name */}
-                    </span>
-                    <span className="block text-xs">
-          {permissionLevel === 4 ? <p>Organizer</p> : null}
-        </span>
+          {userData && (
+        <div>
+          {userData.userIdentity.firstName} {/* Display the user's first name */}
+          {/* Add more properties you want to display */}
+        </div>
+        )}          
+        
+        <span className="block text-xs">
+  {userData && (
+    <div>
+      {userData.permissionLevel === 1 && <p>Observer</p>}
+      {userData.permissionLevel === 2 && <p>Referee</p>}
+      {userData.permissionLevel === 3 && <p>Manager</p>}
+      {userData.permissionLevel === 4 && <p>Tournament Organizer</p>}
+    </div>
+  )}
+</span>
+      
+
+
+      </span>
                 </span>
 
         <span className="h-12 w-12 rounded-full">

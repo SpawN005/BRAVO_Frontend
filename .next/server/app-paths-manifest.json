@@ -1,9 +1,6 @@
 {
   "/not-found": "app/not-found.js",
-  "/team/detail/page": "app/team/detail/page.js",
-  "/tournament/create/page": "app/tournament/create/page.js",
-  "/profile/page": "app/profile/page.js",
   "/dashboard/page": "app/dashboard/page.js",
-  "/settings/page": "app/settings/page.js",
-  "/tournament/manage/[tournamentId]/page": "app/tournament/manage/[tournamentId]/page.js"
+  "/team/detail/page": "app/team/detail/page.js",
+  "/profile/page": "app/profile/page.js"
 }
