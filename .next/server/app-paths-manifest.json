@@ -1,6 +1,7 @@
 {
-  "/dashboard/page": "app/dashboard/page.js",
+  "/not-found": "app/not-found.js",
+  "/team/add/page": "app/team/add/page.js",
   "/team/detail/page": "app/team/detail/page.js",
   "/team/page": "app/team/page.js",
-  "/team/add/page": "app/team/add/page.js"
+  "/tournament/create/page": "app/tournament/create/page.js"
 }
