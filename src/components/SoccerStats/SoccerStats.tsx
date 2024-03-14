@@ -4,36 +4,38 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { GlobalStyle } from '../../css/styles';
 import ClubInfomation from '../Myclub/ClubInfo';
+import TeamFixture from '../Myclub/TeamFixture';
 import TeamPlayers from '../PlayerDetailles/TeamPlayers';
 import PlayerHighlightedStats from '../PlayerDetailles/PlayerStats';
-import Autocomplete from '../autoComplete/autocomplete';
 
 const MainBody = styled.div`
-  align-items: ;
   display: flex;
   flex-flow: column;
   grid-gap: 10px 10px;
-  margin-bottom: 100px;
   margin-left: auto;
   margin-right: auto;
   max-width: 1600px;
-  min-width: 250px;
-  padding-top: 5px;
+  min-width: 150px;
   width: 80vw;
 `;
 const ClubInformationSections = styled.div`
-  display: flex;
-  flex-flow: row;
+display: flex;
+flex-flow: row;
+grid-gap: 10px 10px;
+margin-left: auto;
+margin-right: auto;
+margin-top :50px;
+max-height: 365px;
+min-width: 1250px;
 `;
 const ClubInformationSection = styled.div`
   display: flex;
   flex-flow: row;
   grid-gap: 10px 10px;
   margin-left: auto;
-  margin-right: auto;
+  margin-right: 80px;
   margin-top :50px;
   max-height: 365px;
-  max-width: 1600px;
   min-width: 250px;
   width: 80vw;
 `;
@@ -41,7 +43,10 @@ const ClubInformationSection = styled.div`
 const SoccerStats = () => {
   const [teamData, setTeamData] = useState(null);
   const [playerHighlightInfo, setPlayerHighlightInfo] = useState(null); 
+  const [teamHighlightFixtures, setteamHighlightFixtures] = useState(null); 
 
+
+  teamHighlightFixtures
   useEffect(() => {
     const fetchTeamDetails = async () => {
       try {
@@ -70,8 +75,12 @@ const SoccerStats = () => {
       <ClubInformationSections>
       
       <ClubInfomation />
+      <TeamFixture
+              fixtures={teamHighlightFixtures}
+            />
       </ClubInformationSections>
-
+    
+           
       {teamData && teamData.players.length ? (
         <ClubInformationSection>
           <TeamPlayers

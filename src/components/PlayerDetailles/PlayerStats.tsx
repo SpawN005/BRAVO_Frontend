@@ -9,15 +9,14 @@ const PlayerStatsContainer = styled.div`
   display: flex;
   flex-flow: column;
   height: 323px;
- 
-  min-width: 350px;
+  margin-right: 50px;
+
+box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;  min-width: 350px;
   padding: 5px;
   overflow-x: hidden;
   overflow-y: scroll;
-
   ::-webkit-scrollbar {
     -webkit-appearance: none;
-    width: 9px;
   }
 
   ::-webkit-scrollbar-thumb {
@@ -32,7 +31,7 @@ const PlayerStatsTableContainer = styled.div`
   border-radius: 4px;
   display: flex;
   flex-flow: column;
-  min-width: 350px;
+  min-width:50px;
   padding: 5px;
 `;
 

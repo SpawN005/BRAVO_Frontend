@@ -17,7 +17,7 @@ const TeamPlayersTabelContainer = styled.div`
   min-width: 100%;
   overflow-x: hidden;
   overflow-y: scroll;
-
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   ::-webkit-scrollbar {
     -webkit-appearance: none;
     width: 9px;
