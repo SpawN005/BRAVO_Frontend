@@ -70,6 +70,7 @@ export default function Form() {
   };
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [file, setFile] = useState(null);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -77,22 +78,31 @@ export default function Form() {
     }
   };  
   const processForm: SubmitHandler<Inputs> = async (data) => {
-    console.log("out")
     try {
-      console.log("out")
-      data.logo=selectedFile?.name
-      console.log(data.logo);
+      const form = new FormData();
+      form.append("file",file);
+      form.append("upload_preset","khalil");
+      
+      // Utilisez await pour attendre la résolution de la promesse retournée par axios.post
+      const result = await axios.post("https://api.cloudinary.com/v1_1/dy4wwv7k4/upload", form);
+      
+      // Mettez à jour l'état logos après la résolution de la promesse
       data.manager = user.userId;
-      console.log(data)
-      const response = await axios.post("http://localhost:3001/team/teamP", data );
+      console.log(result);
+
+      // Logos est maintenant mis à jour, vous pouvez l'utiliser ici
+      console.log(data);
+      
+      data.logo = result.data.secure_url;
+      const response = await axios.post("http://localhost:3001/team/teamP", data);
       console.log('Team and players created successfully:', response.data);
       reset();
     } catch (error) {
       console.error(data);
-      
       console.error('Error creating team and players:', error);
     }
   };
+  
   
   
   type FieldName = keyof Inputs;
@@ -106,7 +116,6 @@ export default function Form() {
     if (currentStep < steps.length - 1) {
       if (currentStep === steps.length - 2) {
         await handleSubmit(processForm)();
-        console.log("test")
       }
       setPreviousStep(currentStep);
       setCurrentStep(step => step + 1);
@@ -229,7 +238,7 @@ export default function Form() {
                 <input
                   type='file'
                   id='logo'
-                  onChange={handleFileChange}
+                  onChange={(e)=>setFile(e.target.files[0])}
                   autoComplete='given-name'
                   className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6'
                 />
