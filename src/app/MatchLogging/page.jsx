@@ -62,8 +62,8 @@ const handleAction = (teamName, actionType, playerName) => {
     <div className=" pb-20">
       <Header />
       <MatchDetailsComponent
-        homeTeam={{ name: matchDetails.team1Name, logoUrl: 'path/to/team1logo.png', url: `/teams/${matchDetails.team1}/overview` }}
-        awayTeam={{ name: matchDetails.team2Name, logoUrl: 'path/to/team2logo.png', url: `/teams/${matchDetails.team2}/overview` }}
+        homeTeam={{ name: matchDetails, logoUrl: 'path/to/team1logo.png', url: `/teams/${matchDetails}/overview` }}
+        awayTeam={{ name: matchDetails, logoUrl: 'path/to/team2logo.png', url: `/teams/${matchDetails}/overview` }}
         matchTime='Live'
         matchScore='0 - 0'
       />

@@ -2,6 +2,7 @@
 // components/CreateStadium.tsx
 import React, { useState, useEffect } from 'react';
 import StadiumService, { NewStadium } from '@/services/stadium/stadiumService';
+import { useRouter } from 'next/navigation';
 
 const CreateStadium: React.FC = () => {
   const [newStadium, setNewStadium] = useState<NewStadium>({
@@ -11,7 +12,7 @@ const CreateStadium: React.FC = () => {
     isAvailable: false,
   });
   const [map, setMap] = useState<any>(null);
-
+  const router = useRouter()
   useEffect(() => {
     const script = document.createElement('script');
     script.src = `https://maps.googleapis.com/maps/api/js?key=&callback=initMap`;
@@ -93,7 +94,7 @@ const CreateStadium: React.FC = () => {
       const addedStadium = await StadiumService.createStadium(newStadium);
       // Redirect to the stadium list page or any other desired page after adding a new stadium
       // You can use Next.js Router for navigation
-      // Example: router.push('/stadiums');
+      router.push('/stadium');
     } catch (error) {
       console.error('Error adding stadium:', error);
     }

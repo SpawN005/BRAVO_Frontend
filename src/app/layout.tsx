@@ -25,10 +25,10 @@ export default function RootLayout({
     <html lang="en">
       <body suppressHydrationWarning={true}>
         <div className="dark:bg-boxdark-2 dark:text-bodydark">
-        <RouteGuard requiredPermissionLevel={1}>
+        {/* <RouteGuard requiredPermissionLevel={1}>
 
+          </RouteGuard> */}
           {loading ? <Loader /> : children}
-          </RouteGuard>
 
         </div>
 

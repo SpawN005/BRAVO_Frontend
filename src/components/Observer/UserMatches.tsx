@@ -28,7 +28,9 @@ const UserMatches = () => {
         if (userId) {
           const fetchedMatches = await matchService.getMatchesByUserId(userId);
           setMatches(fetchedMatches);
-          console.log(fetchedMatches)
+          console.log(fetchedMatches);
+          console.log(userId);
+
         }
       } catch (error) {
         console.error("Error loading matches:", error);
@@ -39,6 +41,8 @@ const UserMatches = () => {
 
     fetchMatches();
   }, []);
+  console.log(matches);
+  console.log(matches);
 
   if (isLoading) return <div>Loading matches...</div>;
   if (!matches.length) return <div>No matches found</div>;
@@ -52,12 +56,15 @@ const UserMatches = () => {
         const { date, time } = formatDate(match.date); // Destructure here inside map
 
         return (
-          <div className="mb-2 " key={match._id}             onClick={() => handleMatchClick(match._id)} // Add onClick handler
-          >
+          <div
+          className="mb-2 "
+          key={match._id}
+          onClick={() => router.push(`/Live/${match._id}`)} // Navigate to Games component with match ID
+        >
             <div className="flex w-full justify-center gap-12 rounded-xl bg-white p-7 items-center hover:border-2 hover:bg-slate-50 hover:cursor-pointer hover:border-gray">
               <p className="text-xl h-fit flex items-center">
                 <span className="mx-6 font-semibold flex">
-                    <Image className="rounded-full mr-2" alt="iamge logo" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIF_JvujHrMJmNAznyhlReM9gbm7SbFDgoKg&usqp=CAU" width={40} height={40}></Image>
+                    <Image className="rounded-full mr-2" alt="iamge logo" src={match.team1.logo} width={40} height={40}></Image>
                   {match.team1.name}
                 </span>
                 {match.team1.score}
@@ -72,7 +79,7 @@ const UserMatches = () => {
                 {match.team2.score}
                 <span className="mx-6  font-semibold flex">
                   {match.team2.name}
-                  <Image className="rounded-full ml-2" alt="iamge logo" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIF_JvujHrMJmNAznyhlReM9gbm7SbFDgoKg&usqp=CAU" width={40} height={40}></Image>
+                  <Image className="rounded-full mr-2" alt="iamge logo" src={match.team2.logo} width={40} height={40}></Image>
 
                 </span>
               </p>

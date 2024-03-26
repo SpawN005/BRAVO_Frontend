@@ -1,5 +1,5 @@
 // store.js
-import create from 'zustand';
+import {create} from 'zustand';
   // Helper function to save a specific state to local storage
 const useStore = create(set => ({
   user: {},
