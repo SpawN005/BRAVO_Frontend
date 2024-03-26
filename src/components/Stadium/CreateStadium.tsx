@@ -60,6 +60,8 @@ const CreateStadium: React.FC = () => {
     });
   };
 
+
+  
   const getAddressFromCoordinates = async (latitude: number, longitude: number): Promise<string> => {
     try {
       const response = await fetch(
