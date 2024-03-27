@@ -1,26 +1,42 @@
 import { useTournamentStore } from "@/app/store/zustand";
 import FormInput from "@/components/DefaultInput/FormInput";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import touramentsService from "@/services/tournament/tournamentsService";
 import { useRouter } from "next/navigation";
+import teamService, { getTeams } from "@/services/team/teamService";
+import TeamCard from "@/components/Card/TeamCard";
 
 const InviteManagers = ({ onNextStep, onPrevStep }: any) => {
   const router = useRouter();
-
+  const [teams, setTeams] = useState();
+  const [selectedTeams, setSelectedTeams] = useState([]);
   const { tournament, updateTournament, resetTournament } =
     useTournamentStore();
-  console.log(tournament);
+
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
   } = useForm();
-
+  const handleTeamSelect = (id) => {
+    console.log(id);
+    setSelectedTeams((prevSelectedTeams) => {
+      if (prevSelectedTeams.includes(id)) {
+        return prevSelectedTeams.filter((_id) => _id !== id);
+      } else {
+        return [...prevSelectedTeams, id];
+      }
+    });
+  };
   const onSubmit = async (data: any) => {
     const updatedTournament = { ...tournament, ...data };
-
+    if (updatedTournament.rules.nbTeams != selectedTeams.length) {
+      alert("teams acquired are :" + updatedTournament.rules.nbTeams);
+      return;
+    }
     try {
+      updatedTournament.teams = selectedTeams;
       const res = await touramentsService.CreateTournament(updatedTournament);
 
       resetTournament();
@@ -30,7 +46,18 @@ const InviteManagers = ({ onNextStep, onPrevStep }: any) => {
       console.error("Error creating tournament:", error);
     }
   };
-
+  const fetchTeams = async () => {
+    try {
+      const teams = await teamService.getTeams();
+      setTeams(teams);
+    } catch (error) {
+      console.error("Error fetching teams:", error);
+    }
+  };
+  useEffect(() => {
+    fetchTeams();
+  }, []);
+  console.log(selectedTeams);
   const cardHeight = 128 + tournament?.rules?.nbTeams * 48;
 
   return (
@@ -39,26 +66,18 @@ const InviteManagers = ({ onNextStep, onPrevStep }: any) => {
       className={`flex w-1/3 flex-col justify-center space-y-8 rounded-lg border border-slate-400 p-4 h-[${cardHeight}px]`}
     >
       <h1 className="text-2xl font-bold text-black">Invite Managers</h1>
-      <h2>Share Via Email</h2>
-      {[...Array(tournament?.rules?.nbTeams)].map((_, index) => (
-        <FormInput
-          key={index}
-          placeholder={`Team ${index + 1} Manager Email`}
-          {...register(`managerEmails[${index}]`, {
-            required: `Email for Team ${index + 1} is required`,
-            pattern: {
-              value: /\S+@\S+\.\S+/,
-              message: "Entered value does not match email format",
-            },
-          })}
-        />
-      ))}
-      {errors.managerEmails &&
-        errors.managerEmails.map((error, index) => (
-          <p key={index} className="text-red-500">
-            {error.message}
-          </p>
+      <h2>Teams available:</h2>
+      <div className="flex flex-row flex-wrap justify-between ">
+        {teams?.map((team, index) => (
+          <TeamCard
+            key={index}
+            title={team.name}
+            selected={selectedTeams.includes(team._id)}
+            onSelect={handleTeamSelect}
+            id={team._id}
+          />
         ))}
+      </div>
       <div className="flex w-full justify-between">
         <button
           onClick={onPrevStep}

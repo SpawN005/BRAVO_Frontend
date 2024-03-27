@@ -40,7 +40,7 @@ const index = () => {
               >
                 <div className="cursor-pointer text-center">{step.label}</div>
                 {index < steps.length && (
-                  <div className="bg-gray-300 my-1 h-1">
+                  <div className="my-1 h-1">
                     <div
                       className={`absolute bottom-0 left-0 h-1 bg-green-500 ${
                         stepper > index ? "w-full" : "w-0"
