@@ -103,27 +103,27 @@ const TableOne = ({ data }) => {
                 />
               </div>
               <p className="hidden text-black dark:text-white sm:block">
-                {team.name}
+                {team?.name}
               </p>
             </div>
 
             <div className="flex items-center justify-center p-2.5 xl:p-5">
-              <p className="text-black dark:text-white">{team.visitors}4</p>
+              <p className="text-black dark:text-white">{team?.visitors}4</p>
             </div>
 
             <div className="flex items-center justify-center p-2.5 xl:p-5">
-              <p className="text-meta-3">{team.revenues}10</p>
+              <p className="text-meta-3">{team?.revenues}10</p>
             </div>
 
             <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-              <p className="text-black dark:text-white">{team.sales}6</p>
+              <p className="text-black dark:text-white">{team?.sales}6</p>
             </div>
 
             <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-              <p className="text-[#f87171]">{team.conversion}5</p>
+              <p className="text-[#f87171]">{team?.conversion}5</p>
             </div>
             <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-              <p className="font-bold text-meta-5">{team.conversion}10</p>
+              <p className="font-bold text-meta-5">{team?.conversion}10</p>
             </div>
           </div>
         ))}

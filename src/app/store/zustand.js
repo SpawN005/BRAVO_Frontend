@@ -18,7 +18,7 @@ export const useTournamentStore = create((set) => ({
     },
     groups: [],
     sponsors: [],
-    managerEmails: [],
+    teams: [],
     matches: [],
   },
   updateTournament: (updatedFields) =>
@@ -27,7 +27,7 @@ export const useTournamentStore = create((set) => ({
         ...state.tournament,
         ...updatedFields,
         rules: {
-          ...state.tournament.rules,
+          ...state?.tournament?.rules,
           ...updatedFields.rules,
         },
       },
