@@ -6,6 +6,7 @@ import touramentsService from "@/services/tournament/tournamentsService";
 import { useRouter } from "next/navigation";
 import teamService, { getTeams } from "@/services/team/teamService";
 import TeamCard from "@/components/Card/TeamCard";
+import getUserFromToken from "@/utilities/getUserFromToken ";
 
 const InviteManagers = ({ onNextStep, onPrevStep }: any) => {
   const router = useRouter();
@@ -20,7 +21,6 @@ const InviteManagers = ({ onNextStep, onPrevStep }: any) => {
     formState: { errors, isValid },
   } = useForm();
   const handleTeamSelect = (id) => {
-    console.log(id);
     setSelectedTeams((prevSelectedTeams) => {
       if (prevSelectedTeams.includes(id)) {
         return prevSelectedTeams.filter((_id) => _id !== id);
@@ -57,7 +57,7 @@ const InviteManagers = ({ onNextStep, onPrevStep }: any) => {
   useEffect(() => {
     fetchTeams();
   }, []);
-  console.log(selectedTeams);
+
   const cardHeight = 128 + tournament?.rules?.nbTeams * 48;
 
   return (

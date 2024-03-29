@@ -74,7 +74,11 @@ const GroupKnockout = ({ tournamentData, onTournamentDataChange }) => {
                     {group.name}
                   </h2>
                   {group.teams.map((team, index) => (
-                    <Draggable key={team} draggableId={team} index={index}>
+                    <Draggable
+                      key={team._id}
+                      draggableId={team._id}
+                      index={index}
+                    >
                       {(provided) => (
                         <div
                           ref={provided.innerRef}
@@ -82,7 +86,7 @@ const GroupKnockout = ({ tournamentData, onTournamentDataChange }) => {
                           {...provided.dragHandleProps}
                           className="mb-2 rounded-md bg-green-400 p-2 text-white"
                         >
-                          {team}
+                          {team.name}
                         </div>
                       )}
                     </Draggable>
