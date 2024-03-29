@@ -14,7 +14,7 @@
     "@hookform/resolvers": "^3.3.4",
     "aos": "^3.0.0-beta.6",
     "apexcharts": "^3.45.2",
-    "axios": "^1.6.7",
+    "axios": "^1.6.8",
     "flatpickr": "^4.6.13",
     "framer-motion": "^11.0.8",
     "jsvectormap": "^1.5.3",
