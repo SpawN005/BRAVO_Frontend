@@ -46,13 +46,13 @@ const ClubTableRowBody = styled.div`
 `;
 
 const TeamDetails = ({teamData}) => {
-  
+  console.log(teamData)
   return (
     <ClubInfoContainer>
     {teamData ? (
           <ClubInfoTable >
           <ClubLogo>
-            <img src={`http://localhost:3001/uploads/1708437605158.png`} alt={teamData.name} width="115" />
+            <img src={teamData.logo} alt={teamData.name} width="115" />
           </ClubLogo>
           <ClubTable>
             <ClubTableRowHead>Club</ClubTableRowHead>
@@ -74,6 +74,10 @@ const TeamDetails = ({teamData}) => {
           <ClubTable>
             <ClubTableRowHead>Match lose </ClubTableRowHead>
             <ClubTableRowBody>{teamData.lose}</ClubTableRowBody>
+          </ClubTable>
+          <ClubTable>
+            <ClubTableRowHead>Match nul </ClubTableRowHead>
+            <ClubTableRowBody>{teamData.nul}</ClubTableRowBody>
           </ClubTable>
           <ClubTable>
             <ClubTableRowHead>score</ClubTableRowHead>
