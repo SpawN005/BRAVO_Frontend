@@ -25,7 +25,6 @@ flex-flow: row;
 grid-gap: 10px 10px;
 margin-left: auto;
 margin-right: auto;
-margin-top :50px;
 max-height: 365px;
 min-width: 1250px;
 `;
@@ -35,7 +34,6 @@ const ClubInformationSection = styled.div`
   grid-gap: 10px 10px;
   margin-left: auto;
   margin-right: 80px;
-  margin-top :50px;
   max-height: 365px;
   min-width: 250px;
   width: 80vw;

@@ -14,7 +14,8 @@ const TeamDetails = () => {
     lastName: '',
     email: '',
     position: 'gardien'  });
-  
+    const [searchTerm, setSearchTerm] = useState('');
+
 const user = getUserFromToken()
   useEffect(() => {
     const fetchTeamDetails = async () => {
@@ -81,6 +82,10 @@ console.log(teamData)
       [e.target.id]: e.target.value
     });
   };
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
   const handleAddPlayer = async () => {
     try {
       await axios.post(`http://localhost:3001/player/assign/${teamData._id}`, formData);
@@ -117,7 +122,7 @@ console.log(teamData)
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
             </svg>
         </div>
-        <input type="search" id="default-search" className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search player" required />
+        <input type="search" id="default-search" onChange={handleSearch} value={searchTerm} className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search player" required />
         <button type="submit" className="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
     </div>
     <button onClick={toggleAddPlayerPopup} className=" rounded bg-blue-700 p-2 font-normal text-white hover:bg-opacity-90    justify-items-end">
@@ -218,7 +223,9 @@ console.log(teamData)
             </tr>
           </thead>
           <tbody>
-            {teamData.players.map((player) => (
+          {teamData.players
+                  .filter(player => player.firstName.toLowerCase().includes(searchTerm.toLowerCase()) || player.lastName.toLowerCase().includes(searchTerm.toLowerCase()))
+                  .map((player) => (
                     <tr key={player._id} className="border-b">
                     <td className="border-b border-[#eee] px-4 py-5 pl-9 dark:border-strokedark xl:pl-11">
                   <h5 className="font-medium text-black dark:text-white">
