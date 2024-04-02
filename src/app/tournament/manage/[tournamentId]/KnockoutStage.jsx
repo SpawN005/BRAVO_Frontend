@@ -1,10 +1,5 @@
-import React, from "react";
-import {
-  SingleEliminationBracket,
-  DoubleEliminationBracket,
-  Match,
-  SVGViewer,
-} from "@g-loot/react-tournament-brackets";
+import React from "react";
+
 const KnockoutStage = ({ tournament }) => {
 
   const m = [
