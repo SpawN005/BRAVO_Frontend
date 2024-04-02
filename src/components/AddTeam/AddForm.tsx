@@ -91,7 +91,6 @@ export default function Form() {
       console.log(result);
 
       // Logos est maintenant mis à jour, vous pouvez l'utiliser ici
-      console.log(data);
       
       data.logo = result.data.secure_url;
       const response = await axios.post("http://localhost:3001/team/teamP", data);

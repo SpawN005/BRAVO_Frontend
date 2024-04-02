@@ -25,7 +25,6 @@ flex-flow: row;
 grid-gap: 10px 10px;
 margin-left: auto;
 margin-right: auto;
-margin-top :50px;
 max-height: 365px;
 min-width: 1250px;
 `;
@@ -35,7 +34,6 @@ const ClubInformationSection = styled.div`
   grid-gap: 10px 10px;
   margin-left: auto;
   margin-right: 80px;
-  margin-top :50px;
   max-height: 365px;
   min-width: 250px;
   width: 80vw;
@@ -46,7 +44,6 @@ const SoccerStats = () => {
   const [playerHighlightInfo, setPlayerHighlightInfo] = useState(null); 
   const [teamHighlightFixtures, setteamHighlightFixtures] = useState(null); 
   const user = getUserFromToken();
-
   teamHighlightFixtures
   useEffect(() => {
    
@@ -74,16 +71,25 @@ const SoccerStats = () => {
       console.error('Error fetching player:', error);
     }
   };
+  const [matches, setMatches] = useState(null);
 
+  useEffect(() => {
+    const fetchMatches = async () => {
+      if (teamData) {
+        const response = await axios.get(`http://localhost:3001/matches/matches/${teamData._id}`);
+        setMatches(response?.data);
+      }
+    };
+    fetchMatches();
+  }, [teamData]);
   return (
     <MainBody>
       <GlobalStyle />
       <ClubInformationSections>
       
       <ClubInfomation teamData={teamData} />
-      <TeamFixture
-             
-            />
+        <TeamFixture  matches={matches} />
+     
       </ClubInformationSections>
     
            

@@ -108,7 +108,7 @@ const TeamDetails = () => {
           </div>
         </div>
       ) : (
-        <p className="text-center">Loading team details...</p>
+        <p className="text-center">Loading team detail...</p>
       )}
 
       {/* Pop-up pour modifier les détails du joueur */}

@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import matchService from "@/services/match/matchService";
 import Image from "next/image";
 import { useRouter } from "next/navigation"; // Import useRouter
+import io from 'socket.io-client';
 
 const formatDate = (dateString: string) => {
   const date = new Date(dateString);
@@ -19,6 +20,8 @@ const formatDate = (dateString: string) => {
 const UserMatches = () => {
   const [matches, setMatches] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [scoreTeam1, setScoreTeam1] = useState(0);
+  const [scoreTeam2, setScoreTeam2] = useState(0);
     const router = useRouter()
   useEffect(() => {
     const fetchMatches = async () => {
@@ -29,7 +32,6 @@ const UserMatches = () => {
           const fetchedMatches = await matchService.getMatchesByUserId(userId);
           setMatches(fetchedMatches);
           console.log(fetchedMatches);
-          console.log(userId);
 
         }
       } catch (error) {
@@ -41,8 +43,27 @@ const UserMatches = () => {
 
     fetchMatches();
   }, []);
-  console.log(matches);
-  console.log(matches);
+  console.log(matches)
+  useEffect(() => {
+    const socket = io('http://localhost:3001');
+
+    // Listen for updates from the server
+    socket.on('updateMatchStats', (updatedStats) => {
+        // Mettez à jour les scores des équipes correspondantes
+        if (matches.length > 0) {
+            if (updatedStats.team === matches[0].team1._id) {
+                setScoreTeam1(updatedStats.score);
+            } else if (updatedStats.team === matches[0].team2._id) {
+                setScoreTeam2(updatedStats.score);
+            }
+        }
+    });
+
+    return () => {
+        // Déconnectez le socket lorsque le composant est démonté
+        socket.disconnect();
+    };
+}, [matches]);
 
   if (isLoading) return <div>Loading matches...</div>;
   if (!matches.length) return <div>No matches found</div>;
@@ -67,7 +88,7 @@ const UserMatches = () => {
                     <Image className="rounded-full mr-2" alt="iamge logo" src={match.team1.logo} width={40} height={40}></Image>
                   {match.team1.name}
                 </span>
-                {match.team1.score}
+                {scoreTeam1}
               </p>
 
               <div className="text-center ">
@@ -76,7 +97,7 @@ const UserMatches = () => {
                 <p className="font-bold text-sm">{date}</p>
               </div>
               <p className="text-xl h-fit flex">
-                {match.team2.score}
+                {scoreTeam2}
                 <span className="mx-6  font-semibold flex">
                   {match.team2.name}
                   <Image className="rounded-full mr-2" alt="iamge logo" src={match.team2.logo} width={40} height={40}></Image>

@@ -16,7 +16,9 @@ console.log(matchId)
 
   return (
     <DefaultLayout>
-        <Games matchId={matchId} /> 
+  
+    <Games matchId={matchId} /> 
+
     </DefaultLayout>
   );
 };

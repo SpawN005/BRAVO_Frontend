@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const ClubInfoContainer = styled.div`
-  height: 320px;
+  max-height: 365px;
 `;
 
 const ClubInfoTable = styled.div`
@@ -17,7 +17,19 @@ const ClubInfoTable = styled.div`
   min-height: 366px;
   min-width: 350px;
   padding: 5px;
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;`;
+  overflow-y: scroll;
+
+  ::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 9px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #00d4b1;
+    border: 1px solid #f1f3f4;
+    border-radius: 4px;
+  }
+`;
 
 const ClubLogo = styled.div`
   display: flex;
@@ -45,14 +57,16 @@ const ClubTableRowBody = styled.div`
   flex-flow: column;
 `;
 
+
+
 const TeamDetails = ({teamData}) => {
-  
+  console.log(teamData)
   return (
     <ClubInfoContainer>
     {teamData ? (
           <ClubInfoTable >
           <ClubLogo>
-            <img src={`http://localhost:3001/uploads/1708437605158.png`} alt={teamData.name} width="115" />
+            <img src={teamData.logo} alt={teamData.name} width="115" />
           </ClubLogo>
           <ClubTable>
             <ClubTableRowHead>Club</ClubTableRowHead>
@@ -74,6 +88,10 @@ const TeamDetails = ({teamData}) => {
           <ClubTable>
             <ClubTableRowHead>Match lose </ClubTableRowHead>
             <ClubTableRowBody>{teamData.lose}</ClubTableRowBody>
+          </ClubTable>
+          <ClubTable>
+            <ClubTableRowHead>Match nul </ClubTableRowHead>
+            <ClubTableRowBody>{teamData.nul}</ClubTableRowBody>
           </ClubTable>
           <ClubTable>
             <ClubTableRowHead>score</ClubTableRowHead>
