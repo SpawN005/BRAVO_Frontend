@@ -119,9 +119,8 @@ const CreateStadium: React.FC = () => {
         </div>
 
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-600">Location:</label>
           <input
-            type="text"
+            type="hidden"
             name="location"
             value={newStadium.location}
             readOnly // Prevents manual editing
