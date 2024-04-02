@@ -53,6 +53,16 @@ export default function Games({ matchId }) {
             console.error('Error recording goal:', error);
         }
     };
+    const startMatch = async (gameId) => {
+        try {
+              await axios.post(`http://localhost:3001/match-stats/startMatch/${gameId}`, {
+               
+            });
+        } catch (error) {
+            console.error('Error recording goal:', error);
+        }
+    };
+    
     const cardGiven = async ( gameId,team, playerId) => {
         try {
             const response = await axios.post(`http://localhost:3001/match-stats/yellow-card/${gameId}`, {
@@ -99,6 +109,7 @@ export default function Games({ matchId }) {
                         onCard={cardGiven}
                         Card={redcard}
                         Stat={finalResult}
+                        start={startMatch}
                     />
                 ))}
             </Segment.Group>

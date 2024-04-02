@@ -10,7 +10,7 @@ const gameState = {
 };
 const MATCH_DURATION = 90; 
 const HALF_DURATION = MATCH_DURATION / 2;     
-export default function StartedGame({ game, onCard, Card, onGoal ,Stat,onAssist }) {
+export default function StartedGame({ game, onCard, Card, onGoal ,Stat,onAssist,start }) {
     
     const [selectedPlayerId, setSelectedPlayerId] = useState(null);
     const [redCardPlayers, setRedCardPlayers] = useState([]);   
@@ -28,6 +28,8 @@ export default function StartedGame({ game, onCard, Card, onGoal ,Stat,onAssist 
             case 'start':
                 // Démarrez le match
                 setMatchState('started');
+                start(game._id);
+
                 break;
             case 'half':
                 // Passez à la mi-temps ou au temps supplémentaire

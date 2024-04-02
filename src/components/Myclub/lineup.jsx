@@ -87,7 +87,7 @@ export default function App() {
           fw: homeTeam.squad.fw.filter((player) => player.id !== id)
         }
       }));
-    } else if (position === "mf") { // Gérer la suppression des milieux de terrain
+    } else if (position === "cm") { 
       setHomeTeam((homeTeam) => ({
         ...homeTeam,
         squad: {
@@ -96,6 +96,7 @@ export default function App() {
         }
       }));
     }
+    
   };
 
   const addToLineup = async () => {
@@ -143,6 +144,10 @@ export default function App() {
         const player = playersFromBackend.find((player) => player.firstName === playerName);
         if (!player) {
           setError("Player not found!");
+          return;
+        }
+        const alreadyAdded = Object.values(homeTeam.squad).flat().some((p) => p && p.id === player._id);
+        if (alreadyAdded) {
           return;
         }
 
@@ -220,90 +225,43 @@ export default function App() {
   return (
     <div className="container-fluid">
       <div className="row">
-        <div className="col-2">
-          <form style={{ color: "white" }}>
-            <div className="form-row" style={{ width: "100%" }}>
-              <div className="form-group col-12">
-                {error !== null ? (
-                  <div
-                    className="alert alert-danger"
-                    role="alert"
-                    style={{ marginTop: "32px" }}
-                  >
-                    {error}
-                  </div>
-                ) : null}
-                <label htmlFor="playerName">Player Name</label>
-                <input
-                  type="text"
-                  className="form-control text-black"
-                  id="playerName"
-                  placeholder="Player Name"
-                  value={playerName}
-                  onChange={handlePlayerNameChange}
-                />
-              </div>
-              <fieldset className="form-group">
-                <div className="row">
-                  <legend className="col-form-label col-12">
-                    <b>Player Position</b>
-                  </legend>
-                  <div className="col-12">
-                    <div className="form-check">
-                      <input
-                        className="form-check-input text-black"
-                        type="radio"
-                        value="gk"
-                        checked={playerPosition === "gk"}
-                        onChange={handlePlayerPositionChange}
-                      />
-                      <label className="form-check-label" htmlFor="gridRadios1">
-                        Goal Keeper
-                      </label>
-                    </div>
-                    <div className="form-check">
-                      <input
-                        className="form-check-input text-black"
-                        type="radio"
-                        value="df"
-                        checked={playerPosition === "df"}
-                        onChange={handlePlayerPositionChange}
-                      />
-                      <label className="form-check-label" htmlFor="gridRadios1">
-                        Defence
-                      </label>
-                    </div>
-                    <div className="form-check">
-                      <input
-                        className="form-check-input text-black"
-                        type="radio"
-                        value="cm"
-                        checked={playerPosition === "cm"}
-                        onChange={handlePlayerPositionChange}
-                      />
-                      <label className="form-check-label" htmlFor="gridRadios1">
-                        Midfielder
-                      </label>
-                    </div>
-                    <div className="form-check">
-                      <input
-                        className="form-check-input text-black"
-                        type="radio"
-                        value="fw"
-                        checked={playerPosition === "fw"}
-                        onChange={handlePlayerPositionChange}
-                      />
-                      <label className="form-check-label" htmlFor="gridRadios1">
-                        Forward
-                      </label>
-                    </div>
-                    
-                  </div>
-                </div>
-              </fieldset>
-            </div>
-          </form>
-          <button className="btn btn-primary" onClick={addPlayer}>
+        <div className="mt-0">
+        <form className="grid grid-cols-12" style={{ width: "100%" }}>
+  <div className="form-group col-span-6">
+    <label htmlFor="playerName" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select a player</label>
+    <select 
+      className="bg-gray-50 border w-60 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+      id="playerName"
+      value={playerName}
+      onChange={handlePlayerNameChange}
+    >
+      <option value="">Select Player</option>
+      {playersFromBackend.map((player) => (
+        <option key={player._id} value={player.firstName}>
+          {player.firstName}
+        </option>
+      ))}
+    </select>
+  </div>
+  <div className="form-group col-span-6">
+    <label htmlFor="playerPosition" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Player Position</label>
+    <select
+      className="bg-gray-50 border w-60 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+      id="playerPosition"
+      value={playerPosition}
+      onChange={handlePlayerPositionChange}
+    >
+      <option value="gk">Goal Keeper</option>
+      <option value="df">Defence</option>
+      <option value="cm">Midfielder</option>
+      <option value="fw">Forward</option>
+    </select>
+  </div>
+</form>
+        </div>
+        <div className="flex justify-evenly">
+        <button className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800" 
+                onClick={addPlayer}>
             Add Player
           </button>
           <button className="btn btn-success" onClick={addToLineup}>

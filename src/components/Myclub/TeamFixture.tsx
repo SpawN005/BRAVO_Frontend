@@ -1,8 +1,6 @@
-"use client"
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { LiaGalacticRepublic } from 'react-icons/lia';
 
 const FixturesTable = styled.div`
   background-color: #fff;
@@ -14,9 +12,11 @@ const FixturesTable = styled.div`
   max-height: 325px;
   min-height: 325px;
   overflow-x: hidden;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;  ::-webkit-scrollbar {
+  width: 100%;
+
+  ::-webkit-scrollbar {
     -webkit-appearance: none;
-    width: 400px;
+    width: 9px;
   }
 
   ::-webkit-scrollbar-thumb {
@@ -46,7 +46,7 @@ const FixtureContainer = styled.div`
   justify-content: space-around;
   min-height: 150px;
   padding: 5px;
- min-width: 820px;
+  width: 50%;
 `;
 
 const TeamOne = styled.div`
@@ -102,36 +102,38 @@ const parseDate = (date) => new Date(date).toDateString();
 const parseTime = (date) => new Date(date).toLocaleTimeString([],
   { hour: 'numeric', minute: '2-digit', hour12: true });
 
-const TeamFixtures = () => (
-  <section>
-      <FixturesTableHeader>
-        <Club>Upcoming Fixtures</Club>
-      </FixturesTableHeader>
-    <FixturesTable>
-      
-        <FixtureContainer >
-          <TeamOne>
-            <img   width="60" />
-         real madrid
-          </TeamOne>
-          <GameInfoContainer>
-            <GameInfo>{parseTime(20)}</GameInfo>
-            <GameInfo>{parseDate(2020)}</GameInfo>
-            <GameInfo>{LiaGalacticRepublic}</GameInfo>
-          </GameInfoContainer>
-          <TeamTwo>
-            <img width="60" />
-            barcelone
-          </TeamTwo>
-        </FixtureContainer>
-        
-      
-    </FixturesTable>
-  </section>
-);
+  const TeamFixtures = ({ matches }) => (
+    <section>
+      {matches && matches.length ? (  // Ajout de la vérification de nullité
+        <FixturesTableHeader>
+          <Club>Upcoming Fixtures</Club>
+        </FixturesTableHeader>
+      ) : null}
+      <FixturesTable>
+        {matches && matches.map((fixture) => (  // Ajout de la vérification de nullité
+          <FixtureContainer key={fixture._id}>
+            <TeamOne>
+              <img src={fixture.team1.logo} alt={fixture.team1.name} width="60" />
+              {fixture.team1.name}
+            </TeamOne>
+            <GameInfoContainer>
+              <GameInfo>{parseTime(fixture.date)}</GameInfo>
+              <GameInfo>{parseDate(fixture.date)}</GameInfo>
+              <GameInfo>{fixture.stage}</GameInfo>
+            </GameInfoContainer>
+            <TeamTwo>
+              <img src={fixture.team2.logo} alt={fixture.team2.name} width="60" />
+              {fixture.team2.name}
+            </TeamTwo>
+          </FixtureContainer>
+        ))}
+      </FixturesTable>
+    </section>
+  );
+  
 
 TeamFixtures.propTypes = {
-  fixtures: PropTypes.arrayOf(PropTypes.object).isRequired,
+  matches: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default TeamFixtures;
