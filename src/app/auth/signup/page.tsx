@@ -16,7 +16,7 @@ const SignUp: React.FC = () => {
     email: '',
     password: '',
     confirmPassword: '',
-
+    role: ''  // Add role field
   });
 
   const handleChange = (e:any) => {
@@ -35,7 +35,7 @@ const SignUp: React.FC = () => {
         email: formData.email,
         password: formData.password,
         firstName: formData.name,
-        permissionLevel:4
+        role:formData.role
         // Add other fields if necessary
 
       });
@@ -166,6 +166,23 @@ const SignUp: React.FC = () => {
 
                 <div className="mb-4">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
+                    Role
+                  </label>
+                  <select 
+                    name="role" 
+                    onChange={handleChange} 
+                    className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                  >
+                    <option value="">Select your role</option>
+                    <option value="ORGANIZER">Tournament Organizer</option>
+                    <option value="MANAGER">Manager</option>
+                    <option value="OBSERVER">Observer</option>
+                    <option value="REFEREE">Referee</option>
+                  </select>
+                </div>
+
+                <div className="mb-4">
+                  <label className="mb-2.5 block font-medium text-black dark:text-white">
                     Password
                   </label>
                   <div className="relative">
@@ -199,8 +216,7 @@ const SignUp: React.FC = () => {
                       </svg>
                     </span>
                   </div>
-                </div>
-
+                  
                 <div className="mb-6">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
                     Re-type Password
@@ -238,6 +254,8 @@ const SignUp: React.FC = () => {
                     </span>
                   </div>
                 </div>
+                </div>
+
 
                 <div className="mb-5">
                   <input
