@@ -13,7 +13,7 @@ export default function Games({ matchId }) {
                 try {
                     const response = await axios.get(`http://localhost:3001/matches/${matchId}`);
                     setGames([response.data]); // Mettez la réponse dans un tableau
-
+                    console.log(response.data)
                 } catch (error) {
                     console.error('Error fetching game details:', error);
                 }
@@ -24,15 +24,45 @@ export default function Games({ matchId }) {
     }, [matchId]);
     const goalScored = async (gameId, team, playerId, assister) => {
         try {
-            const response = await axios.post('http://localhost:3001/match-stats/score/65f300ae1bca4428915cf2f1', {
+            const response = await axios.post(`http://localhost:3001/match-stats/score/${gameId}`, {
                 idplayer1: playerId,
                 idplayer2: assister,
-                idteam: games[0].team1._id,
+                idteam: team,
             });
         } catch (error) {
             console.error('Error recording goal:', error);
         }
     };
+    const assist = async (gameId, team, assister) => {
+        try {
+            const response = await axios.post(`http://localhost:3001/match-stats/assist/${gameId}`, {
+                idplayer: assister,
+                idteam: team,
+            });
+        } catch (error) {
+            console.error('Error recording goal:', error);
+        }
+    };
+    const finalResult = async (gameId,team1,team2) => {
+        try {
+              await axios.post(`http://localhost:3001/match-stats/updateTeamWin/${gameId}`, {
+                team1Id: team1,
+                team2Id: team2
+            });
+        } catch (error) {
+            console.error('Error recording goal:', error);
+        }
+    };
+    const startMatch = async (gameId) => {
+        try {
+              await axios.post(`http://localhost:3001/match-stats/startMatch/${gameId}`, {
+               
+            });
+        } catch (error) {
+            console.error('Error recording goal:', error);
+        }
+    };
+    
     const cardGiven = async ( gameId,team, playerId) => {
         try {
             const response = await axios.post(`http://localhost:3001/match-stats/yellow-card/${gameId}`, {
@@ -55,34 +85,16 @@ export default function Games({ matchId }) {
                 idplayer: playerId,
                 idteam: teamN
             });
-            console.log('Carton jaune attribué:', response.data);
+            console.log('Carton rouge attribué:', response.data);
            
 
         } catch (error) {
-            console.log('Carton jaune attribué:',teamN);
+            console.log('Carton rouge attribué:',teamN);
 
             console.error('Erreur lors de l\'attribution du carton jaune:', error);
         }
     };
 
-    const gameEvent = async (gameId, event) => {
-        try {
-            const updatedGames = games.map(game => {
-                if (game._id === gameId) {
-                    game.state = event;
-                }
-                return game;
-            });
-            setGames(updatedGames);
-
-            await axios.post('/match', {
-                gameId,
-                event
-            });
-        } catch (error) {
-            console.error('Error updating game event:', error);
-        }
-    };
 
     return (
         <Container>
@@ -93,9 +105,11 @@ export default function Games({ matchId }) {
                         key={game._id}
                         game={game}
                         onGoal={goalScored}
+                        onAssist={assist}
                         onCard={cardGiven}
                         Card={redcard}
-                        onGameEvent={gameEvent}
+                        Stat={finalResult}
+                        start={startMatch}
                     />
                 ))}
             </Segment.Group>

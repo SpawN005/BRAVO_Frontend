@@ -2,11 +2,20 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import getUserFromToken from '@/utilities/getUserFromToken ';
+import { useForm } from 'react-hook-form';
 
 const TeamDetails = () => {
   const [teamData, setTeamData] = useState(null);
   const [selectedPlayer, setSelectedPlayer] = useState(null);
-  const [showEditPopup, setShowEditPopup] = useState(false); // État pour afficher la pop-up d'édition
+  const [showEditPopup, setShowEditPopup] = useState(false);
+  const [showAddPlayerPopup, setShowAddPlayerPopup] = useState(false); 
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    position: 'gardien'  });
+    const [searchTerm, setSearchTerm] = useState('');
+
 const user = getUserFromToken()
   useEffect(() => {
     const fetchTeamDetails = async () => {
@@ -32,7 +41,7 @@ const user = getUserFromToken()
       console.error('Error deleting player:', error);
     }
   };
-
+console.log(teamData)
   const handleUpdatePlayer = async (playerId) => {
     try {
       const response = await axios.get(`http://localhost:3001/player/${playerId}`);
@@ -64,8 +73,135 @@ const user = getUserFromToken()
       console.error('Error updating player:', error);
     }
   };
+  const toggleAddPlayerPopup = () => {
+    setShowAddPlayerPopup(!showAddPlayerPopup);
+  };
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.id]: e.target.value
+    });
+  };
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const handleAddPlayer = async () => {
+    try {
+      await axios.post(`http://localhost:3001/player/assign/${teamData._id}`, formData);
+      console.log('Joueur ajouté avec succès !');
+  
+      // Récupérer à nouveau les détails de l'équipe après l'ajout du joueur
+      const response = await axios.get(`http://localhost:3001/team/team/manager/${user.userId}`);
+      setTeamData(response.data[0]); // Mettre à jour l'état de l'équipe avec les nouvelles données
+      setShowAddPlayerPopup(false);
+      setFormData({
+        firstName: '',
+        lastName: '',
+        email: '',
+        position: ''
+      });
+    } catch (error) {
+      console.error('Erreur lors de la requête:', error);
+    }
+  };
+  const handlePositionChange = (e) => {
+    setFormData({
+      ...formData,
+      position: e.target.value
+    });
+  };
 
   return (
+    <div className="max-w-full overflow-x-auto">
+    <form className=" mx-1 mb-3 flex items-center justify-between">
+    <label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+    <div className="relative flex-1 max-w-md justify-end">
+        <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+            <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+            </svg>
+        </div>
+        <input type="search" id="default-search" onChange={handleSearch} value={searchTerm} className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search player" required />
+        <button type="submit" className="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
+    </div>
+    <button onClick={toggleAddPlayerPopup} className=" rounded bg-blue-700 p-2 font-normal text-white hover:bg-opacity-90    justify-items-end">
+        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+        </svg>
+    </button>
+</form>
+
+
+{/* Pop-up pour ajouter un joueur */}
+{showAddPlayerPopup && (
+  <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+    <div className="bg-white p-9 rounded-md w-150 h-80">
+      <h2 className="text-black text-lg font-semibold mb-4 text-center">Ajouter un joueur</h2>
+      <form>
+        <div className="mt-2 grid grid-cols-2 gap-x-6 gap-y-8">
+          <div className="sm:col-span-1">
+            <label  className="block text-sm font-medium text-black">Nom</label>
+            <input
+              value={formData.firstName}
+              onChange={handleChange}
+              type="text"
+              id="firstName"
+              className="block w-full rounded-md pl-2 border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6"
+              placeholder="Nom"
+              
+            />
+          </div>
+          <div className="sm:col-span-1">
+            <label  className="block text-sm font-medium leading-5 text-black">Prénom</label>
+            <input
+            value={formData.lastName}
+            onChange={handleChange}
+            type="text"
+              id="lastName"
+              className="block w-full rounded-md pl-2 border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6"
+              placeholder="Prénom"
+            />
+          </div>
+          <div className="sm:col-span-1">
+            <label  className="block text-sm font-medium leading-5 text-black">Email</label>
+            <input
+              value={formData.email}
+              onChange={handleChange}
+              type="email"
+              id="email"
+              className="block w-full rounded-md pl-2 border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6"
+              placeholder="Email"
+            />
+          </div>
+          <div className="sm:col-span-1">
+            <label className="block text-sm font-medium leading-5 text-black">Position</label>
+            <select
+              value={formData.position}
+              onChange={handlePositionChange}
+              id="position"
+              className="block w-full rounded-md pl-2 border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6"
+            >
+              <option value="gardien">Gardien</option>
+              <option value="defenseur">Défenseur</option>
+              <option value="milieu">Milieu</option>
+              <option value="attaquant">Attaquant</option>
+            </select>
+          </div>
+        </div>
+        <div className="flex justify-end mt-4">
+        <button type="button" onClick={() => setShowAddPlayerPopup(false)} className="bg-red-500 hover:bg-red-700 text-white font-bold  py-1 px-2 mr-2 rounded">Fermer</button>
+          <button type="button" onClick={handleAddPlayer} className="bg-blue-500 hover:bg-blue-700 text-white font-bold  py-1 px-2  rounded">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+)}
+
+
+
+
+
     <div className="rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
       {teamData ? (
       <div className="max-w-full overflow-x-auto">
@@ -73,13 +209,13 @@ const user = getUserFromToken()
           <thead>
             <tr className="bg-gray-2 text-left dark:bg-meta-4">
               <th className="min-w-[220px] px-4 py-4 font-medium text-black dark:text-white xl:pl-11">
-                Package
+                Nom
               </th>
               <th className="min-w-[150px] px-4 py-4 font-medium text-black dark:text-white">
-                Invoice date
+                Prénom
               </th>
               <th className="min-w-[120px] px-4 py-4 font-medium text-black dark:text-white">
-                Status
+                Position
               </th>
               <th className="px-4 py-4 font-medium text-black dark:text-white">
                 Actions
@@ -87,7 +223,9 @@ const user = getUserFromToken()
             </tr>
           </thead>
           <tbody>
-            {teamData.players.map((player) => (
+          {teamData.players
+                  .filter(player => player.firstName.toLowerCase().includes(searchTerm.toLowerCase()) || player.lastName.toLowerCase().includes(searchTerm.toLowerCase()))
+                  .map((player) => (
                     <tr key={player._id} className="border-b">
                     <td className="border-b border-[#eee] px-4 py-5 pl-9 dark:border-strokedark xl:pl-11">
                   <h5 className="font-medium text-black dark:text-white">
@@ -125,7 +263,7 @@ const user = getUserFromToken()
                         />
                       </svg>
                     </button>
-                    <button onClick={() => deletePlayer(player._id)} className="bg-red hover:bg-red-700 text-white font-bold py-1 px-2 rounded">
+                    <button onClick={() => deletePlayer(player._id)} className="bg-red bg-red-700 text-white font-bold py-1 px-2 rounded">
                       <svg
                         className="fill-current"
                         width="18"
@@ -163,11 +301,12 @@ const user = getUserFromToken()
       ) : (
         <p className="text-center">Loading team details...</p>
       )}
+      </div>
       {/* Pop-up pour modifier les détails du joueur */}
       {selectedPlayer && showEditPopup && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
         <div className="bg-white p-6 rounded-md w-100">
-          <h2 className="text-lg font-semibold mb-4">Edit Player</h2>
+          <h2 className="text-lg text-center font-semibold mb-4 text-black">Edit Player</h2>
           <form>
             <div className="mb-4">
               <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">First Name:</label>
@@ -181,8 +320,27 @@ const user = getUserFromToken()
               <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">email:</label>
               <input type="text" id="email" name="email" value={selectedPlayer.email} onChange={(e) => setSelectedPlayer({ ...selectedPlayer, email: e.target.value })} className="mt-1 p-2 border border-gray-300 rounded-md w-full" />
             </div>
+            <div className="mb-4">
+            <label  className="block  text-sm font-medium leading-5  text-black">Poste</label>
+            <select
+             onChange={(e) => setSelectedPlayer({ ...selectedPlayer, position: e.target.value })}
+             className='block w-full rounded-md pl-2  border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset  sm:text-sm sm:leading-6'
+            >
+              <option value="gardien">Gardien</option>
+              <option value="defenseur">Défenseur</option>
+              <option value="milieu">Milieu</option>
+              <option value="attaquant">Attaquant</option>
+            </select>         
+               </div>
+
+
+
+
+
+
+            
             <div className="flex justify-end">
-              <button type="button" onClick={handleCancelUpdate} className="bg-red hover:bg-gray-700 text-white font-bold py-1 px-2 mr-2 rounded">Cancel</button>
+              <button type="button" onClick={handleCancelUpdate} className=" bg-red-700 text-white font-bold py-1 px-2 mr-2 rounded">Cancel</button>
               <button type="button" onClick={() => handleSavePlayer(selectedPlayer)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded">Save</button>
             </div>
           </form>

@@ -5,10 +5,12 @@ import { useForm } from "react-hook-form";
 import touramentsService from "@/services/tournament/tournamentsService";
 import { useRouter } from "next/navigation";
 import teamService, { getTeams } from "@/services/team/teamService";
+import authService from "@/services/auth/authService";
 import TeamCard from "@/components/Card/TeamCard";
 import getUserFromToken from "@/utilities/getUserFromToken ";
 
 const InviteManagers = ({ onNextStep, onPrevStep }: any) => {
+  const user = getUserFromToken();
   const router = useRouter();
   const [teams, setTeams] = useState();
   const [selectedTeams, setSelectedTeams] = useState([]);
@@ -39,6 +41,7 @@ const InviteManagers = ({ onNextStep, onPrevStep }: any) => {
       updatedTournament.teams = selectedTeams;
       const res = await touramentsService.CreateTournament(updatedTournament);
 
+      await authService.addUserTournament(user.userId, res._id);
       resetTournament();
 
       router.push(`/tournament/manage/${res._id}`);
