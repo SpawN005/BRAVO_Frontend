@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 
 const TeamPlayersContainer = styled.div`
-  max-height: 283px;
+  max-height: 300px;
   width: 100%;
 `;
 
@@ -13,7 +13,7 @@ const TeamPlayersTabelContainer = styled.div`
   border-bottom-right-radius: 4px;
   display: flex;
   flex-flow: column;
-  max-height: 283px;
+  max-height: 325px;
   min-width: 100%;
   overflow-x: hidden;
   overflow-y: auto; /* Change to auto to show scrollbar when needed */

@@ -10,13 +10,16 @@ import PlayerHighlightedStats from "../PlayerDetailles/PlayerStats";
 import getUserFromToken from "@/utilities/getUserFromToken ";
 
 const MainBody = styled.div`
+  aligh-items: center;
   display: flex;
   flex-flow: column;
   grid-gap: 10px 10px;
+  margin-bottom: 100px;
   margin-left: auto;
   margin-right: auto;
   max-width: 1600px;
-  min-width: 150px;
+  min-width: 250px;
+  padding-top: 5px;
   width: 80vw;
 `;
 const ClubInformationSections = styled.div`
@@ -28,12 +31,14 @@ const ClubInformationSections = styled.div`
   min-width: 1250px;
 `;
 const ClubInformationSection = styled.div`
+  aligh-items: center;
   display: flex;
   flex-flow: row;
   grid-gap: 10px 10px;
   margin-left: auto;
-  margin-right: 80px;
+  margin-right: auto;
   max-height: 365px;
+  max-width: 1600px;
   min-width: 250px;
   width: 80vw;
 `;
@@ -82,6 +87,7 @@ const SoccerStats = () => {
     };
     fetchMatches();
   }, [teamData]);
+
   return (
     <MainBody>
       <ClubInformationSections>

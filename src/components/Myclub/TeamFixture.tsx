@@ -108,47 +108,48 @@ const parseTime = (date) =>
 
 const TeamFixtures = ({ matches }) => (
   <section>
-    {matches && matches.length ? ( // Ajout de la vérification de nullité
+    {matches && matches.length ? (
+      <FixturesTable>
+        {matches &&
+          matches.map(
+            (
+              fixture, // Ajout de la vérification de nullité
+            ) => (
+              <FixtureContainer key={fixture._id}>
+                <TeamOne>
+                  <img
+                    src={fixture.team1.logo}
+                    alt={fixture.team1.name}
+                    width="60"
+                  />
+                  {fixture.team1.name}
+                </TeamOne>
+                <GameInfoContainer>
+                  <GameInfo>
+                    {fixture.date ? parseTime(fixture.date) : ""}
+                  </GameInfo>
+                  <GameInfo>
+                    {fixture.date ? parseDate(fixture.date) : "TBA"}
+                  </GameInfo>
+                  <GameInfo>{fixture.stage}</GameInfo>
+                </GameInfoContainer>
+                <TeamTwo>
+                  <img
+                    src={fixture.team2.logo}
+                    alt={fixture.team2.name}
+                    width="60"
+                  />
+                  {fixture.team2.name}
+                </TeamTwo>
+              </FixtureContainer>
+            ),
+          )}
+      </FixturesTable> // Ajout de la vérification de nullité
+    ) : (
       <FixturesTableHeader>
         <Club>Upcoming Fixtures</Club>
       </FixturesTableHeader>
-    ) : null}
-    <FixturesTable>
-      {matches &&
-        matches.map(
-          (
-            fixture, // Ajout de la vérification de nullité
-          ) => (
-            <FixtureContainer key={fixture._id}>
-              <TeamOne>
-                <img
-                  src={fixture.team1.logo}
-                  alt={fixture.team1.name}
-                  width="60"
-                />
-                {fixture.team1.name}
-              </TeamOne>
-              <GameInfoContainer>
-                <GameInfo>
-                  {fixture.date ? parseTime(fixture.date) : ""}
-                </GameInfo>
-                <GameInfo>
-                  {fixture.date ? parseDate(fixture.date) : "TBA"}
-                </GameInfo>
-                <GameInfo>{fixture.stage}</GameInfo>
-              </GameInfoContainer>
-              <TeamTwo>
-                <img
-                  src={fixture.team2.logo}
-                  alt={fixture.team2.name}
-                  width="60"
-                />
-                {fixture.team2.name}
-              </TeamTwo>
-            </FixtureContainer>
-          ),
-        )}
-    </FixturesTable>
+    )}
   </section>
 );
 

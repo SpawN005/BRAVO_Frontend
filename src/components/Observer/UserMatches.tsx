@@ -30,8 +30,11 @@ const UserMatches = () => {
         const userId = localStorage.getItem("userId"); // Get the user ID from local storage
         if (userId) {
           const fetchedMatches = await matchService.getMatchesByUserId(userId);
-          setMatches(fetchedMatches);
-          console.log(fetchedMatches);
+          console.log(fetchedMatches.map((fixture) => (fixture.status)));
+  
+        const upcomingMatches = fetchedMatches.filter(fixture => fixture.status === "UPCOMING");
+          setMatches(upcomingMatches);
+          console.log(upcomingMatches);
 
         }
       } catch (error) {
@@ -72,7 +75,7 @@ const UserMatches = () => {
   };
   return (
     <div>
-      <h2>User Matches</h2>
+      <h2>Upcoming Matches</h2>
       {matches.map((match) => {
         const { date, time } = formatDate(match.date); // Destructure here inside map
 
@@ -88,7 +91,6 @@ const UserMatches = () => {
                     <Image className="rounded-full mr-2" alt="iamge logo" src={match.team1.logo} width={40} height={40}></Image>
                   {match.team1.name}
                 </span>
-                {scoreTeam1}
               </p>
 
               <div className="text-center ">
@@ -97,7 +99,6 @@ const UserMatches = () => {
                 <p className="font-bold text-sm">{date}</p>
               </div>
               <p className="text-xl h-fit flex">
-                {scoreTeam2}
                 <span className="mx-6  font-semibold flex">
                   {match.team2.name}
                   <Image className="rounded-full mr-2" alt="iamge logo" src={match.team2.logo} width={40} height={40}></Image>
