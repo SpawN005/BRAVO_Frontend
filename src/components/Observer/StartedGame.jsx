@@ -31,8 +31,8 @@ export default function StartedGame({
   const [gameTime, setGameTime] = useState(0);
   const [currentHalf, setCurrentHalf] = useState("first half");
   const [matchState, setMatchState] = useState("not started");
-  const [scoreTeam1, setScoreTeam1] = useState();
-  const [scoreTeam2, setScoreTeam2] = useState();
+  const [scoreTeam1, setScoreTeam1] = useState(0);
+  const [scoreTeam2, setScoreTeam2] = useState(0);
   const [yellow, setYellow] = useState("");
   const [goalname, setGoalname] = useState();
   const [red, setRed] = useState("");
@@ -64,8 +64,7 @@ export default function StartedGame({
   };
   useEffect(() => {
     let timer;
-    setScoreTeam1(game?.team1?.stats.score);
-    setScoreTeam2(game?.team2?.stats.score);
+
     if (matchState === "started" && gameTime < MATCH_DURATION) {
       timer = setTimeout(() => {
         setGameTime(gameTime + 1);
@@ -74,6 +73,10 @@ export default function StartedGame({
 
     return () => clearTimeout(timer);
   }, [matchState, gameTime]);
+  useEffect(() => {
+    setScoreTeam1(game?.team1?.stats.score);
+    setScoreTeam2(game?.team2?.stats.score);
+  }, []);
 
   const assist = (playerId, teamS, team) => {
     onAssist(teamS, team, playerId);

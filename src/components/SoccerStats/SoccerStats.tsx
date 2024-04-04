@@ -80,7 +80,7 @@ const SoccerStats = () => {
     const fetchMatches = async () => {
       if (teamData) {
         const response = await axios.get(
-          `http://localhost:3001/matches/team/${teamData._id}`,
+          `http://localhost:3001/matches/myteam/${teamData._id}`,
         );
         setMatches(response?.data);
       }
