@@ -60,7 +60,7 @@ const Settings = () => {
   };
   const updateProfile = async (userId:any, profileData:any) => {
     try {
-console.log(profileData)
+    console.log(profileData)
       const response = await axios.patch(`http://localhost:3001/users/${userId}`, profileData);
       return response.data;
     } catch (error) {

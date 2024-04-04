@@ -24,7 +24,7 @@ const AddObserverPage = () => {
         email: observer.email,
         firstName: observer.firstName,
         lastName: observer.lastName,
-        permissionLevel: 3, 
+        permissionLevel: 2, 
         tournamentId:tournamentId
       };
   

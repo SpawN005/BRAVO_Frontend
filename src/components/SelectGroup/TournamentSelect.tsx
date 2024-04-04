@@ -1,41 +1,62 @@
-"use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 const TournamentSelect: React.FC = () => {
-  const [selectedOption, setSelectedOption] = useState<string>("");
+  const [selectedOption, setSelectedOption] = useState<string>('');
   const [isOptionSelected, setIsOptionSelected] = useState<boolean>(false);
+  const [tournamentOptions, setTournamentOptions] = useState<Array<{ _id: string; name: string }>>([]);
+  const router = useRouter();
+
+  useEffect(() => {
+    const fetchTournaments = async () => {
+      try {
+        const userId = localStorage.getItem('userId');
+        const response = await fetch(`http://localhost:3001/users/tournaments/${userId}`);
+        const data = await response.json();
+        setTournamentOptions(data.data[0].tournamentIds);
+      } catch (error) {
+        console.error('Error fetching tournaments:', error);
+      }
+    };
+
+    fetchTournaments();
+  }, []);
 
   const changeTextColor = () => {
     setIsOptionSelected(true);
   };
+
+
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const tournamentId = e.target.value;
+    setSelectedOption(tournamentId);
+    changeTextColor();
+
+    // Redirect to the tournament management page
+    router.push(`/tournament/manage/${tournamentId}`);
+  };
+
 
   return (
     <div className="w-100">
       <div className="relative z-20 bg-transparent dark:bg-form-input">
         <select
           value={selectedOption}
-          onChange={(e) => {
-            setSelectedOption(e.target.value);
-            changeTextColor();
-          }}
+          onChange={handleSelectChange}
+
           className={`relative z-20 w-full appearance-none rounded border border-stroke bg-transparent px-5 py-3 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary ${
-            isOptionSelected ? "text-black dark:text-white" : ""
+            isOptionSelected ? 'text-black dark:text-white' : ''
           }`}
         >
           <option value="" disabled className="text-body dark:text-bodydark">
-            Select your subject
+            Select your tournament
           </option>
-          <option value="USA" className="text-body dark:text-bodydark">
-            USA
-          </option>
-          <option value="UK" className="text-body dark:text-bodydark">
-            UK
-          </option>
-          <option value="Canada" className="text-body dark:text-bodydark">
-            Canada
-          </option>
+          {tournamentOptions.map((tournament) => (
+            <option key={tournament._id} value={tournament._id} className="text-body dark:text-bodydark">
+              <b> {tournament.name}</b> 
+            </option>
+          ))}
         </select>
-
         <span className="absolute right-4 top-1/2 z-30 -translate-y-1/2">
           <svg
             className="fill-current"

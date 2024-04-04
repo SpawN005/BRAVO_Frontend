@@ -31,6 +31,7 @@ const Page = () => {
   };
   useEffect(() => {
     fetchTournament();
+    localStorage.setItem("selectedTournamentId", params.tournamentId)
   }, [params.tournamentId]); // Dependency array should only include params.tournamentId
 
   return loading || !tournamentData ? (
