@@ -15,7 +15,7 @@ const TeamCard = (props) => {
       onClick={handleClick}
     >
       <Image
-        src="https://upload.wikimedia.org/wikipedia/fr/thumb/3/33/Logo_federation_tunisienne_de_football.svg/899px-Logo_federation_tunisienne_de_football.svg.png?20120415161852"
+        src={props.logo}
         alt="test"
         className="rounded-full border"
         width={80}

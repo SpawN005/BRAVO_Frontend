@@ -77,6 +77,7 @@ const InviteManagers = ({ onNextStep, onPrevStep }: any) => {
             selected={selectedTeams.includes(team._id)}
             onSelect={handleTeamSelect}
             id={team._id}
+            logo={team.logo}
           />
         ))}
       </div>

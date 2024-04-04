@@ -12,7 +12,7 @@ const FixturesTable = styled.div`
   max-height: 325px;
   min-height: 325px;
   overflow-x: hidden;
-  width: 110%;
+  width: 95%;
 
   ::-webkit-scrollbar {
     -webkit-appearance: none;

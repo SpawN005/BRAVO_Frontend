@@ -60,18 +60,20 @@ const page = () => {
             onClick={() => router.push(`/matches/${match._id}`)}
           >
             <div className="hover:border-gray flex w-full items-center justify-center gap-12 rounded-xl bg-white p-7 hover:cursor-pointer hover:border-2 hover:bg-slate-50">
-              <p className="flex h-fit items-center text-xl">
-                <span className="mx-6 flex font-semibold">
-                  <Image
-                    className="mr-2 rounded-full"
-                    alt="iamge logo"
-                    src={match?.team1?.logo}
-                    width={40}
-                    height={40}
-                  ></Image>
-                  {match?.team1?.name}
-                </span>
-              </p>
+              <div className="flex h-fit flex-row items-center space-x-2 text-xl font-semibold">
+                <Image
+                  className="mr-2 rounded-full"
+                  alt="iamge logo"
+                  src={
+                    match?.team1?.logo
+                      ? match?.team1?.logo
+                      : "https://bramptonsc.com/wp-content/uploads/2018/07/TBD.jpg"
+                  }
+                  width={80}
+                  height={80}
+                ></Image>
+                <p>{match?.team1?.name}</p>
+              </div>
 
               <div className="text-center ">
                 <p className="text-sm ">{match.stage}</p>
@@ -84,18 +86,20 @@ const page = () => {
                   <p className="text-sm font-bold">TBA</p>
                 )}
               </div>
-              <p className="flex h-fit text-xl">
-                <span className="mx-6  flex font-semibold">
-                  {match?.team2?.name}
-                  <Image
-                    className="mr-2 rounded-full"
-                    alt="iamge logo"
-                    src={match?.team2?.logo}
-                    width={40}
-                    height={40}
-                  ></Image>
-                </span>
-              </p>
+              <div className="flex h-fit flex-row items-center space-x-2 text-xl font-semibold">
+                <p>{match?.team2?.name}</p>
+                <Image
+                  className="mr-2 rounded-full"
+                  alt="iamge logo"
+                  src={
+                    match?.team2?.logo
+                      ? match?.team2?.logo
+                      : "https://bramptonsc.com/wp-content/uploads/2018/07/TBD.jpg"
+                  }
+                  width={80}
+                  height={80}
+                ></Image>
+              </div>
             </div>
           </div>
         );

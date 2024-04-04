@@ -15,6 +15,12 @@ const MatchForm = ({ match }) => {
   const [selectedObserver, setSelectedObserver] = useState("");
   const [selectedReferee, setSelectedReferee] = useState("");
   const [selectedStadium, setSelectedStadium] = useState("");
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors, isValid },
+  } = useForm();
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -54,13 +60,6 @@ const MatchForm = ({ match }) => {
     setValue(name, selectedValue);
   };
 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors, isValid },
-  } = useForm();
-
   const onSubmit = async (data: any) => {
     try {
       console.log(data);
@@ -91,7 +90,7 @@ const MatchForm = ({ match }) => {
             }))}
             name="observer" // Name for react-hook-form
             onSelectChange={handleObserverSelectChange}
-            defaultValue={match?.observer}
+            defaultValue={match?.observer} // Set default value
           />
         </div>
         <div className="flex flex-col gap-5.5 p-6.5">
@@ -103,7 +102,7 @@ const MatchForm = ({ match }) => {
             }))}
             name="referee" // Name for react-hook-form
             onSelectChange={handleRefereeSelectChange}
-            defaultValue={match?.referee}
+            defaultValue={match?.referee} // Set default value
           />
         </div>
         <div className="flex flex-col gap-5.5 p-6.5">
@@ -115,7 +114,7 @@ const MatchForm = ({ match }) => {
             }))}
             name="stadium" // Name for react-hook-form
             onSelectChange={handleStadiumSelectChange}
-            defaultValue={match?.stadium}
+            defaultValue={match?.stadium} // Set default value
           />
         </div>
         <div className="flex flex-col items-end gap-3.5 p-4.5">
