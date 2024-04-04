@@ -13,16 +13,17 @@ const HALF_DURATION = MATCH_DURATION / 2;
 export default function StartedGame({ game, onCard, Card, onGoal ,Stat,onAssist,start }) {
     
     const [selectedPlayerId, setSelectedPlayerId] = useState(null);
-    const [redCardPlayers, setRedCardPlayers] = useState([]);   
-    const [gameTime, setGameTime] = useState(0); // Temps écoulé dans le match (en minutes)
-    const [currentHalf, setCurrentHalf] = useState('first half'); // Mi-temps actuelle
+    const [gameTime, setGameTime] = useState(0); 
+    const [currentHalf, setCurrentHalf] = useState('first half'); 
     const [matchState, setMatchState] = useState('not started');
     const [scoreTeam1, setScoreTeam1] = useState(0);
     const [scoreTeam2, setScoreTeam2] = useState(0);
-
-
-
-
+    const [yellow, setYellow] = useState("");
+    const [goalname, setGoalname] = useState();
+    const [red, setRed] = useState("");
+    const [yellowCardPlayers, setYellowCardPlayers] = useState([]);
+    const [redCardPlayers, setRedCardPlayers] = useState([]);
+   
     const handleGameEvent = (event) => {
         switch (event) {
             case 'start':
@@ -46,6 +47,8 @@ export default function StartedGame({ game, onCard, Card, onGoal ,Stat,onAssist,
     };
     useEffect(() => {
         let timer;
+        setScoreTeam1(game.team1s.score)
+        setScoreTeam2(game.team2s.score)
         if (matchState === 'started' && gameTime < MATCH_DURATION) {
             timer = setTimeout(() => {
                 setGameTime(gameTime + 1);
@@ -54,31 +57,17 @@ export default function StartedGame({ game, onCard, Card, onGoal ,Stat,onAssist,
     
         return () => clearTimeout(timer);
     }, [matchState, gameTime]);
-
-
-    const yellowCard = (playerId,teamS,team) => {
-        if (!redCardPlayers.includes(playerId)) { // Vérifier si le joueur n'a pas de carton rouge
-            setSelectedPlayerId(playerId);
-            onCard(teamS, team, playerId); 
-        } else {
-            console.log('Ce joueur a déjà reçu un carton rouge.');
-            // Affichez un message d'erreur ou effectuez une action appropriée
-        }
-    };
-
-
-    const onCardRed = (playerId,teamS,team) => {
-        Card(teamS, team, playerId);
-        setRedCardPlayers([...redCardPlayers, playerId]); // Ajouter le joueur à la liste des joueurs avec un carton rouge
-    };
-
+    
     const assist = (playerId,teamS,team) => {
         onAssist(teamS, team, playerId);
     };
     const handleGoalScored = (playerId,teamstatsid,teamid) => {
+        if (redCardPlayers.includes(playerId)) {
+            console.log('Ce joueur a reçu un carton rouge. Il ne peut pas marquer de but.');
+            return; 
+        }
         const socket = io('http://localhost:3001');
- 
-     // Emit 'goalScored' event to the server with data as an object
+
      socket.emit('goalScored', {
          playerId2: playerId,
          playerId1: playerId,
@@ -86,18 +75,62 @@ export default function StartedGame({ game, onCard, Card, onGoal ,Stat,onAssist,
          matchId: teamstatsid
      });
  };
+ const handleYellowCardGiven = (playerId, teamstatsid, teamid) => {
+    const socket = io('http://localhost:3001');
+
+    // Émettre l'événement 'yellowCardGiven' au serveur avec les données sous forme d'objet
+    socket.emit('yellowCardGiven', {
+        playerId: playerId,
+        teamId: teamid,
+        matchId: teamstatsid
+    });
+    if (!redCardPlayers.includes(playerId)) { // Vérifier si le joueur n'a pas de carton rouge
+        setYellowCardPlayers([...yellowCardPlayers, playerId]);
+    } else {
+        console.log('Ce joueur a déjà reçu un carton rouge.');
+        // Affichez un message d'erreur ou effectuez une action appropriée
+    }
+};
+const handleRedCardGiven = (playerId, teamstatsid, teamid) => {
+    const socket = io('http://localhost:3001');
+
+    // Émettre l'événement 'yellowCardGiven' au serveur avec les données sous forme d'objet
+    socket.emit('redCardGiven', {
+        playerId: playerId,
+        teamId: teamid,
+        matchId: teamstatsid
+    });
+    setRedCardPlayers([...redCardPlayers, playerId]);
+
+};
+
  console.log(game)
  useEffect(() => {
     const socket = io('http://localhost:3001');
 
     // Listen for updates from the server
     socket.on('updateMatchStats', (updatedStats) => {
-        // Mettez à jour les scores des équipes correspondantes
+
         if (updatedStats.team === game.team1._id) {
             setScoreTeam1(updatedStats.score);
         } else if (updatedStats.team === game.team2._id) {
             setScoreTeam2(updatedStats.score);
         }
+        setGoalname(updatedStats.scorers[0].firstName)
+    });
+    socket.on("updateMatchCard", (updatedCard) => {
+        // Vérifiez si la mise à jour concerne les cartons jaunes
+            // Récupérez le prénom du joueur du premier élément du tableau des cartons jaunes
+            // Mettez à jour l'état avec le prénom du joueur
+            setYellow(updatedCard);
+        
+    });
+    socket.on("updateMatchCardred", (updatedCardred) => {
+        // Vérifiez si la mise à jour concerne les cartons jaunes
+            // Récupérez le prénom du joueur du premier élément du tableau des cartons jaunes
+            // Mettez à jour l'état avec le prénom du joueur
+            setRed(updatedCardred);
+        
     });
     return () => {
         // Déconnectez le socket lorsque le composant est démonté
@@ -105,11 +138,12 @@ export default function StartedGame({ game, onCard, Card, onGoal ,Stat,onAssist,
     };
 }, []);
 
- 
+
+
+
     
-    const homePlayers = game.team1p.players.map(player => {
-        const isPlayerSelected = player._id === selectedPlayerId;
-        const isRedCardPlayer = redCardPlayers.includes(player._id);
+    const homePlayers = game.team1p.lineup.map(player => {
+       
 
         return (
             <div key={player._id}>
@@ -120,34 +154,37 @@ export default function StartedGame({ game, onCard, Card, onGoal ,Stat,onAssist,
                     >
                     <Dropdown.Menu>
                         <Dropdown.Item onClick={() => handleGoalScored( player._id,game.statsTeam1,game.team1._id)}>But</Dropdown.Item>
-                        <Dropdown.Item onClick={() => assist( player._id,game.statsTeam2 ,game.team2._id)}>assist</Dropdown.Item>
-                        <Dropdown.Item onClick={() => yellowCard(player._id,game.statsTeam1, game.team1._id)}>Carton Jaune</Dropdown.Item>
-                        <Dropdown.Item onClick={() => onCardRed( player._id,game.statsTeam1, game.team1._id)}>Carton Rouge</Dropdown.Item>
+                        <Dropdown.Item onClick={() => assist( player._id,game.statsTeam1 ,game.team1._id)}>assist</Dropdown.Item>
+                        <Dropdown.Item onClick={() => handleYellowCardGiven(player._id,game.statsTeam1, game.team1._id)}>Carton Jaune</Dropdown.Item>
+                        <Dropdown.Item onClick={() => handleRedCardGiven( player._id,game.statsTeam1, game.team1._id)}>Carton Rouge</Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
    {/* Render the Label with a red ribbon if the player has a red card */}
-   {isRedCardPlayer && <Label color="red" ribbon>{player.firstName}</Label>}
-                {/* Conditionally render the Label if the player is selected */}
-                {isPlayerSelected && <Label color="yellow" ribbon>{player.firstName}</Label>}   
+   {yellowCardPlayers.includes(player._id) && <Label color="yellow" ribbon>{player.firstName}</Label>}
+{redCardPlayers.includes(player._id) && <Label color="red" ribbon>{player.firstName}</Label>}
+
               
                          </div>
         );
     });
-
     const awayPlayers = game.team2p.lineup.map(player => (
-        <Dropdown text={player.firstName}
-            pointing="left"
-            className="link item"
-            key={player._id}>
-            <Dropdown.Menu>
-                <Dropdown.Item onClick={() => handleGoalScored( player._id,game.statsTeam2 ,game.team2._id)}>But</Dropdown.Item>
-                <Dropdown.Item onClick={() => handleGoalScored( player._id,game.statsTeam2 ,game.team2._id)}>assist</Dropdown.Item>
-                <Dropdown.Item onClick={() => yellowCard(player._id,game.statsTeam, game.team2._id)}>Carton Jaune</Dropdown.Item>
-                <Dropdown.Item onClick={() => onCardRed( player._id,game.statsTeam2, game.team2._id)}>Carton Rouge</Dropdown.Item>
-
-            </Dropdown.Menu>
-        </Dropdown>
+        <div key={player._id}>
+            <Dropdown text={player.firstName} pointing="left" className="link item">
+                <Dropdown.Menu>
+                    <Dropdown.Item onClick={() => handleGoalScored(player._id, game.statsTeam2, game.team2._id)}>But</Dropdown.Item>
+                    <Dropdown.Item onClick={() => assist(player._id, game.statsTeam2, game.team2._id)}>assist</Dropdown.Item>
+                    <Dropdown.Item onClick={() => handleYellowCardGiven(player._id, game.statsTeam2, game.team2._id)}>Carton Jaune</Dropdown.Item>
+                    <Dropdown.Item onClick={() => handleRedCardGiven(player._id, game.statsTeam2, game.team2._id)}>Carton Rouge</Dropdown.Item>
+                </Dropdown.Menu>
+            </Dropdown>
+            {/* Render the Label with a yellow ribbon if the player has a yellow card */}
+            {yellowCardPlayers.includes(player._id) && <Label color="yellow" ribbon>{player.firstName}</Label>}
+            {/* Render the Label with a red ribbon if the player has a red card */}
+            {redCardPlayers.includes(player._id) && <Label color="red" ribbon>{player.firstName}</Label>}
+        </div>
     ));
+    
+    
 
     return (
      
@@ -182,6 +219,7 @@ export default function StartedGame({ game, onCard, Card, onGoal ,Stat,onAssist,
                             </div>
                         </div>
                     </div>
+             
                     <div className="column">
                         <div className="team team--away">
                             <div className="team-logo">
@@ -201,10 +239,10 @@ export default function StartedGame({ game, onCard, Card, onGoal ,Stat,onAssist,
             </Grid.Row>
             <Grid.Row columns={2} className="match-container">
                 <Grid.Column className="team">
-                    <Menu vertical borderless secondary style={{ width: "95%" }}>{homePlayers}</Menu>
+                    <Menu vertical borderless secondary style={{ width: "90%" }}>{homePlayers}</Menu>
                 </Grid.Column>
                 <Grid.Column className="team">
-                    <Menu vertical borderless secondary style={{ width: "95%" }}>{awayPlayers}</Menu>
+                    <Menu vertical borderless secondary style={{ width: "90%" }}>{awayPlayers}</Menu>
                 </Grid.Column>
             </Grid.Row>
             <Grid.Row columns={1}>

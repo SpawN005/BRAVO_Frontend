@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const TeamPlayersContainer = styled.div`
-  max-height: 283px;
+  max-height: 300px;
   width: 100%;
 `;
 
@@ -13,11 +13,10 @@ const TeamPlayersTabelContainer = styled.div`
   border-bottom-right-radius: 4px;
   display: flex;
   flex-flow: column;
-  max-height: 283px;
+  max-height: 325px;
   min-width: 100%;
   overflow-x: hidden;
-  overflow-y: scroll;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
   ::-webkit-scrollbar {
     -webkit-appearance: none;
     width: 9px;
@@ -38,7 +37,7 @@ const TeamPlayersTabelHeader = styled.div`
   display: grid;
   font-weight: 700;
   grid-template-areas:
-    "name lastName position age height weight";
+    "name position nationality age height weight";
   grid-template-columns: 3fr 2fr 2fr 1fr 1fr 1fr;
   min-width: 100%;
   padding: 5px;
@@ -52,7 +51,7 @@ const TeamPlayersTabelRow = styled.div`
   display: grid;
   font-weight: 400;
   grid-template-areas:
-    "name lastName position age height weight";
+    "name position nationality age height weight";
   grid-template-columns: 3fr 2fr 2fr 1fr 1fr 1fr;
   padding: 5px;
 
@@ -105,6 +104,7 @@ const PlayerLastName = styled.div`
   max-height: 100%;
   padding-left: 10px;
 `;
+
 
 const TeamPlayers = ({ players, highlightPlayerInfo }) => (
 

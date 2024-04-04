@@ -5,19 +5,11 @@ import matchService from "@/services/match/matchService";
 import Image from "next/image";
 import { useRouter } from "next/navigation"; // Import useRouter
 import io from 'socket.io-client';
+import axios from 'axios';
 
-const formatDate = (dateString: string) => {
-  const date = new Date(dateString);
-  const dateOptions = { year: "numeric", month: "2-digit", day: "2-digit" };
-  const timeOptions = { hour: "2-digit", minute: "2-digit" };
 
-  const formattedDate = date.toLocaleDateString("en-US", dateOptions);
-  const formattedTime = date.toLocaleTimeString("en-US", timeOptions);
 
-  return { date: formattedDate, time: formattedTime };
-};
-
-const UserMatches = () => {
+const liveMatches = () => {
   const [matches, setMatches] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [scoreTeam1, setScoreTeam1] = useState(0);
@@ -27,16 +19,8 @@ const UserMatches = () => {
     const fetchMatches = async () => {
       setIsLoading(true);
       try {
-        const userId = localStorage.getItem("userId"); // Get the user ID from local storage
-        if (userId) {
-          const fetchedMatches = await matchService.getMatchesByUserId(userId);
-          console.log(fetchedMatches.map((fixture) => (fixture.status)));
-  
-        const upcomingMatches = fetchedMatches.filter(fixture => fixture.status === "UPCOMING");
-          setMatches(upcomingMatches);
-          console.log(upcomingMatches);
-
-        }
+        const response = await axios.get(`http://localhost:3001/matches/`);
+         setMatches(response.data)
       } catch (error) {
         console.error("Error loading matches:", error);
       } finally {
@@ -70,35 +54,34 @@ const UserMatches = () => {
 
   if (isLoading) return <div>Loading matches...</div>;
   if (!matches.length) return <div>No matches found</div>;
-  const handleMatchClick = (matchId:any) => {
-    router.push(`/MatchLogging/${matchId}`); // Navigate to MatchLogging page
-  };
+  
   return (
     <div>
-      <h2>Upcoming Matches</h2>
+      <h2>Live Matches</h2>
       {matches.map((match) => {
-        const { date, time } = formatDate(match.date); // Destructure here inside map
 
         return (
           <div
           className="mb-2 "
           key={match._id}
-          onClick={() => router.push(`/Live/${match._id}`)} // Navigate to Games component with match ID
+          onClick={() => router.push(`/MatchLive/${match._id}`)} // Navigate to Games component with match ID
         >
             <div className="flex w-full justify-center gap-12 rounded-xl bg-white p-7 items-center hover:border-2 hover:bg-slate-50 hover:cursor-pointer hover:border-gray">
-              <p className="text-xl h-fit flex items-center">
+              <p className="text-xl h-fit flex ">
                 <span className="mx-6 font-semibold flex">
                     <Image className="rounded-full mr-2" alt="iamge logo" src={match.team1.logo} width={40} height={40}></Image>
                   {match.team1.name}
                 </span>
+                {scoreTeam1}
               </p>
 
               <div className="text-center ">
                 <p className="text-sm ">{match.stage}</p>
-                <p className="font-bold text-sm">{time}</p>
-                <p className="font-bold text-sm">{date}</p>
+                <div className="text-center mt-3 text-red-700">Live</div>
+
               </div>
               <p className="text-xl h-fit flex">
+                {scoreTeam2}
                 <span className="mx-6  font-semibold flex">
                   {match.team2.name}
                   <Image className="rounded-full mr-2" alt="iamge logo" src={match.team2.logo} width={40} height={40}></Image>
@@ -106,7 +89,6 @@ const UserMatches = () => {
                 </span>
               </p>
             </div>
-            {/* Add more details as needed */}
           </div>
         );
       })}
@@ -114,4 +96,4 @@ const UserMatches = () => {
   );
 };
 
-export default UserMatches;
+export default liveMatches;

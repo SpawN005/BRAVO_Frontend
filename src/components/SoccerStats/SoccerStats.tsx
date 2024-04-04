@@ -10,31 +10,28 @@ import PlayerHighlightedStats from '../PlayerDetailles/PlayerStats';
 import getUserFromToken from '@/utilities/getUserFromToken ';
 
 const MainBody = styled.div`
+  aligh-items: center;
   display: flex;
   flex-flow: column;
   grid-gap: 10px 10px;
+  margin-bottom: 100px;
   margin-left: auto;
   margin-right: auto;
   max-width: 1600px;
-  min-width: 150px;
+  min-width: 250px;
+  padding-top: 5px;
   width: 80vw;
 `;
-const ClubInformationSections = styled.div`
-display: flex;
-flex-flow: row;
-grid-gap: 10px 10px;
-margin-left: auto;
-margin-right: auto;
-max-height: 365px;
-min-width: 1250px;
-`;
+
 const ClubInformationSection = styled.div`
+  aligh-items: center;
   display: flex;
   flex-flow: row;
   grid-gap: 10px 10px;
   margin-left: auto;
-  margin-right: 80px;
+  margin-right: auto;
   max-height: 365px;
+  max-width: 1600px;
   min-width: 250px;
   width: 80vw;
 `;
@@ -77,7 +74,12 @@ const SoccerStats = () => {
     const fetchMatches = async () => {
       if (teamData) {
         const response = await axios.get(`http://localhost:3001/matches/matches/${teamData._id}`);
-        setMatches(response?.data);
+        console.log(response?.data.map((fixture) => (fixture.status)));
+  
+        const upcomingMatches = response?.data.filter(fixture => fixture.status === "UPCOMING");
+  
+        // Stocker les matches filtrés dans l'état matches
+        setMatches(upcomingMatches);
       }
     };
     fetchMatches();
@@ -85,12 +87,12 @@ const SoccerStats = () => {
   return (
     <MainBody>
       <GlobalStyle />
-      <ClubInformationSections>
+      <ClubInformationSection>
       
       <ClubInfomation teamData={teamData} />
         <TeamFixture  matches={matches} />
      
-      </ClubInformationSections>
+      </ClubInformationSection>
     
            
       {teamData && teamData?.players?.length ? (
