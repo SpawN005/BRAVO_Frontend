@@ -13,6 +13,15 @@ export const getTeams = async () => {
   }
 };
 
+const getTeamById = async (teamId) => {
+  try {
+    const response = await axios.get(`${API_URL}/team/${teamId}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching team:', error);
+    throw error;
+  }
+};
 export const getTeamInfo = (callback) => {
   axios
     .get("http://localhost:3001/team/team/65da70b9d228792b5811e469")
@@ -39,4 +48,4 @@ export const getPlayerStats = (id, callback) => {
     })
     .catch((err) => console.error(err));
 };
-export default { getTeams };
+export default { getTeams,getTeamById };

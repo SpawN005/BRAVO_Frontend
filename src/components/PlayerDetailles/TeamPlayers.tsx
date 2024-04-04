@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import React from "react";
+import PropTypes from "prop-types";
+import styled from "styled-components";
 
 const TeamPlayersContainer = styled.div`
   max-height: 283px;
@@ -16,17 +16,19 @@ const TeamPlayersTabelContainer = styled.div`
   max-height: 283px;
   min-width: 100%;
   overflow-x: hidden;
-  overflow-y: scroll;
+  overflow-y: auto; /* Change to auto to show scrollbar when needed */
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  ::-webkit-scrollbar {
-    -webkit-appearance: none;
-    width: 9px;
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    background: orange; /* Change track color */
   }
 
-  ::-webkit-scrollbar-thumb {
-    background-color: #00d4b1;
-    border: 1px solid #f1f3f4;
-    border-radius: 4px;
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: blue; /* Change handle (thumb) color */
+    border-radius: 10px; /* Round the corners of the handle */
+    border: 3px solid orange; /* Add border to the handle */
   }
 `;
 
@@ -37,8 +39,7 @@ const TeamPlayersTabelHeader = styled.div`
   border-top-right-radius: 4px;
   display: grid;
   font-weight: 700;
-  grid-template-areas:
-    "name lastName position age height weight";
+  grid-template-areas: "name lastName position age height weight";
   grid-template-columns: 3fr 2fr 2fr 1fr 1fr 1fr;
   min-width: 100%;
   padding: 5px;
@@ -51,8 +52,7 @@ const TeamPlayersTabelRow = styled.div`
   cursor: pointer;
   display: grid;
   font-weight: 400;
-  grid-template-areas:
-    "name lastName position age height weight";
+  grid-template-areas: "name lastName position age height weight";
   grid-template-columns: 3fr 2fr 2fr 1fr 1fr 1fr;
   padding: 5px;
 
@@ -107,27 +107,23 @@ const PlayerLastName = styled.div`
 `;
 
 const TeamPlayers = ({ players, highlightPlayerInfo }) => (
-
   <TeamPlayersContainer>
     <TeamPlayersTabelHeader>
       <PlayerFirstName>Name</PlayerFirstName>
       <PlayerLastName>prenom</PlayerLastName>
       <PlayerPosition>Position </PlayerPosition>
-   
-      
-      
     </TeamPlayersTabelHeader>
     <TeamPlayersTabelContainer>
-      {players?.map((player,index) => (
+      {players?.map((player, index) => (
         <TeamPlayersTabelRow
-        key={index}        
-        onClick={() => { highlightPlayerInfo(player._id)  }}
+          key={index}
+          onClick={() => {
+            highlightPlayerInfo(player._id);
+          }}
         >
-            <PlayerFirstName>{player?.firstName}</PlayerFirstName>
-            <PlayerLastName>{player?.lastName} </PlayerLastName>
-            <PlayerPosition>{player?.position} </PlayerPosition>
-          
-          
+          <PlayerFirstName>{player?.firstName}</PlayerFirstName>
+          <PlayerLastName>{player?.lastName} </PlayerLastName>
+          <PlayerPosition>{player?.position} </PlayerPosition>
         </TeamPlayersTabelRow>
       ))}
     </TeamPlayersTabelContainer>

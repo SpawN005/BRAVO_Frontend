@@ -4,11 +4,12 @@ import React, { useEffect, useState } from "react";
 import matchService from "@/services/match/matchService";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 const page = () => {
   const [matches, setMatches] = useState();
   const router = useRouter();
+  const id = localStorage.getItem("Mytournament");
   useEffect(() => {
-    const id = localStorage.getItem("Mytournament");
     const fetchMatches = async () => {
       try {
         const fetchedMatches = await matchService.getMatchesByTournament(id);
@@ -33,6 +34,22 @@ const page = () => {
   console.log(matches);
   return (
     <DefaultLayout>
+      {/* <h1 className="mb-4 text-3xl font-bold">{matches[0].name}</h1> */}
+      <div className="inline-flex rounded-md shadow-sm">
+        <Link
+          href="/tournaments/matches"
+          aria-current="page"
+          className="rounded-s-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-blue-700 hover:bg-gray-100 focus:z-10 focus:text-blue-700 focus:ring-2 focus:ring-blue-700 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white dark:focus:text-white dark:focus:ring-blue-500"
+        >
+          Matches
+        </Link>
+        <Link
+          href={`/tournament/details/${id}`}
+          className="border-b border-t border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:text-blue-700 focus:ring-2 focus:ring-blue-700 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white dark:focus:text-white dark:focus:ring-blue-500"
+        >
+          Standings
+        </Link>
+      </div>
       {matches?.map((match) => {
         const { date, time } = formatDate(match.date);
 
@@ -58,8 +75,14 @@ const page = () => {
 
               <div className="text-center ">
                 <p className="text-sm ">{match.stage}</p>
-                <p className="text-sm font-bold">{time}</p>
-                <p className="text-sm font-bold">{date}</p>
+                {match.date != null ? (
+                  <>
+                    <p className="text-sm font-bold">{time}</p>
+                    <p className="text-sm font-bold">{date}</p>
+                  </>
+                ) : (
+                  <p className="text-sm font-bold">TBA</p>
+                )}
               </div>
               <p className="flex h-fit text-xl">
                 <span className="mx-6  flex font-semibold">

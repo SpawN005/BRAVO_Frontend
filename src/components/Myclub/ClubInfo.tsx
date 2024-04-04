@@ -1,8 +1,8 @@
-"use client"
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
+"use client";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import PropTypes from "prop-types";
+import styled from "styled-components";
 
 const ClubInfoContainer = styled.div`
   max-height: 365px;
@@ -17,7 +17,7 @@ const ClubInfoTable = styled.div`
   min-height: 366px;
   min-width: 350px;
   padding: 5px;
-  overflow-y: scroll;
+  overflow-y: none;
 
   ::-webkit-scrollbar {
     -webkit-appearance: none;
@@ -57,14 +57,12 @@ const ClubTableRowBody = styled.div`
   flex-flow: column;
 `;
 
-
-
-const TeamDetails = ({teamData}) => {
-  console.log(teamData)
+const TeamDetails = ({ teamData }) => {
+  console.log(teamData);
   return (
     <ClubInfoContainer>
-    {teamData ? (
-          <ClubInfoTable >
+      {teamData ? (
+        <ClubInfoTable>
           <ClubLogo>
             <img src={teamData.logo} alt={teamData.name} width="115" />
           </ClubLogo>
@@ -72,7 +70,7 @@ const TeamDetails = ({teamData}) => {
             <ClubTableRowHead>Club</ClubTableRowHead>
             <ClubTableRowBody>{teamData.name}</ClubTableRowBody>
           </ClubTable>
-          
+
           <ClubTable>
             <ClubTableRowHead>Country</ClubTableRowHead>
             <ClubTableRowBody>{teamData.country}</ClubTableRowBody>
@@ -98,12 +96,11 @@ const TeamDetails = ({teamData}) => {
             <ClubTableRowBody>{teamData.score}</ClubTableRowBody>
           </ClubTable>
         </ClubInfoTable>
-     ) : (
-      <p className="text-center">Loading team details...</p>
-    )}
+      ) : (
+        <p className="text-center">Loading team details...</p>
+      )}
     </ClubInfoContainer>
   );
 };
 
 export default TeamDetails;
-

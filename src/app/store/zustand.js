@@ -10,7 +10,7 @@ export const useTournamentStore = create((set) => ({
       type: "",
       nbTeams: 0,
       nbPlayerPerTeam: 0,
-      teamsPerPool: 1,
+      teamsPerPool: 2,
       pointsPerWin: 0,
       pointsPerDraw: 0,
       pointsPerLoss: 0,

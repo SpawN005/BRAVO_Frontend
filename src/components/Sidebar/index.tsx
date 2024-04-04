@@ -269,7 +269,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   </li>
                   {/* <!-- Menu Item Matches --> */}
                   {/* <!-- Menu Item Observers --> */}
-                  <li>
+                  {/* <li>
                     <Link
                       href="/observers"
                       className={`group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 `}
@@ -293,9 +293,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                       </svg>
                       Observers
                     </Link>
-                  </li>
+                  </li> */}
                   {/* <!-- Menu Item referees --> */}
-                  <li>
+                  {/* <li>
                     <Link
                       href="/referees"
                       className={`group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 `}
@@ -319,7 +319,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                       </svg>
                       Referees
                     </Link>
-                  </li>
+                  </li> */}
                   <li>
                     <Link
                       href="/stadium"
