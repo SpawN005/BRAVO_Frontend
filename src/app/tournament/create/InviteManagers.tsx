@@ -43,8 +43,6 @@ const InviteManagers = ({ onNextStep, onPrevStep }: any) => {
 
       await authService.addUserTournament(user.userId, res._id);
       resetTournament();
-
-      router.push(`/tournament/manage/${res._id}`);
     } catch (error) {
       console.error("Error creating tournament:", error);
     }

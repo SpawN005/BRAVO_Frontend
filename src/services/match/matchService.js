@@ -11,7 +11,7 @@ const getMatchesByUserId = async (userId) => {
     throw error;
   }
 };
-const getMatchesByTournamentId = async (tournamentId) => {
+const getBracket = async (tournamentId) => {
   try {
     const response = await axios.get(
       `http://localhost:3001/matches/bracket/${tournamentId}`,
@@ -22,5 +22,16 @@ const getMatchesByTournamentId = async (tournamentId) => {
     throw error;
   }
 };
+const getMatchesByTournament = async (tournamentId) => {
+  try {
+    const response = await axios.get(
+      `http://localhost:3001/matches/matches/${tournamentId}`,
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching matches:", error);
+    throw error;
+  }
+};
 
-export default { getMatchesByUserId, getMatchesByTournamentId };
+export default { getMatchesByUserId, getBracket, getMatchesByTournament };
