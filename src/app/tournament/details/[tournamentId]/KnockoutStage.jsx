@@ -8,9 +8,7 @@ const KnockoutStage = ({ tournamentData }) => {
   useEffect(() => {
     const fetchMatches = async () => {
       try {
-        const matches = await matchService.getMatchesByTournamentId(
-          tournamentData._id,
-        );
+        const matches = await matchService.getBracket(tournamentData._id);
 
         setMatches(matches);
       } catch (error) {

@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import React from "react";
+import PropTypes from "prop-types";
+import styled from "styled-components";
 
 const FixturesTable = styled.div`
   background-color: #fff;
@@ -12,7 +12,7 @@ const FixturesTable = styled.div`
   max-height: 325px;
   min-height: 325px;
   overflow-x: hidden;
-  width: 100%;
+  width: 95%;
 
   ::-webkit-scrollbar {
     -webkit-appearance: none;
@@ -34,6 +34,7 @@ const FixturesTableHeader = styled.div`
   font-weight: 700;
   grid-area: header;
   padding: 5px;
+  width: 110%;
   padding-top: 10px;
 `;
 
@@ -41,8 +42,7 @@ const FixtureContainer = styled.div`
   background-color: #fff;
   border: 1px solid #f1f3f4;
   display: grid;
-  grid-template-areas:
-    "teamOne date teamTwo";
+  grid-template-areas: "teamOne date teamTwo";
   justify-content: space-around;
   min-height: 150px;
   padding: 5px;
@@ -99,38 +99,59 @@ const Club = styled.div`
 `;
 
 const parseDate = (date) => new Date(date).toDateString();
-const parseTime = (date) => new Date(date).toLocaleTimeString([],
-  { hour: 'numeric', minute: '2-digit', hour12: true });
+const parseTime = (date) =>
+  new Date(date).toLocaleTimeString([], {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  });
 
-  const TeamFixtures = ({ matches }) => (
-    <section>
-      {matches && matches.length ? (  // Ajout de la vérification de nullité
-        <FixturesTableHeader>
-          <Club>Upcoming Fixtures</Club>
-        </FixturesTableHeader>
-      ) : null}
+const TeamFixtures = ({ matches }) => (
+  <section>
+    {matches && matches.length ? (
       <FixturesTable>
-        {matches && matches.map((fixture) => (  // Ajout de la vérification de nullité
-          <FixtureContainer key={fixture._id}>
-            <TeamOne>
-              <img src={fixture.team1.logo} alt={fixture.team1.name} width="60" />
-              {fixture.team1.name}
-            </TeamOne>
-            <GameInfoContainer>
-              <GameInfo>{parseTime(fixture.date)}</GameInfo>
-              <GameInfo>{parseDate(fixture.date)}</GameInfo>
-              <GameInfo>{fixture.stage}</GameInfo>
-            </GameInfoContainer>
-            <TeamTwo>
-              <img src={fixture.team2.logo} alt={fixture.team2.name} width="60" />
-              {fixture.team2.name}
-            </TeamTwo>
-          </FixtureContainer>
-        ))}
-      </FixturesTable>
-    </section>
-  );
-  
+        {matches &&
+          matches.map(
+            (
+              fixture, // Ajout de la vérification de nullité
+            ) => (
+              <FixtureContainer key={fixture._id}>
+                <TeamOne>
+                  <img
+                    src={fixture.team1.logo}
+                    alt={fixture.team1.name}
+                    width="60"
+                  />
+                  {fixture.team1.name}
+                </TeamOne>
+                <GameInfoContainer>
+                  <GameInfo>
+                    {fixture.date ? parseTime(fixture.date) : ""}
+                  </GameInfo>
+                  <GameInfo>
+                    {fixture.date ? parseDate(fixture.date) : "TBA"}
+                  </GameInfo>
+                  <GameInfo>{fixture.stage}</GameInfo>
+                </GameInfoContainer>
+                <TeamTwo>
+                  <img
+                    src={fixture.team2.logo}
+                    alt={fixture.team2.name}
+                    width="60"
+                  />
+                  {fixture.team2.name}
+                </TeamTwo>
+              </FixtureContainer>
+            ),
+          )}
+      </FixturesTable> // Ajout de la vérification de nullité
+    ) : (
+      <FixturesTableHeader>
+        <Club>Upcoming Fixtures</Club>
+      </FixturesTableHeader>
+    )}
+  </section>
+);
 
 TeamFixtures.propTypes = {
   matches: PropTypes.arrayOf(PropTypes.object).isRequired,

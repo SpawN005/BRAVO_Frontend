@@ -1,10 +1,12 @@
 "use client"
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import getUserFromToken from '@/utilities/getUserFromToken ';
 import { useForm } from 'react-hook-form';
 
 const TeamDetails = () => {
+  const { register, handleSubmit, formState: { errors } } = useForm();
+
   const [teamData, setTeamData] = useState(null);
   const [selectedPlayer, setSelectedPlayer] = useState(null);
   const [showEditPopup, setShowEditPopup] = useState(false);
@@ -112,6 +114,37 @@ console.log(teamData)
     });
   };
 
+  const [currentPage, setCurrentPage] = useState(1);
+const [playersPerPage] = useState(3); // Nombre de joueurs par page
+  
+  // ...
+  
+  // Calcul du numéro du dernier joueur sur la page actuelle
+  const indexOfLastPlayer = currentPage * playersPerPage;
+  // Calcul du numéro du premier joueur sur la page actuelle
+  const indexOfFirstPlayer = indexOfLastPlayer - playersPerPage;
+  // Extraction des joueurs pour la page actuelle
+  const currentPlayers = teamData && teamData.players ? 
+  teamData.players
+    .slice((currentPage - 1) * playersPerPage, currentPage * playersPerPage)
+    .filter(player =>
+      player.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      player.lastName.toLowerCase().includes(searchTerm.toLowerCase())
+    ) : [];
+  
+  // Calcul du nombre total de pages
+  const pageNumbers = [];
+  if (teamData && teamData.players) {
+    for (let i = 1; i <= Math.ceil(teamData.players.length / playersPerPage); i++) {
+      pageNumbers.push(i);
+    }
+  }
+  
+
+  // Fonction pour changer de page
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+
   return (
     <div className="max-w-full overflow-x-auto">
     <form className=" mx-1 mb-3 flex items-center justify-between">
@@ -138,7 +171,7 @@ console.log(teamData)
   <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
     <div className="bg-white p-9 rounded-md w-150 h-80">
       <h2 className="text-black text-lg font-semibold mb-4 text-center">Ajouter un joueur</h2>
-      <form>
+      <form onSubmit={handleSubmit(handleAddPlayer)}>
         <div className="mt-2 grid grid-cols-2 gap-x-6 gap-y-8">
           <div className="sm:col-span-1">
             <label  className="block text-sm font-medium text-black">Nom</label>
@@ -151,6 +184,7 @@ console.log(teamData)
               placeholder="Nom"
               
             />
+
           </div>
           <div className="sm:col-span-1">
             <label  className="block text-sm font-medium leading-5 text-black">Prénom</label>
@@ -162,6 +196,7 @@ console.log(teamData)
               className="block w-full rounded-md pl-2 border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6"
               placeholder="Prénom"
             />
+
           </div>
           <div className="sm:col-span-1">
             <label  className="block text-sm font-medium leading-5 text-black">Email</label>
@@ -172,7 +207,7 @@ console.log(teamData)
               id="email"
               className="block w-full rounded-md pl-2 border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6"
               placeholder="Email"
-            />
+                    />
           </div>
           <div className="sm:col-span-1">
             <label className="block text-sm font-medium leading-5 text-black">Position</label>
@@ -203,8 +238,8 @@ console.log(teamData)
 
 
     <div className="rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
-      {teamData ? (
-      <div className="max-w-full overflow-x-auto">
+      {currentPlayers ? (
+      <div className="max-w-full  overflow-x-auto">
         <table className="w-full table-auto">
           <thead>
             <tr className="bg-gray-2 text-left dark:bg-meta-4">
@@ -223,7 +258,7 @@ console.log(teamData)
             </tr>
           </thead>
           <tbody>
-          {teamData.players
+          {currentPlayers
                   .filter(player => player.firstName.toLowerCase().includes(searchTerm.toLowerCase()) || player.lastName.toLowerCase().includes(searchTerm.toLowerCase()))
                   .map((player) => (
                     <tr key={player._id} className="border-b">
@@ -333,13 +368,7 @@ console.log(teamData)
             </select>         
                </div>
 
-
-
-
-
-
-            
-            <div className="flex justify-end">
+           <div className="flex justify-end">
               <button type="button" onClick={handleCancelUpdate} className=" bg-red-700 text-white font-bold py-1 px-2 mr-2 rounded">Cancel</button>
               <button type="button" onClick={() => handleSavePlayer(selectedPlayer)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded">Save</button>
             </div>
@@ -348,6 +377,17 @@ console.log(teamData)
       </div>
       
       )}
+        <div className="flex justify-center mt-4">
+        {pageNumbers.map(number => (
+          <button
+            key={number}
+            onClick={() => paginate(number)}
+            className={`bg-gray-200 text-gray-800 font-semibold px-4 py-2 mx-1 rounded ${currentPage === number ? 'bg-gray-400' : ''}`}
+          >
+            {number}
+          </button>
+        ))}
+      </div>
     </div>
     
   );

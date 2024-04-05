@@ -42,9 +42,8 @@ const InviteManagers = ({ onNextStep, onPrevStep }: any) => {
       const res = await touramentsService.CreateTournament(updatedTournament);
 
       await authService.addUserTournament(user.userId, res._id);
+      router.push(`/tournament/details/${res._id}`);
       resetTournament();
-
-      router.push(`/tournament/manage/${res._id}`);
     } catch (error) {
       console.error("Error creating tournament:", error);
     }
@@ -78,6 +77,7 @@ const InviteManagers = ({ onNextStep, onPrevStep }: any) => {
             selected={selectedTeams.includes(team._id)}
             onSelect={handleTeamSelect}
             id={team._id}
+            logo={team.logo}
           />
         ))}
       </div>
