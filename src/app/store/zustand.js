@@ -1,6 +1,9 @@
 import { create } from "zustand";
 
 export const useTournamentStore = create((set) => ({
+  tournamentWinner: {
+    name: null,
+  },
   tournament: {
     name: "",
     startDate: null,
@@ -36,4 +39,10 @@ export const useTournamentStore = create((set) => ({
     set({
       tournament: null,
     }),
+  setWinner: (name) =>
+    set(() => ({
+      tournamentWinner: {
+        name: name !== null ? name : null,
+      },
+    })),
 }));
