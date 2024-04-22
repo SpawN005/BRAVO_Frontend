@@ -107,7 +107,7 @@ const parseTime = (date) =>
   });
 
 const TeamFixtures = ({ matches }) => (
-  <section>
+  <section className="" style={{width:"850px"}}>
     {matches && matches.length ? (
       <FixturesTable>
         {matches &&

@@ -81,7 +81,6 @@ const Header = (props: {
 
 { userData &&  userData.permissionLevel === 4 && 
 <div className="flex w-full">
-          <TournamentSelect/>   
           <button onClick={()=>{router.push("/tournament/create")}}className="flex w-40 ml-4 justify-center rounded bg-primary p-3 font-normal  text-white hover:bg-opacity-90">
               + New Tournament
             </button>    

@@ -95,12 +95,8 @@ const TableOne = ({ data }) => {
           >
             <div className="flex items-center gap-3 p-2.5 xl:p-5">
               <div className="flex-shrink-0">
-                <Image
-                  src="https://ssl.gstatic.com/onebox/media/sports/logos/Th4fAVAZeCJWRcKoLW7koA_96x96.png"
-                  alt="team"
-                  width={48}
-                  height={48}
-                />
+      <Image src={team?.team.logo} width={20} height={20} alt=""></Image>
+      
               </div>
               <p className="hidden text-black dark:text-white sm:block">
                 {team?.team.name}
@@ -108,7 +104,7 @@ const TableOne = ({ data }) => {
             </div>
 
             <div className="flex items-center justify-center p-2.5 xl:p-5">
-              <p className="text-black dark:text-white">{team?.wins}</p>
+              <p className="text-black dark:text-white">{team?.gamesPlayed}</p>
             </div>
 
             <div className="flex items-center justify-center p-2.5 xl:p-5">

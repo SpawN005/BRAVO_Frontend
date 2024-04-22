@@ -15,9 +15,9 @@ export default function MatchLive() {
 console.log(matchId)
     return (
       <>
-        <DefaultLayout>
+        
         <LiveStat matchId={matchId}/> 
-               </DefaultLayout>
+               
       </>
     );
   }

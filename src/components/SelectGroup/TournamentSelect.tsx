@@ -51,7 +51,7 @@ const TournamentSelect: React.FC = () => {
           <option value="" disabled className="text-body dark:text-bodydark">
             Select your tournament
           </option>
-          {tournamentOptions.map((tournament) => (
+          {tournamentOptions?.map((tournament) => (
             <option key={tournament._id} value={tournament._id} className="text-body dark:text-bodydark">
               <b> {tournament.name}</b> 
             </option>

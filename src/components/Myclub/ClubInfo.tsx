@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 
 const ClubInfoContainer = styled.div`
-  max-height: 365px;
+  max-height: 305px;
 `;
 
 const ClubInfoTable = styled.div`
@@ -70,15 +70,20 @@ const TeamDetails = ({ teamData }) => {
             <ClubTableRowHead>Club</ClubTableRowHead>
             <ClubTableRowBody>{teamData.name}</ClubTableRowBody>
           </ClubTable>
-
+          {/*
           <ClubTable>
             <ClubTableRowHead>Country</ClubTableRowHead>
             <ClubTableRowBody>{teamData.country}</ClubTableRowBody>
           </ClubTable>
+           */}
+
+           {/*
           <ClubTable>
             <ClubTableRowHead>City</ClubTableRowHead>
             <ClubTableRowBody>{teamData.city}</ClubTableRowBody>
           </ClubTable>
+                     */}
+
           <ClubTable>
             <ClubTableRowHead>Match Win</ClubTableRowHead>
             <ClubTableRowBody>{teamData.win}</ClubTableRowBody>

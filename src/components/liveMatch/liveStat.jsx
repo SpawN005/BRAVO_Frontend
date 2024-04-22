@@ -20,8 +20,9 @@ export default function LiveStat({ matchId }) {
             try {
                 const response = await axios.get(`http://localhost:3001/matches/${matchId}`);
                 setGame(response.data);
-                setScoreTeam1(response.data.team1s.score)
-                setScoreTeam2(response.data.team2s.score)
+                console.log(game)
+                setScoreTeam1(response.data.team1.stats.score)
+                setScoreTeam2(response.data.team2.stats.score)
     
             } catch (error) {
                 console.error('Error fetching game details:', error);
@@ -37,7 +38,7 @@ export default function LiveStat({ matchId }) {
         const socket = io('http://localhost:3001');
     
         socket.on('updateMatchStats', (updatedStats) => {
-            if (updatedStats.team === game.team1p._id) {
+            if (updatedStats.team === game.team1._id) {
                 setScoreTeam1(updatedStats.score);
             } else if (updatedStats.team === game.team2._id) {
                 setScoreTeam2(updatedStats.score);

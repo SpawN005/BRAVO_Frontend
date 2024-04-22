@@ -30,7 +30,7 @@ const Matches = () => {
   console.log(tournaments);
   return (
     <DefaultLayout>
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 text-center">
         {tournaments?.data?.map((item, index) => (
           <a
             onClick={() => {
@@ -43,12 +43,7 @@ const Matches = () => {
             <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
               {item.name}
             </h5>
-            <p className="font-normal text-gray-700 dark:text-gray-400">
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book.
-            </p>
+
           </a>
         ))}
       </div>
