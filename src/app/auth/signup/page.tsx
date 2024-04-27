@@ -56,7 +56,7 @@ const SignUp: React.FC = () => {
             <div className="px-26 py-17.5 text-center">
               <Link className="mb-5.5 inline-block" href="/">
                 <svg
-                  class="h-8 w-8 fill-current text-blue-600"
+                  className="h-8 w-8 fill-current text-blue-600"
                   viewBox="0 0 32 32"
                   xmlns="http://www.w3.org/2000/svg"
                 >

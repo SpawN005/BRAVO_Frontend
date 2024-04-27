@@ -43,7 +43,12 @@ const InviteManagers = ({ onNextStep, onPrevStep }: any) => {
 
       await authService.addUserTournament(user.userId, res._id);
       localStorage.setItem("Mytournament", res._id);
-      router.push(`/tournament/details/${res._id}`);
+      if (updatedTournament.rules.type === "GROUP_KNOCKOUT") {
+        router.push(`/tournament/groupshuffle`);
+      } else {
+        router.push(`/tournament/details`);
+      }
+
       resetTournament();
     } catch (error) {
       console.error("Error creating tournament:", error);

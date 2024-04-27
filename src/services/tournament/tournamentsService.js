@@ -55,10 +55,21 @@ const getTournamentByUser = async (id) => {
     throw error;
   }
 };
+const getTournamentStandings = async (id) => {
+  try {
+    const response = await axios.get(`${API_URL}/tournament/standings/${id}`);
+
+    return response.data;
+  } catch (error) {
+    console.error("Error during tournament creation:", error);
+    throw error;
+  }
+};
 export default {
   CreateTournament,
   getTournaments,
   getTournamentById,
   patchTournamentById,
   getTournamentByUser,
+  getTournamentStandings,
 };

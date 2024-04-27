@@ -96,13 +96,13 @@ const TableOne = ({ data }) => {
             <div className="flex items-center gap-3 p-2.5 xl:p-5">
               <div className="flex-shrink-0">
                 <Image
-                  src="https://ssl.gstatic.com/onebox/media/sports/logos/Th4fAVAZeCJWRcKoLW7koA_96x96.png"
+                  src={team?.team.logo}
                   alt="team"
                   width={48}
                   height={48}
                 />
               </div>
-              <p className="hidden text-black dark:text-white sm:block">
+              <p className="hidden text-black dark:text-white sm:block lg:hidden">
                 {team?.team.name}
               </p>
             </div>
