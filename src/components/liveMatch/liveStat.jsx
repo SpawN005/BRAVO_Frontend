@@ -143,8 +143,10 @@ export default function LiveStat({ matchId }) {
         <h1 className=" bg-gray-700 p-1 text-xl text-gray-300">
           Match Details
         </h1>
-        <div className="p-2">Stadium - {game.stadium}</div>
-        <div className="p-2">Referee - {game.referee}</div>
+        <div className="p-2">Stadium - {game.stadium.name}</div>
+        <div className="p-2">
+          Referee - {game.referee.userIdentity.firstName}
+        </div>
         <div className="p-2">{game.stage}</div>
       </div>
     </div>

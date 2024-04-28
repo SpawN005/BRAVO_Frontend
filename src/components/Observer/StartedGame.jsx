@@ -28,11 +28,12 @@ export default function StartedGame({
   start,
 }) {
   const [selectedPlayerId, setSelectedPlayerId] = useState(null);
-  const [gameTime, setGameTime] = useState(0);
+  const [gameTime, setGameTime] = useState(1);
   const [currentHalf, setCurrentHalf] = useState("first half");
   const [matchState, setMatchState] = useState("not started");
   const [scoreTeam1, setScoreTeam1] = useState(0);
   const [scoreTeam2, setScoreTeam2] = useState(0);
+  const [yellowCardCount, setYellowCardCount] = useState({});
   const [yellow, setYellow] = useState("");
   const [goalname, setGoalname] = useState();
   const [red, setRed] = useState("");
@@ -79,6 +80,12 @@ export default function StartedGame({
   }, []);
 
   const assist = (playerId, teamS, team) => {
+    if (redCardPlayers.includes(playerId)) {
+      console.log(
+        "Ce joueur a reçu un carton rouge. Il ne peut pas marquer de but.",
+      );
+      return;
+    }
     onAssist(teamS, team, playerId);
   };
   const handleGoalScored = (playerId, teamstatsid, teamid) => {
@@ -100,21 +107,58 @@ export default function StartedGame({
   const handleYellowCardGiven = (playerId, teamstatsid, teamid) => {
     const socket = io("http://localhost:3001");
 
-    // Émettre l'événement 'yellowCardGiven' au serveur avec les données sous forme d'objet
-    socket.emit("yellowCardGiven", {
-      playerId: playerId,
-      teamId: teamid,
-      matchId: teamstatsid,
-    });
-    if (!redCardPlayers.includes(playerId)) {
-      // Vérifier si le joueur n'a pas de carton rouge
-      setYellowCardPlayers([...yellowCardPlayers, playerId]);
-    } else {
-      console.log("Ce joueur a déjà reçu un carton rouge.");
-      // Affichez un message d'erreur ou effectuez une action appropriée
+    // Initialize yellow card count for the player if not already set
+    if (!(playerId in yellowCardCount)) {
+      yellowCardCount[playerId] = 0;
+    }
+
+    // Increment yellow card count for the player
+    if (yellowCardCount[playerId] < 3) {
+      // Emit 'yellowCardGiven' event to the server
+      socket.emit("yellowCardGiven", {
+        playerId: playerId,
+        teamId: teamid,
+        matchId: teamstatsid,
+      });
+
+      // Increment yellow card count
+      yellowCardCount[playerId] += 1;
+
+      // Add player to yellow card players list if not already in it
+      if (!yellowCardPlayers.includes(playerId)) {
+        setYellowCardPlayers([...yellowCardPlayers, playerId]);
+      }
+    }
+
+    // Check if the player has received 2 yellow cards
+    if (yellowCardCount[playerId] === 2) {
+      // Handle red card for the player
+      handleRedCardGiven(playerId, teamstatsid, teamid);
+
+      // Reset the yellow card count for the player
+      yellowCardCount[playerId] = 0;
+
+      // Add player to red card players list if not already in it
+      if (!redCardPlayers.includes(playerId)) {
+        setRedCardPlayers([...redCardPlayers, playerId]);
+      }
+    }
+
+    // Verify if the player has received a red card before proceeding
+    if (redCardPlayers.includes(playerId)) {
+      console.log(`Player ${playerId} has already received a red card.`);
+      // Handle the scenario where the player has already received a red card
+      return; // Early exit if the player has already received a red card
     }
   };
+
   const handleRedCardGiven = (playerId, teamstatsid, teamid) => {
+    if (redCardPlayers.includes(playerId)) {
+      console.log(
+        "Ce joueur a reçu un carton rouge. Il ne peut pas marquer de but.",
+      );
+      return;
+    }
     const socket = io("http://localhost:3001");
 
     // Émettre l'événement 'yellowCardGiven' au serveur avec les données sous forme d'objet
@@ -160,7 +204,7 @@ export default function StartedGame({
   const homePlayers = game?.team1?.lineup.map((player) => {
     return (
       <div key={player._id}>
-        <Dropdown text={player.firstName} pointing="left" className="link item">
+        <Dropdown text={player.firstName} pointing="left" className="link item" disabled={!(game.status === "started")}>
           <Dropdown.Menu>
             <Dropdown.Item
               onClick={() =>
@@ -220,7 +264,7 @@ export default function StartedGame({
   });
   const awayPlayers = game?.team2?.lineup.map((player) => (
     <div key={player._id}>
-      <Dropdown text={player.firstName} pointing="left" className="link item">
+      <Dropdown text={player.firstName} pointing="left" className="link item" disabled={!(game.status === "started")}>
         <Dropdown.Menu>
           <Dropdown.Item
             onClick={() =>
@@ -341,17 +385,27 @@ export default function StartedGame({
         <Grid.Row columns={1}>
           <Grid.Column textAlign="right" className="actions">
             <Button.Group>
-              <Button primary onClick={() => handleGameEvent("start")}>
-                Commencer le match
-              </Button>
-              <Button onClick={() => handleGameEvent("half")}>
-                {currentHalf === "first half"
-                  ? "Mi-temps"
-                  : "Deuxième mi-temps"}
-              </Button>
-              <Button onClick={() => handleGameEvent("finish")}>
-                Terminer le match
-              </Button>
+              {matchState === "not started" &&
+                game.status ===
+                  "UPCOMING" &&(
+                    <Button primary onClick={() => handleGameEvent("start")}>
+                      Commencer le match
+                    </Button>,
+                  )}
+              {matchState === "started" ? (
+                <>
+                  <Button onClick={() => handleGameEvent("half")}>
+                    {currentHalf === "first half"
+                      ? "Mi-temps"
+                      : "Deuxième mi-temps"}
+                  </Button>
+                  <Button onClick={() => handleGameEvent("finish")}>
+                    Terminer le match
+                  </Button>
+                </>
+              ) : (
+                ""
+              )}
             </Button.Group>
           </Grid.Column>
         </Grid.Row>
