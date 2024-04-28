@@ -43,7 +43,7 @@ const Matches = () => {
               router.push("tournaments/matches");
             }}
             key={index}
-            className="block max-w-sm cursor-pointer rounded-lg border border-gray-200 bg-white p-6 shadow hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
+            className=" block max-w-sm cursor-pointer rounded-lg border border-gray-200 bg-white  p-6 shadow hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
           >
             <h5 className="mb-2 text-center text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
               {item.name}

@@ -39,19 +39,19 @@ export default function LiveStat({ matchId }) {
     const socket = io("http://localhost:3001");
 
     socket.on("updateMatchStats", (updatedStats) => {
-      if (updatedStats.team === game.team1._id) {
-        setScoreTeam1(updatedStats.score);
-      } else if (updatedStats.team === game.team2._id) {
-        setScoreTeam2(updatedStats.score);
+      if (updatedStats.scoringTeamStats.team === game.team1._id) {
+        setScoreTeam1(updatedStats.scoringTeamStats.score);
+      } else if (updatedStats.scoringTeamStats.team === game.team2._id) {
+        setScoreTeam2(updatedStats.scoringTeamStats.score);
       }
-      console.log(updatedStats);
+
       // Mise à jour de goalNames si un joueur marque un but
-      if (updatedStats.scorers.length > 0) {
+      if (updatedStats) {
         setGoalNames((prevGoalNames) => [
           ...prevGoalNames,
           {
             type: "goal",
-            player: updatedStats.scorers[0].player.firstName,
+            player: updatedStats.lastScoredPlayerName,
             date: Date.now(),
           },
         ]);

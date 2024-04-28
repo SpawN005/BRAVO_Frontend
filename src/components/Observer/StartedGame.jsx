@@ -176,12 +176,12 @@ export default function StartedGame({
 
     // Listen for updates from the server
     socket.on("updateMatchStats", (updatedStats) => {
-      if (updatedStats.team === game.team1._id) {
-        setScoreTeam1(updatedStats.score);
-      } else if (updatedStats.team === game.team2._id) {
-        setScoreTeam2(updatedStats.score);
+      if (updatedStats.scoringTeamStats.team === game.team1._id) {
+        setScoreTeam1(updatedStats.scoringTeamStats.score);
+      } else if (updatedStats.scoringTeamStats.team === game.team2._id) {
+        setScoreTeam2(updatedStats.scoringTeamStats.score);
       }
-      setGoalname(updatedStats.scorers[0].firstName);
+      // setGoalname(updatedStats.scoringTeamStats.scorers[0].firstName);
     });
     socket.on("updateMatchCard", (updatedCard) => {
       // Vérifiez si la mise à jour concerne les cartons jaunes
@@ -204,7 +204,7 @@ export default function StartedGame({
   const homePlayers = game?.team1?.lineup.map((player) => {
     return (
       <div key={player._id}>
-        <Dropdown text={player.firstName} pointing="left" className="link item" disabled={!(game.status === "started")}>
+        <Dropdown text={player.firstName} pointing="left" className="link item" disabled={!(matchState === "started")}>
           <Dropdown.Menu>
             <Dropdown.Item
               onClick={() =>
@@ -264,7 +264,7 @@ export default function StartedGame({
   });
   const awayPlayers = game?.team2?.lineup.map((player) => (
     <div key={player._id}>
-      <Dropdown text={player.firstName} pointing="left" className="link item" disabled={!(game.status === "started")}>
+      <Dropdown text={player.firstName} pointing="left" className="link item" disabled={!(matchState === "started")}>
         <Dropdown.Menu>
           <Dropdown.Item
             onClick={() =>
