@@ -18,8 +18,8 @@ const DatePickerOne = forwardRef((props, ref) => {
 
   return (
     <div>
-      <label className="mb-3 block text-sm font-medium text-black dark:text-white">
-        Date 
+      <label className="mb-3 block text-sm font-bold text-slate-700 dark:text-white">
+        Date
       </label>
       <div className="relative">
         <input

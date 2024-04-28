@@ -45,6 +45,8 @@ const InviteManagers = ({ onNextStep, onPrevStep }: any) => {
       localStorage.setItem("Mytournament", res._id);
       if (updatedTournament.rules.type === "GROUP_KNOCKOUT") {
         router.push(`/tournament/groupshuffle`);
+      } else if (updatedTournament.rules.type === "KNOCKOUT") {
+        router.push(`/tournament/manageBracket`);
       } else {
         router.push(`/tournament/details`);
       }

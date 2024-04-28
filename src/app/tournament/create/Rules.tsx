@@ -153,7 +153,7 @@ const Rules = ({ onNextStep, onPrevStep }: any) => {
           </div>
         </div> */}
       </div>
-      {tournament.rules.type === "GROUP_KNOCKOUT" ? (
+      {tournament.rules.type === "GROUP_KNOCKOUT" || "GROUP" ? (
         <>
           {" "}
           <p className="w-full border-b border-slate-400 text-xl font-bold text-black">
@@ -241,21 +241,8 @@ const Rules = ({ onNextStep, onPrevStep }: any) => {
                 value="GS"
                 {...register("rules.tieBreakingRules")}
               />
-              <Checkbox
-                label="Matches Won"
-                value="MW"
-                {...register("rules.tieBreakingRules")}
-              />
-              <Checkbox
-                label="Clean Games"
-                value="CG"
-                {...register("rules.tieBreakingRules")}
-              />
             </div>
           </div>
-          <p className="w-full border-b border-slate-400 text-xl font-bold text-black">
-            Matching Type
-          </p>
         </>
       ) : (
         ""

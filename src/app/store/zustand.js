@@ -9,6 +9,7 @@ export const useTournamentStore = create((set) => ({
     startDate: null,
     endDate: null,
     location: "",
+    logo: "",
     rules: {
       type: "",
       nbTeams: 0,
