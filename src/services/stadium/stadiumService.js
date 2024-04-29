@@ -18,6 +18,20 @@ const StadiumService = {
       throw error;
     }
   },
+  getAllStadiumsByDate: async (date) => {
+    try {
+      if (StadiumService.cachedStadiums.length === 0) {
+        const response = await fetch(`${API_BASE_URL}/stadiums/available/${date}`);
+        const data = await response.json();
+        StadiumService.cachedStadiums = data;
+      }
+
+      return StadiumService.cachedStadiums;
+    } catch (error) {
+      console.error('Error fetching stadiums:', error);
+      throw error;
+    }
+  },
   getStadiumById: async (id) => {
     try {
       const response = await fetch(`${API_BASE_URL}/stadiums/${id}`);

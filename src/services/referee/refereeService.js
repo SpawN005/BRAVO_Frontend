@@ -14,6 +14,17 @@ const getReferees = async () => {
         throw error;
     }
 };
+const getRefereesByDate = async (date) => {
+   
+    try {
+
+        const response = await axios.get(`${API_URL}/availablereferees/${date}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error during fetching referees by date:', error);
+        throw error;
+    }
+};
 const getAllReferees = async () => {
     const tournamentId = localStorage.getItem('selectedTournamentId'); // Retrieve tournamentId from local storage
     if (!tournamentId) {
@@ -89,6 +100,7 @@ const deleteObserver = async (observerId) => {
 
 export default {
     getReferees,
+    getRefereesByDate,
     addObserver,
     updateObserver,
     getAllReferees,

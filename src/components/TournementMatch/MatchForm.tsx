@@ -8,13 +8,14 @@ import StadiumService from "@/services/stadium/stadiumService";
 import matchService from "@/services/match/matchService";
 import { useForm } from "react-hook-form";
 
-const MatchForm = ({ match }) => {
+const MatchForm = ({ match,tournamentStartDate,tournamentFinishDate }) => {
   const [observers, setObservers] = useState([]);
   const [referees, setReferees] = useState([]);
   const [stadiums, setStadiums] = useState([]);
   const [selectedObserver, setSelectedObserver] = useState("");
   const [selectedReferee, setSelectedReferee] = useState("");
   const [selectedStadium, setSelectedStadium] = useState("");
+  const [selectedDate, setSelectedDate] = useState(match?.date || null); // Track selected date
   const {
     register,
     handleSubmit,
@@ -31,11 +32,13 @@ const MatchForm = ({ match }) => {
         const resultS = await StadiumService.getAllStadiums();
         setStadiums(resultS);
 
+        
         if (match) {
           setValue("date", match.date);
           setValue("observer", match.observer);
           setValue("referee", match.referee);
           setValue("stadium", match.stadium);
+          
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -44,6 +47,11 @@ const MatchForm = ({ match }) => {
 
     fetchData();
   }, []);
+  const handleDateSelectChange = (selectedValue) => {
+    setSelectedDate(selectedValue); // Update selected date
+    console.log("Selected Date:", selectedValue); // Add this line
+  };
+
 
   const handleObserverSelectChange = (selectedValue, name) => {
     setSelectedObserver(selectedValue);
@@ -79,7 +87,11 @@ const MatchForm = ({ match }) => {
           </h3>
         </div>
         <div className="flex flex-col gap-5.5 p-6.5">
-          <DatePickerOne {...register("date", { defaultValue: match?.date })} />
+          <DatePickerOne {...register("date", { defaultValue: match?.date })}
+          mindate={tournamentStartDate}
+          maxdate={tournamentFinishDate} 
+          onSelectChange={handleDateSelectChange} // Pass the callback function
+          />
         </div>
         <div className="flex flex-col gap-5.5 p-6.5">
           <SelectGroupTwo
@@ -136,3 +148,7 @@ const MatchForm = ({ match }) => {
 };
 
 export default MatchForm;
+
+
+
+

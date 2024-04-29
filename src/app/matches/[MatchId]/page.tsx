@@ -6,9 +6,10 @@ import { useParams } from "next/navigation";
 import matchService from "@/services/match/matchService";
 import { useEffect, useState } from "react";
 import teamService from "@/services/team/teamService";
-
+import tournamentsService from "@/services/tournament/tournamentsService";
 const Matches = () => {
   const [match, setMatch] = useState();
+  const [tournament, setTournament] = useState();
   const [team1, setTeam1] = useState();
   const [team2, setTeam2] = useState();
 
@@ -17,6 +18,11 @@ const Matches = () => {
     try {
       const matchdata = await matchService.getMatchesById(params.MatchId);
       setMatch(matchdata);
+     
+      const tournamentdata = await tournamentsService.getTournamentById(matchdata.tournament);
+      setTournament(tournamentdata);
+      
+      
       if (matchdata.team1) {
         const team1data = await teamService.getTeamById(matchdata.team1);
         setTeam1(team1data);
@@ -25,6 +31,7 @@ const Matches = () => {
         const team2data = await teamService.getTeamById(matchdata.team2);
         setTeam2(team2data);
       }
+
     } catch (error) {
       console.error("Error fetching match:", error);
     }
@@ -32,10 +39,9 @@ const Matches = () => {
   useEffect(() => {
     fetchMatch();
   }, [params.MatchId]);
-  console.log(match);
   return (
     <DefaultLayout>
-      {match && (
+      {match && tournament && (
         <>
           <div className=" h-full w-full bg-white">
             <MatchDetails
@@ -55,7 +61,7 @@ const Matches = () => {
             />
           </div>
           <div className="mt-8 flex w-full  flex-col  items-center justify-center  ">
-            <MatchForm match={match} />
+            <MatchForm match={match} tournamentStartDate={tournament.startDate} tournamentFinishDate={tournament.endDate} />
           </div>
         </>
       )}
