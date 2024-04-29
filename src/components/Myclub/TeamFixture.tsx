@@ -135,11 +135,11 @@ const TeamFixtures = ({ matches }) => (
                 </GameInfoContainer>
                 <TeamTwo>
                   <img
-                    src={fixture.team2.logo}
-                    alt={fixture.team2.name}
+                    src={fixture?.team2?.logo}
+                    alt={fixture?.team2?.name}
                     width="60"
                   />
-                  {fixture.team2.name}
+                  {fixture?.team2?.name}
                 </TeamTwo>
               </FixtureContainer>
             ),

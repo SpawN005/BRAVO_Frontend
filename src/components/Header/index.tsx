@@ -6,7 +6,7 @@ import DropdownUser from "./DropdownUser";
 import Image from "next/image";
 import SelectGroupOne from "../SelectGroup/SelectGroupOne";
 import TournamentSelect from "../SelectGroup/TournamentSelect";
-import getUserFromToken from '@/utilities/getUserFromToken ';
+import getUserFromToken from "@/utilities/getUserFromToken ";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -19,9 +19,9 @@ const Header = (props: {
   useEffect(() => {
     const user = getUserFromToken();
     if (user !== null) {
-      setUserData(user); 
+      setUserData(user);
     }
-    }, []);
+  }, []);
   return (
     <header className="sticky top-0 z-999 flex w-full bg-white drop-shadow-1 dark:bg-boxdark dark:drop-shadow-none">
       <div className="flex flex-grow items-center justify-end px-4 py-4 shadow-2 md:px-6 2xl:px-11">
@@ -79,25 +79,31 @@ const Header = (props: {
           </Link>
         </div>
 
-{ userData &&  userData.permissionLevel === 4 && 
-<div className="flex w-full">
-          <TournamentSelect/>   
-          <button onClick={()=>{router.push("/tournament/create")}}className="flex w-40 ml-4 justify-center rounded bg-primary p-3 font-normal  text-white hover:bg-opacity-90">
+        {userData && userData.permissionLevel === 4 && (
+          <div className="flex w-full">
+            {/* <TournamentSelect /> */}
+            <button
+              onClick={() => {
+                router.push("/tournament/create");
+              }}
+              className="ml-4 flex w-40 justify-center rounded bg-primary p-3 font-normal  text-white hover:bg-opacity-90"
+            >
               + New Tournament
-            </button>    
-    </div>
-}
-
-
-{ userData &&  userData.permissionLevel === 3 && 
-<div className="flex w-full">
-          <button onClick={()=>{router.push("/team/add")}}className="flex w-40 ml-4 justify-center rounded bg-primary p-3 font-normal  text-white hover:bg-opacity-90">
+            </button>
+          </div>
+        )}
+        {userData && userData.permissionLevel === 3 && (
+          <div className="flex w-full">
+            <button
+              onClick={() => {
+                router.push("/team/add");
+              }}
+              className="ml-4 flex w-40 justify-center rounded bg-primary p-3 font-normal  text-white hover:bg-opacity-90"
+            >
               + Add Team
-            </button>    
-    </div>
-}
-
-
+            </button>
+          </div>
+        )}
         <div className="flex items-center gap-3 2xsm:gap-7">
           <ul className="flex items-center gap-2 2xsm:gap-4">
             {/* <!-- Dark Mode Toggler --> */}
@@ -105,11 +111,11 @@ const Header = (props: {
             {/* <!-- Dark Mode Toggler --> */}
 
             {/* <!-- Notification Menu Area --> */}
-            <DropdownNotification />
+            {/* <DropdownNotification /> */}
             {/* <!-- Notification Menu Area --> */}
 
             {/* <!-- Chat Notification Area --> */}
-            <DropdownMessage />
+            {/* <DropdownMessage /> */}
             {/* <!-- Chat Notification Area --> */}
           </ul>
 

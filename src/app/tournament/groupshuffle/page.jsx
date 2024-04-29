@@ -1,15 +1,18 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Droppable, Draggable, DragDropContext } from "@hello-pangea/dnd";
 import tournamentsService from "@/services/tournament/tournamentsService";
+import { useRouter } from "next/navigation";
 
-const GroupKnockout = ({ tournamentData, onTournamentDataChange }) => {
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  console.log(tournamentData);
+const page = () => {
+  const [isSubmitted, setIsSubmitted] = useState(true);
+  const [isGroupsEven, setIsGroupsEven] = useState(true);
+
+  const [tournamentData, setTournamentData] = useState();
+  const router = useRouter();
   const patchTournament = async (updatedData) => {
     try {
       console.log(updatedData);
-      // Assuming tournamentId is available in tournamentData
       const updatedTournament = await tournamentsService.patchTournamentById(
         tournamentData._id,
         updatedData,
@@ -18,7 +21,28 @@ const GroupKnockout = ({ tournamentData, onTournamentDataChange }) => {
       console.error("Error patching tournament:", error);
     }
   };
-
+  const getTournament = async () => {
+    try {
+      const tournament = await tournamentsService.getTournamentById(
+        localStorage.getItem("Mytournament"),
+      );
+      setTournamentData(tournament);
+    } catch (error) {
+      console.error("Error patching tournament:", error);
+    }
+  };
+  useEffect(() => {
+    getTournament();
+  }, []);
+  const checkGroupsEven = () => {
+    if (!tournamentData) return;
+    // Get the number of teams in each group
+    const groupSizes = tournamentData.groups.map((group) => group.teams.length);
+    // Check if all group sizes are equal
+    const areGroupsEven = groupSizes.every((size) => size === groupSizes[0]);
+    // Update state
+    setIsGroupsEven(areGroupsEven);
+  };
   const handleDragEnd = (result) => {
     if (!result.destination) {
       return;
@@ -50,19 +74,21 @@ const GroupKnockout = ({ tournamentData, onTournamentDataChange }) => {
     );
 
     setTournamentData(updatedTournamentData);
+    checkGroupsEven();
     // Assuming you need to submit after each drag and drop
   };
 
   const handleClick = () => {
     patchTournament(tournamentData);
     setIsSubmitted(true);
+    router.push(`/tournament/details`);
   };
 
   return (
-    <>
+    <div className="flex h-screen w-screen flex-col items-start justify-center p-4 ">
       <DragDropContext onDragEnd={handleDragEnd}>
-        <div className="grid grid-cols-4 justify-between gap-4">
-          {tournamentData.groups.map((group) => (
+        <div className="grid w-full grid-cols-4 content-center items-center   gap-4">
+          {tournamentData?.groups.map((group) => (
             <Droppable key={group._id} droppableId={group._id}>
               {(provided) => (
                 <div
@@ -98,15 +124,18 @@ const GroupKnockout = ({ tournamentData, onTournamentDataChange }) => {
           ))}
         </div>
       </DragDropContext>
-      <button
-        type="button"
-        onClick={handleClick}
-        className="mt-2 h-12 w-20 rounded-md bg-green-500 font-semibold text-white"
-      >
-        Submit
-      </button>
-    </>
+      {isSubmitted &&
+        isGroupsEven &&(
+          <button
+            type="button"
+            onClick={handleClick}
+            className="mt-2 h-12 w-20 rounded-md bg-green-500 font-semibold text-white"
+          >
+            Submit
+          </button>,
+        )}
+    </div>
   );
 };
 
-export default GroupKnockout;
+export default page;

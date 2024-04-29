@@ -5,7 +5,12 @@ import matchService from "@/services/match/matchService";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import useWindowSize from "react-use/lib/useWindowSize";
+import Confetti from "react-confetti";
+import { useTournamentStore } from "@/app/store/zustand";
 const page = () => {
+  const { width, height } = useWindowSize();
+  const { tournamentWinner } = useTournamentStore();
   const [matches, setMatches] = useState();
   const router = useRouter();
   const id = localStorage.getItem("Mytournament");
@@ -34,7 +39,15 @@ const page = () => {
   console.log(matches);
   return (
     <DefaultLayout>
-      {/* <h1 className="mb-4 text-3xl font-bold">{matches[0].name}</h1> */}
+      {tournamentWinner.name ? (
+        <>
+          <Confetti width={width} height={height} />{" "}
+          <div> The Winner is {tournamentWinner.name}</div>
+        </>
+      ) : (
+        ""
+      )}
+
       <div className="inline-flex rounded-md shadow-sm">
         <Link
           href="/tournaments/matches"
@@ -44,7 +57,7 @@ const page = () => {
           Matches
         </Link>
         <Link
-          href={`/tournament/details/${id}`}
+          href={`/tournament/details`}
           className="border-b border-t border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:text-blue-700 focus:ring-2 focus:ring-blue-700 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white dark:focus:text-white dark:focus:ring-blue-500"
         >
           Standings

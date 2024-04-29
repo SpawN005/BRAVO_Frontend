@@ -57,11 +57,23 @@ const patchMatchById = async (id, data) => {
     throw error;
   }
 };
+const finishLeague = async (id) => {
+  try {
+    const response = await axios.get(
+      `http://localhost:3001/matches/goupknockout/gettopteams/${id}`,
+    );
 
+    return response.data;
+  } catch (error) {
+    console.error("Error during match patching :", error);
+    throw error;
+  }
+};
 export default {
   getMatchesByUserId,
   getBracket,
   getMatchesByTournament,
   patchMatchById,
   getMatchesById,
+  finishLeague,
 };
