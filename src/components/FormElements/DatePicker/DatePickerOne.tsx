@@ -48,5 +48,5 @@ const DatePickerOne = forwardRef((props, ref) => {
     </div>
   );
 });
-
+DatePickerOne.displayName = "DatePickerOne";
 export default DatePickerOne;

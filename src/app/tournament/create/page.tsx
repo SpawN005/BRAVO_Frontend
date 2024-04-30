@@ -5,7 +5,7 @@ import Schedule from "./Schedule";
 import Rules from "./Rules";
 import InviteManagers from "./InviteManagers";
 
-const index = () => {
+const Index = () => {
   const steps = [
     { label: "Format" },
     { label: "Schedule" },
@@ -70,4 +70,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default Index;

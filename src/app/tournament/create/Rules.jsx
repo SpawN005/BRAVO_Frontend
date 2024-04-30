@@ -4,7 +4,7 @@ import Checkbox from "@/components/Checkboxes/CheckboxFour";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
-const Rules = ({ onNextStep, onPrevStep }: any) => {
+const Rules = ({ onNextStep, onPrevStep }) => {
   const { updateTournament, tournament } = useTournamentStore();
 
   const {
@@ -12,9 +12,9 @@ const Rules = ({ onNextStep, onPrevStep }: any) => {
     handleSubmit,
     formState: { errors, isValid },
     setValue,
-  } = useForm<typeof tournament>();
+  } = useForm();
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data) => {
     updateTournament(data);
 
     onNextStep();

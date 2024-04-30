@@ -204,7 +204,12 @@ export default function StartedGame({
   const homePlayers = game?.team1?.lineup.map((player) => {
     return (
       <div key={player._id}>
-        <Dropdown text={player.firstName} pointing="left" className="link item" disabled={!(matchState === "started")}>
+        <Dropdown
+          text={player.firstName}
+          pointing="left"
+          className="link item"
+          disabled={!(matchState === "started")}
+        >
           <Dropdown.Menu>
             <Dropdown.Item
               onClick={() =>
@@ -264,7 +269,12 @@ export default function StartedGame({
   });
   const awayPlayers = game?.team2?.lineup.map((player) => (
     <div key={player._id}>
-      <Dropdown text={player.firstName} pointing="left" className="link item" disabled={!(matchState === "started")}>
+      <Dropdown
+        text={player.firstName}
+        pointing="left"
+        className="link item"
+        disabled={!(matchState === "started")}
+      >
         <Dropdown.Menu>
           <Dropdown.Item
             onClick={() =>
@@ -385,13 +395,11 @@ export default function StartedGame({
         <Grid.Row columns={1}>
           <Grid.Column textAlign="right" className="actions">
             <Button.Group>
-              {matchState === "not started" &&
-                game.status ===
-                  "UPCOMING" &&(
-                    <Button primary onClick={() => handleGameEvent("start")}>
-                      Commencer le match
-                    </Button>,
-                  )}
+              {matchState === "not started" && game.status === "UPCOMING" && (
+                <Button primary onClick={() => handleGameEvent("start")}>
+                  Commencer le match
+                </Button>
+              )}
               {matchState === "started" ? (
                 <>
                   <Button onClick={() => handleGameEvent("half")}>

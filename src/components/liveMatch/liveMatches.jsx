@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation"; // Import useRouter
 import io from "socket.io-client";
 import axios from "axios";
 
-const liveMatches = () => {
+const LiveMatches = () => {
   const [matches, setMatches] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [scoreTeam1, setScoreTeam1] = useState(0);
@@ -103,4 +103,4 @@ const liveMatches = () => {
   );
 };
 
-export default liveMatches;
+export default LiveMatches;

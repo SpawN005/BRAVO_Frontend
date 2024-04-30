@@ -8,7 +8,7 @@ import Link from "next/link";
 import useWindowSize from "react-use/lib/useWindowSize";
 import Confetti from "react-confetti";
 import { useTournamentStore } from "@/app/store/zustand";
-const page = () => {
+const Page = () => {
   const { width, height } = useWindowSize();
   const { tournamentWinner } = useTournamentStore();
   const [matches, setMatches] = useState();
@@ -121,4 +121,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

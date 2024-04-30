@@ -4,7 +4,7 @@ import { Droppable, Draggable, DragDropContext } from "@hello-pangea/dnd";
 import tournamentsService from "@/services/tournament/tournamentsService";
 import { useRouter } from "next/navigation";
 
-const page = () => {
+const Page = () => {
   const [isSubmitted, setIsSubmitted] = useState(true);
   const [isGroupsEven, setIsGroupsEven] = useState(true);
 
@@ -124,18 +124,17 @@ const page = () => {
           ))}
         </div>
       </DragDropContext>
-      {isSubmitted &&
-        isGroupsEven &&(
-          <button
-            type="button"
-            onClick={handleClick}
-            className="mt-2 h-12 w-20 rounded-md bg-green-500 font-semibold text-white"
-          >
-            Submit
-          </button>,
-        )}
+      {isSubmitted && isGroupsEven && (
+        <button
+          type="button"
+          onClick={handleClick}
+          className="mt-2 h-12 w-20 rounded-md bg-green-500 font-semibold text-white"
+        >
+          Submit
+        </button>
+      )}
     </div>
   );
 };
 
-export default page;
+export default Page;

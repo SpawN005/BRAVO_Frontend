@@ -38,5 +38,5 @@ const CheckboxFour = forwardRef(({ label, ...props }, ref) => {
     </div>
   );
 });
-
+CheckboxFour.displayName = "CheckboxFour";
 export default CheckboxFour;

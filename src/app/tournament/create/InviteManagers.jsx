@@ -9,7 +9,7 @@ import authService from "@/services/auth/authService";
 import TeamCard from "@/components/Card/TeamCard";
 import getUserFromToken from "@/utilities/getUserFromToken ";
 
-const InviteManagers = ({ onNextStep, onPrevStep }: any) => {
+const InviteManagers = ({ onNextStep, onPrevStep }) => {
   const user = getUserFromToken();
   const router = useRouter();
   const [teams, setTeams] = useState();
@@ -31,7 +31,7 @@ const InviteManagers = ({ onNextStep, onPrevStep }: any) => {
       }
     });
   };
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data) => {
     const updatedTournament = { ...tournament, ...data };
     if (updatedTournament.rules.nbTeams != selectedTeams.length) {
       alert("teams acquired are :" + updatedTournament.rules.nbTeams);

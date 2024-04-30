@@ -20,7 +20,7 @@ const Schedule: React.FC<ScheduleProps> = ({ onNextStep, onPrevStep }) => {
     control,
   } = useForm<typeof tournament>();
 
-  const startDateValidation = (date) => {
+  const startDateValidation = (date: any) => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     const inputDate = new Date(date);
@@ -30,7 +30,7 @@ const Schedule: React.FC<ScheduleProps> = ({ onNextStep, onPrevStep }) => {
   };
 
   // Custom validation for end date
-  const endDateValidation = (date) => {
+  const endDateValidation = (date: any) => {
     const endDate = new Date(date);
     console.log(startDate);
     if (startDate) {
