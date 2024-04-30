@@ -35,10 +35,6 @@ jobs:
         uses: SonarSource/sonarcloud-github-action@master
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          args: >
-            -X
-            -Dsonar.organization= "spawn005"
-            -Dsonar.projectKey= "SpawN005_BRAVO_Frontend"
 
     
       
