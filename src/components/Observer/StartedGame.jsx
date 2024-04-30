@@ -99,30 +99,38 @@ export default function StartedGame({
   };
   const handleYellowCardGiven = (playerId, teamstatsid, teamid) => {
     const socket = io("http://localhost:3001");
-
+  
     // Émettre l'événement 'yellowCardGiven' au serveur avec les données sous forme d'objet
     socket.emit("yellowCardGiven", {
       playerId: playerId,
       teamId: teamid,
       matchId: teamstatsid,
     });
-    if (!redCardPlayers.includes(playerId)) {
-      // Vérifier si le joueur n'a pas de carton rouge
-      setYellowCardPlayers([...yellowCardPlayers, playerId]);
+  
+    // Vérifier si le joueur a déjà un carton jaune
+    if (yellowCardPlayers.includes(playerId)) {
+      // Retirer le joueur de la liste des cartons jaunes
+      const updatedYellowCardPlayers = yellowCardPlayers.filter(
+        (id) => id !== playerId
+      );
+      handleRedCardGiven(playerId, teamstatsid, teamid);
+
+      // Ajouter le joueur à la liste des cartons rouges
+      setRedCardPlayers([...redCardPlayers, playerId]);
     } else {
-      console.log("Ce joueur a déjà reçu un carton rouge.");
-      // Affichez un message d'erreur ou effectuez une action appropriée
+      // Si le joueur n'a pas de carton jaune, simplement l'ajouter à la liste des cartons jaunes
+      setYellowCardPlayers([...yellowCardPlayers, playerId]);
     }
   };
   const handleRedCardGiven = (playerId, teamstatsid, teamid) => {
     const socket = io("http://localhost:3001");
-
-    // Émettre l'événement 'yellowCardGiven' au serveur avec les données sous forme d'objet
+  
     socket.emit("redCardGiven", {
       playerId: playerId,
       teamId: teamid,
       matchId: teamstatsid,
     });
+  
     setRedCardPlayers([...redCardPlayers, playerId]);
   };
 

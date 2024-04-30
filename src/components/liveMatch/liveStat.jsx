@@ -19,8 +19,6 @@ export default function LiveStat({ matchId }) {
         const fetchGame = async () => {
             try {
                 const response = await axios.get(`http://localhost:3001/matches/${matchId}`);
-                console.log(response)
-                console.log("jhcjbj")
 
                 setGame(response.data);
                 setScoreTeam1(response.data.team1.stats.score)

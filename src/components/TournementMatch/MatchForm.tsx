@@ -29,6 +29,7 @@ const MatchForm = ({ match }) => {
         const resultR = await refereeService.getReferees();
         setReferees(resultR.data);
         const resultS = await StadiumService.getAllStadiums();
+        console.log(resultS)
         setStadiums(resultS);
 
         if (match) {
