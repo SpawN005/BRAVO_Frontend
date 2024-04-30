@@ -95,7 +95,7 @@ export default function StartedGame({
       );
       return;
     }
-    const socket = io("http://localhost:3001");
+    const socket = io("https://bravo-backend.onrender.com");
 
     socket.emit("goalScored", {
       playerId2: playerId,
@@ -105,7 +105,7 @@ export default function StartedGame({
     });
   };
   const handleYellowCardGiven = (playerId, teamstatsid, teamid) => {
-    const socket = io("http://localhost:3001");
+    const socket = io("https://bravo-backend.onrender.com");
 
     // Initialize yellow card count for the player if not already set
     if (!(playerId in yellowCardCount)) {
@@ -159,7 +159,7 @@ export default function StartedGame({
       );
       return;
     }
-    const socket = io("http://localhost:3001");
+    const socket = io("https://bravo-backend.onrender.com");
 
     // Émettre l'événement 'yellowCardGiven' au serveur avec les données sous forme d'objet
     socket.emit("redCardGiven", {
@@ -172,7 +172,7 @@ export default function StartedGame({
 
   console.log(game);
   useEffect(() => {
-    const socket = io("http://localhost:3001");
+    const socket = io("https://bravo-backend.onrender.com");
 
     // Listen for updates from the server
     socket.on("updateMatchStats", (updatedStats) => {

@@ -2,7 +2,7 @@ import getUserFromToken from "@/utilities/getUserFromToken ";
 import axios from "axios";
 import useStore from "@/store"; // Adjust the path as necessary
 import { useRouter } from "next/navigation"; // Corrected import statement
-const API_URL = "http://localhost:3001"; // Replace with your API URL
+const API_URL = "https://bravo-backend.onrender.com"; // Replace with your API URL
 
 const register = async (userData) => {
   try {

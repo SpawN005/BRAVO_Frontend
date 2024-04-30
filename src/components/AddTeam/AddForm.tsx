@@ -100,7 +100,7 @@ export default function Form() {
 
       data.logo = result.data.secure_url;
       const response = await axios.post(
-        "http://localhost:3001/team/teamP",
+        "https://bravo-backend.onrender.com/team/teamP",
         data,
       );
       console.log("Team and players created successfully:", response.data);

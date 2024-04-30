@@ -3,7 +3,7 @@ import axios from "axios";
 const getMatchesByUserId = async (userId) => {
   try {
     const response = await axios.get(
-      `http://localhost:3001/matches/user/${userId}`,
+      `https://bravo-backend.onrender.com/matches/user/${userId}`,
     );
     return response.data;
   } catch (error) {
@@ -14,7 +14,7 @@ const getMatchesByUserId = async (userId) => {
 const getBracket = async (tournamentId) => {
   try {
     const response = await axios.get(
-      `http://localhost:3001/matches/bracket/${tournamentId}`,
+      `https://bravo-backend.onrender.com/matches/bracket/${tournamentId}`,
     );
     return response.data;
   } catch (error) {
@@ -25,7 +25,7 @@ const getBracket = async (tournamentId) => {
 const getMatchesByTournament = async (tournamentId) => {
   try {
     const response = await axios.get(
-      `http://localhost:3001/matches/matches/${tournamentId}`,
+      `https://bravo-backend.onrender.com/matches/matches/${tournamentId}`,
     );
     return response.data;
   } catch (error) {
@@ -36,7 +36,7 @@ const getMatchesByTournament = async (tournamentId) => {
 const getMatchesById = async (matchId) => {
   try {
     const response = await axios.get(
-      `http://localhost:3001/matches/team/${matchId}`,
+      `https://bravo-backend.onrender.com/matches/team/${matchId}`,
     );
     return response.data;
   } catch (error) {
@@ -47,7 +47,7 @@ const getMatchesById = async (matchId) => {
 const patchMatchById = async (id, data) => {
   try {
     const response = await axios.patch(
-      `http://localhost:3001/matches/patch/${id}`,
+      `https://bravo-backend.onrender.com/matches/patch/${id}`,
       data,
     );
 
@@ -60,7 +60,7 @@ const patchMatchById = async (id, data) => {
 const finishLeague = async (id) => {
   try {
     const response = await axios.get(
-      `http://localhost:3001/matches/goupknockout/gettopteams/${id}`,
+      `https://bravo-backend.onrender.com/matches/goupknockout/gettopteams/${id}`,
     );
 
     return response.data;

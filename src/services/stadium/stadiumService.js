@@ -1,5 +1,5 @@
 // services/stadium/stadiumService.js
-const API_BASE_URL = 'http://localhost:3001';
+const API_BASE_URL = "https://bravo-backend.onrender.com";
 
 const StadiumService = {
   cachedStadiums: [],
@@ -14,7 +14,7 @@ const StadiumService = {
 
       return StadiumService.cachedStadiums;
     } catch (error) {
-      console.error('Error fetching stadiums:', error);
+      console.error("Error fetching stadiums:", error);
       throw error;
     }
   },
@@ -24,7 +24,7 @@ const StadiumService = {
       const data = await response.json();
       return data;
     } catch (error) {
-      console.error('Error fetching stadium by ID:', error);
+      console.error("Error fetching stadium by ID:", error);
       throw error;
     }
   },
@@ -32,48 +32,50 @@ const StadiumService = {
   createStadium: async (newStadium) => {
     try {
       const response = await fetch(`${API_BASE_URL}/stadiums`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(newStadium),
       });
 
       if (response.ok) {
         const addedStadium = await response.json();
-        console.log(addedStadium)
+        console.log(addedStadium);
         StadiumService.cachedStadiums.push(addedStadium);
         return addedStadium;
       } else {
-        console.error('Error adding stadium:', response.statusText);
+        console.error("Error adding stadium:", response.statusText);
         throw new Error(response.statusText);
       }
     } catch (error) {
-      console.error('Error adding stadium:', error);
+      console.error("Error adding stadium:", error);
       throw error;
     }
   },
   updateStadium: async (id, updatedStadium) => {
     try {
       const response = await fetch(`${API_BASE_URL}/stadiums/${id}`, {
-        method: 'PUT',
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(updatedStadium),
       });
 
       if (response.ok) {
         const updatedStadium = await response.json();
-        const index = StadiumService.cachedStadiums.findIndex(stadium => stadium._id === id);
+        const index = StadiumService.cachedStadiums.findIndex(
+          (stadium) => stadium._id === id,
+        );
         StadiumService.cachedStadiums[index] = updatedStadium;
         return updatedStadium;
       } else {
-        console.error('Error updating stadium:', response.statusText);
+        console.error("Error updating stadium:", response.statusText);
         throw new Error(response.statusText);
       }
     } catch (error) {
-      console.error('Error updating stadium:', error);
+      console.error("Error updating stadium:", error);
       throw error;
     }
   },
@@ -81,24 +83,22 @@ const StadiumService = {
   deleteStadium: async (id) => {
     try {
       const response = await fetch(`${API_BASE_URL}/stadiums/${id}`, {
-        method: 'DELETE',
+        method: "DELETE",
       });
 
       if (response.ok) {
-        StadiumService.cachedStadiums = StadiumService.cachedStadiums.filter(stadium => stadium._id !== id);
+        StadiumService.cachedStadiums = StadiumService.cachedStadiums.filter(
+          (stadium) => stadium._id !== id,
+        );
       } else {
-        console.error('Error deleting stadium:', response.statusText);
+        console.error("Error deleting stadium:", response.statusText);
         throw new Error(response.statusText);
       }
     } catch (error) {
-      console.error('Error deleting stadium:', error);
+      console.error("Error deleting stadium:", error);
       throw error;
     }
   },
-
-
-
-  
 };
 
 export default StadiumService;
