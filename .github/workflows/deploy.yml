@@ -36,8 +36,10 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           args: >
-           -Dsonar.organization=spawn005
-           -Dsonar.projectKey=SpawN005_BRAVO_Frontend
+            -X
+            -Dsonar.organization=spawn005
+            -Dsonar.projectKey=SpawN005_BRAVO_Frontend
+
     
       
 
