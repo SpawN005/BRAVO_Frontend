@@ -20,7 +20,7 @@ jobs:
         run: npm ci --legacy-peer-deps
 
       - name: Build
-        run: npm run build --if-present
+        run: npm run build --if-present --verbose
 
       - name: Run lint
         run: npm run lint
