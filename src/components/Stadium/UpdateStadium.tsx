@@ -1,16 +1,15 @@
 // Import necessary dependencies
-import React, { useState, useEffect } from 'react';
-import stadiumService, { Stadium } from '@/services/stadium/stadiumService';
-import { usePathname } from 'next/navigation'; // Import usePathname from next/navigation
-import Link from 'next/link';
-
+import React, { useState, useEffect } from "react";
+import stadiumService, { Stadium } from "@/services/stadium/stadiumService";
+import { usePathname } from "next/navigation"; // Import usePathname from next/navigation
+import Link from "next/link";
 
 // Define the StadiumUpdate component
 const StadiumUpdate: React.FC = () => {
   // Use usePathname to get the current pathname
   const pathname = usePathname();
   // Extract stadium ID from pathname
-  const pathSegments = pathname.split('/');
+  const pathSegments = pathname.split("/");
   const stadiumId = pathSegments[pathSegments.length - 1];
 
   // Define stadium state
@@ -36,7 +35,7 @@ const StadiumUpdate: React.FC = () => {
       // Redirect or do something else after successful update
     } catch (error) {
       // Handle error if updating fails
-      console.error('Error updating stadium:', error);
+      console.error("Error updating stadium:", error);
     }
   };
 
@@ -51,7 +50,7 @@ const StadiumUpdate: React.FC = () => {
         setStadium(fetchedStadium);
       } catch (error) {
         // Handle error if fetching fails
-        console.error('Error fetching stadium:', error);
+        console.error("Error fetching stadium:", error);
       }
     };
 
@@ -70,30 +69,33 @@ const StadiumUpdate: React.FC = () => {
 
     // Check if stadium and stadium location are available
     if (stadium && stadium.location) {
-      const location = stadium.location.split(',');
+      const location = stadium.location.split(",");
       const lat = parseFloat(location[0].trim());
       const lng = parseFloat(location[1].trim());
       initialLocation = { lat, lng }; // Set initial location to stadium's location
     }
 
-    const mapInstance = new window.google.maps.Map(document.getElementById('map'), {
-      center: initialLocation, // Set initial map center
-      zoom: 10,
-    });
+    const mapInstance = new window.google.maps.Map(
+      document.getElementById("map"),
+      {
+        center: initialLocation, // Set initial map center
+        zoom: 10,
+      },
+    );
     setMap(mapInstance);
 
     if (stadium && stadium.location) {
-      const location = stadium.location.split(',');
+      const location = stadium.location.split(",");
       const lat = parseFloat(location[0].trim());
       const lng = parseFloat(location[1].trim());
       marker = new window.google.maps.Marker({
         position: { lat, lng }, // Set marker position to stadium's location
         map: mapInstance,
-        title: 'Stadium',
+        title: "Stadium",
       });
     }
 
-    mapInstance.addListener('click', async (e: any) => {
+    mapInstance.addListener("click", async (e: any) => {
       const latLng = e.latLng;
       const location = `${latLng.lat()}, ${latLng.lng()}`;
       setStadium((prevStadium) => ({
@@ -108,12 +110,15 @@ const StadiumUpdate: React.FC = () => {
         marker = new window.google.maps.Marker({
           position: latLng,
           map: mapInstance,
-          title: 'Stadium',
+          title: "Stadium",
         });
       }
 
       // Fetch address using OpenStreetMap Nominatim API and update address field
-      const address = await getAddressFromCoordinates(latLng.lat(), latLng.lng());
+      const address = await getAddressFromCoordinates(
+        latLng.lat(),
+        latLng.lng(),
+      );
       setStadium((prevStadium) => ({
         ...prevStadium,
         address,
@@ -123,7 +128,7 @@ const StadiumUpdate: React.FC = () => {
 
   // Load Google Maps API script and initialize map on load
   useEffect(() => {
-    const script = document.createElement('script');
+    const script = document.createElement("script");
     script.src = `https://maps.googleapis.com/maps/api/js?key=&callback=initMap`;
     script.async = true;
     script.onload = () => {
@@ -137,41 +142,46 @@ const StadiumUpdate: React.FC = () => {
   }, [stadium]); // Re-run effect when stadium changes
 
   // Function to fetch address from coordinates using OpenStreetMap Nominatim API
-  const getAddressFromCoordinates = async (latitude: number, longitude: number): Promise<string> => {
+  const getAddressFromCoordinates = async (
+    latitude: number,
+    longitude: number,
+  ): Promise<string> => {
     try {
       const response = await fetch(
-        `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`
+        `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`,
       );
       const data = await response.json();
       if (data.error) {
-        console.error('Error fetching address:', data.error.message);
-        return '';
+        console.error("Error fetching address:", data.error.message);
+        return "";
       }
       const address = data.display_name;
       return address;
     } catch (error) {
-      console.error('Error fetching address:', error);
-      return '';
+      console.error("Error fetching address:", error);
+      return "";
     }
   };
 
   // Return JSX for the component
   return (
-    <div className="w-full max-w-md mx-auto p-6 bg-white rounded-md shadow-md">
-      <h1 className="text-2xl font-bold mb-4">Update Stadium</h1>
+    <div className="mx-auto w-full max-w-md rounded-md bg-white p-6 shadow-md">
+      <h1 className="mb-4 text-2xl font-bold">Update Stadium</h1>
 
       <div className="w-full">
-        <div id="map" style={{ height: '300px', marginBottom: '20px' }}></div>
+        <div id="map" style={{ height: "300px", marginBottom: "20px" }}></div>
 
         {/* Input fields for name, location, address, capacity, and isAvailable */}
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-600">Name:</label>
+          <label className="block text-sm font-medium text-gray-600">
+            Name:
+          </label>
           <input
             type="text"
             name="name"
-            value={stadium?.name || ''} // Use optional chaining to handle null stadium
+            value={stadium?.name || ""} // Use optional chaining to handle null stadium
             onChange={handleInputChange} // Call handleInputChange function to handle input change
-            className="border rounded px-3 py-2 w-full"
+            className="w-full rounded border px-3 py-2"
           />
         </div>
 
@@ -179,31 +189,35 @@ const StadiumUpdate: React.FC = () => {
           <input
             type="hidden"
             name="location"
-            value={stadium?.location || ''} // Use optional chaining to handle null stadium
+            value={stadium?.location || ""} // Use optional chaining to handle null stadium
             onChange={handleInputChange} // Call handleInputChange function to handle input change
-            className="border rounded px-3 py-2 w-full"
+            className="w-full rounded border px-3 py-2"
           />
         </div>
 
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-600">Address:</label>
+          <label className="block text-sm font-medium text-gray-600">
+            Address:
+          </label>
           <input
             type="text"
             name="address"
-            value={stadium?.address || ''} // Use optional chaining to handle null stadium
+            value={stadium?.address || ""} // Use optional chaining to handle null stadium
             onChange={handleInputChange} // Call handleInputChange function to handle input change
-            className="border rounded px-3 py-2 w-full"
+            className="w-full rounded border px-3 py-2"
           />
         </div>
 
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-600">Capacity:</label>
+          <label className="block text-sm font-medium text-gray-600">
+            Capacity:
+          </label>
           <input
             type="text"
             name="capacity"
-            value={stadium?.capacity || ''} // Use optional chaining to handle null stadium
+            value={stadium?.capacity || ""} // Use optional chaining to handle null stadium
             onChange={handleInputChange} // Call handleInputChange function to handle input change
-            className="border rounded px-3 py-2 w-full"
+            className="w-full rounded border px-3 py-2"
           />
         </div>
 
@@ -220,13 +234,12 @@ const StadiumUpdate: React.FC = () => {
           </label>
         </div>
         <Link href={`/stadium`}>
-
-        <button
-          onClick={handleUpdateStadium} // Call handleUpdateStadium function to handle stadium update
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 w-full"
-        >
-          Update Stadium
-        </button>
+          <button
+            onClick={handleUpdateStadium} // Call handleUpdateStadium function to handle stadium update
+            className="w-full rounded bg-green-500 px-4 py-2 text-white hover:bg-green-500"
+          >
+            Update Stadium
+          </button>
         </Link>
       </div>
     </div>

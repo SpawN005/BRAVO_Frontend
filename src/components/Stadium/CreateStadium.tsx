@@ -1,20 +1,20 @@
-'use client'
+"use client";
 // components/CreateStadium.tsx
-import React, { useState, useEffect } from 'react';
-import StadiumService, { NewStadium } from '@/services/stadium/stadiumService';
-import { useRouter } from 'next/navigation';
+import React, { useState, useEffect } from "react";
+import StadiumService, { NewStadium } from "@/services/stadium/stadiumService";
+import { useRouter } from "next/navigation";
 
 const CreateStadium: React.FC = () => {
   const [newStadium, setNewStadium] = useState<NewStadium>({
-    name: '',
-    location: '',
+    name: "",
+    location: "",
     capacity: 0,
     isAvailable: false,
   });
   const [map, setMap] = useState<any>(null);
-  const router = useRouter()
+  const router = useRouter();
   useEffect(() => {
-    const script = document.createElement('script');
+    const script = document.createElement("script");
     script.src = `https://maps.googleapis.com/maps/api/js?key=&callback=initMap`;
     script.async = true;
     script.onload = () => {
@@ -29,19 +29,22 @@ const CreateStadium: React.FC = () => {
 
   const initMap = () => {
     const tunis = { lat: 36.8065, lng: 10.1815 }; // Coordinates for Tunis
-    const mapInstance = new window.google.maps.Map(document.getElementById('map'), {
-      center: tunis,
-      zoom: 10,
-    });
+    const mapInstance = new window.google.maps.Map(
+      document.getElementById("map"),
+      {
+        center: tunis,
+        zoom: 10,
+      },
+    );
     setMap(mapInstance);
 
     const marker = new window.google.maps.Marker({
       position: tunis,
       map: mapInstance,
-      title: 'Tunis',
+      title: "Tunis",
     });
 
-    mapInstance.addListener('click', async (e: any) => {
+    mapInstance.addListener("click", async (e: any) => {
       const latLng = e.latLng;
       const location = `${latLng.lat()}, ${latLng.lng()}`;
       setNewStadium((prevStadium) => ({
@@ -53,7 +56,10 @@ const CreateStadium: React.FC = () => {
       marker.setPosition(latLng);
 
       // Fetch the address using OpenStreetMap Nominatim API
-      const address = await getAddressFromCoordinates(latLng.lat(), latLng.lng());
+      const address = await getAddressFromCoordinates(
+        latLng.lat(),
+        latLng.lng(),
+      );
       setNewStadium((prevStadium) => ({
         ...prevStadium,
         address,
@@ -61,23 +67,24 @@ const CreateStadium: React.FC = () => {
     });
   };
 
-
-  
-  const getAddressFromCoordinates = async (latitude: number, longitude: number): Promise<string> => {
+  const getAddressFromCoordinates = async (
+    latitude: number,
+    longitude: number,
+  ): Promise<string> => {
     try {
       const response = await fetch(
-        `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`
+        `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`,
       );
       const data = await response.json();
       if (data.error) {
-        console.error('Error fetching address:', data.error.message);
-        return '';
+        console.error("Error fetching address:", data.error.message);
+        return "";
       }
       const address = data.display_name;
       return address;
     } catch (error) {
-      console.error('Error fetching address:', error);
-      return '';
+      console.error("Error fetching address:", error);
+      return "";
     }
   };
 
@@ -85,7 +92,7 @@ const CreateStadium: React.FC = () => {
     const { name, value, type, checked } = e.target;
     setNewStadium((prevStadium) => ({
       ...prevStadium,
-      [name]: type === 'checkbox' ? checked : value,
+      [name]: type === "checkbox" ? checked : value,
     }));
   };
 
@@ -94,27 +101,29 @@ const CreateStadium: React.FC = () => {
       const addedStadium = await StadiumService.createStadium(newStadium);
       // Redirect to the stadium list page or any other desired page after adding a new stadium
       // You can use Next.js Router for navigation
-      router.push('/stadium');
+      router.push("/stadium");
     } catch (error) {
-      console.error('Error adding stadium:', error);
+      console.error("Error adding stadium:", error);
     }
   };
 
   return (
-    <div className="w-full max-w-md mx-auto p-6 bg-white rounded-md shadow-md">
-      <h1 className="text-2xl font-bold mb-4">Add New Stadium</h1>
+    <div className="mx-auto w-full max-w-md rounded-md bg-white p-6 shadow-md">
+      <h1 className="mb-4 text-2xl font-bold">Add New Stadium</h1>
 
       <div className="w-full">
-        <div id="map" style={{ height: '300px', marginBottom: '20px' }}></div>
+        <div id="map" style={{ height: "300px", marginBottom: "20px" }}></div>
 
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-600">Name:</label>
+          <label className="block text-sm font-medium text-gray-600">
+            Name:
+          </label>
           <input
             type="text"
             name="name"
             value={newStadium.name}
             onChange={handleInputChange}
-            className="border rounded px-3 py-2 w-full"
+            className="w-full rounded border px-3 py-2"
           />
         </div>
 
@@ -124,29 +133,33 @@ const CreateStadium: React.FC = () => {
             name="location"
             value={newStadium.location}
             readOnly // Prevents manual editing
-            className="border rounded px-3 py-2 w-full"
+            className="w-full rounded border px-3 py-2"
           />
         </div>
 
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-600">Address:</label>
+          <label className="block text-sm font-medium text-gray-600">
+            Address:
+          </label>
           <input
             type="text"
             name="address"
             value={newStadium.address}
             readOnly // Prevents manual editing
-            className="border rounded px-3 py-2 w-full"
+            className="w-full rounded border px-3 py-2"
           />
         </div>
 
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-600">Capacity:</label>
+          <label className="block text-sm font-medium text-gray-600">
+            Capacity:
+          </label>
           <input
             type="number"
             name="capacity"
             value={newStadium.capacity}
             onChange={handleInputChange}
-            className="border rounded px-3 py-2 w-full"
+            className="w-full rounded border px-3 py-2"
           />
         </div>
 
@@ -165,7 +178,7 @@ const CreateStadium: React.FC = () => {
 
         <button
           onClick={handleAddStadium}
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 w-full"
+          className="w-full rounded bg-green-500 px-4 py-2 text-white hover:bg-green-500"
         >
           Add Stadium
         </button>
