@@ -62,7 +62,10 @@ const StadiumList: React.FC = () => {
                 <td className="py-2 px-4 border-b"> {stadium.address} </td>
                 <td className="py-2 px-4 border-b">{stadium.capacity}</td>
                 <td className="py-2 px-4 border-b">{stadium.isAvailable ? 'Yes' : 'No'}</td>
-                <td className="py-2 px-4 border-b flex space-x-2">
+
+                <td className="py-2 px-4 border-b ">
+                    <div className="flex space-x-2" > 
+                    
                   <Link href={`/stadium/${stadium._id}`}>
                     <button className=" text-white px-4 py-2 rounded hover:bg-blue-700 mr-2" style={{ backgroundColor: '#1B998B' }}
 >
@@ -81,6 +84,7 @@ const StadiumList: React.FC = () => {
                   >
                     Delete
                   </button>
+                  </div>
                 </td>
               </tr>
             ))}

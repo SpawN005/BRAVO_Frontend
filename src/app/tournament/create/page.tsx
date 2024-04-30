@@ -4,6 +4,11 @@ import Format from "./Format";
 import Schedule from "./Schedule";
 import Rules from "./Rules";
 import InviteManagers from "./InviteManagers";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+
+import touramentsService from "@/services/tournament/tournamentsService";
+
 
 const index = () => {
   const steps = [
@@ -12,8 +17,11 @@ const index = () => {
     { label: "Rules" },
     { label: "Invite Managers" },
   ];
+  const [solde, setSolde] = useState(null);
   const [isNextDisabled, setIsNextDisabled] = useState(true);
   const [stepper, setStepper] = useState(1);
+  const router = useRouter();
+
   const nextStep = () => {
     setStepper((stepper) => stepper + 1);
     setIsNextDisabled(true);
@@ -22,6 +30,30 @@ const index = () => {
     setStepper((stepper) => stepper - 1);
     setIsNextDisabled(false);
   };
+  
+    useEffect(() => {
+      const fetchUserSolde = async () => {
+        try {
+          const userId = localStorage.getItem("userId");
+          console.log(userId);
+  
+          if (userId) {
+            const userSolde = await touramentsService.getsolde(userId);
+            setSolde(userSolde);
+            console.log('Solde:', userSolde);
+  
+            // Redirect if solde is 0
+            if (userSolde && userSolde.solde===0) {
+              router.push('/dashboard');
+            }
+          }
+        } catch (error) {
+          console.error('Error fetching user solde:', error.message);
+        }
+      };
+  
+      fetchUserSolde();
+    }, [router]);
 
   return (
     <>
@@ -40,7 +72,7 @@ const index = () => {
               >
                 <div className="cursor-pointer text-center">{step.label}</div>
                 {index < steps.length && (
-                  <div className="bg-gray-300 my-1 h-1">
+                  <div className="my-1 h-1">
                     <div
                       className={`absolute bottom-0 left-0 h-1 bg-green-500 ${
                         stepper > index ? "w-full" : "w-0"

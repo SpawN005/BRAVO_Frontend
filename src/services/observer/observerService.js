@@ -4,6 +4,16 @@ import axios from 'axios';
 
 const API_URL = 'http://localhost:3001'; // Replace with your API URL
 
+const getObservers = async () => {
+    
+    try {
+        const response = await axios.get(`${API_URL}/observers`);
+        return response.data;
+    } catch (error) {
+        console.error('Error during fetching observers:', error);
+        throw error;
+    }
+};
 const getAllObservers = async () => {
     const tournamentId = localStorage.getItem('selectedTournamentId'); // Retrieve tournamentId from local storage
     if (!tournamentId) {
@@ -77,9 +87,11 @@ const deleteObserver = async (observerId) => {
 
 
 export default {
+    getObservers,
     addObserver,
     updateObserver,
     getAllObservers,
     getObserverById,
-    deleteObserver
+    deleteObserver,
+    
 };

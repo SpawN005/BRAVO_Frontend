@@ -1,55 +1,86 @@
-'use client'
-import React, {useState} from "react";
+"use client";
+import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import CSS
+
 //import useStore from '@/store'; // Adjust the path to your store.js
 
-import authService from '@/services/auth/authService'; // Adjust the path as per your project structure
-
+import authService from "@/services/auth/authService"; // Adjust the path as per your project structure
 
 const SignIn: React.FC = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   //const setUser = useStore(state => state.setUser);
   const router = useRouter();
-
-
-  const handleLogin = async (e:any) => {
+  const handleLogin = async (e: any) => {
     e.preventDefault();
     try {
       const data = await authService.login(email, password);
       console.log(data);
-      router.push('/dashboard');
+      router.push("/dashboard");
     } catch (error) {
-      console.error('Login failed:', error);
+      console.error("Login failed:", error);
+      if (error.response.status === 404) {
+        // Email doesn't exist
+        confirmAlert({
+          title: 'Alert',
+          message: 'Email doesn\'t exist. Please sign up.',
+          buttons: [
+            {
+              label: 'OK',
+              onClick: () => {} // You can add custom logic here if needed
+            }
+          ]
+        });
+      } else if (error.response.status === 401) {
+        // Wrong password
+        confirmAlert({
+          title: 'Alert',
+          message: 'Incorrect password. Please try again.',
+          buttons: [
+            {
+              label: 'OK',
+              onClick: () => {} // You can add custom logic here if needed
+            }
+          ]
+        });
+      } else {
+        // Other error, display generic message
+        confirmAlert({
+          title: 'Alert',
+          message: 'Login failed. Please try again later.',
+          buttons: [
+            {
+              label: 'OK',
+              onClick: () => {} // You can add custom logic here if needed
+            }
+          ]
+        });
+      }
     }
   };
+  
+  
   return (
     <>
-
-      <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+      <div className=" h-screen rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
         <div className="flex flex-wrap items-center">
           <div className="hidden w-full xl:block xl:w-1/2">
-            <div className="px-26 py-17.5 text-center">
+            <div className="h-screen px-26 py-17.5 text-center">
               <Link className="mb-5.5 inline-block" href="/">
-                <Image
-                  className="hidden dark:block"
-                  src={"/images/logo/logo.svg"}
-                  alt="Logo"
-                  width={176}
-                  height={32}
-                />
-                <Image
-                  className="dark:hidden"
-                  src={"/images/logo/logo-dark.svg"}
-                  alt="Logo"
-                  width={176}
-                  height={32}
-                />
+                <svg
+                  class="h-8 w-8 fill-current text-blue-600"
+                  viewBox="0 0 32 32"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M31.952 14.751a260.51 260.51 0 00-4.359-4.407C23.932 6.734 20.16 3.182 16.171 0c1.634.017 3.21.28 4.692.751 3.487 3.114 6.846 6.398 10.163 9.737.493 1.346.811 2.776.926 4.262zm-1.388 7.883c-2.496-2.597-5.051-5.12-7.737-7.471-3.706-3.246-10.693-9.81-15.736-7.418-4.552 2.158-4.717 10.543-4.96 16.238A15.926 15.926 0 010 16C0 9.799 3.528 4.421 8.686 1.766c1.82.593 3.593 1.675 5.038 2.587 6.569 4.14 12.29 9.71 17.792 15.57-.237.94-.557 1.846-.952 2.711zm-4.505 5.81a56.161 56.161 0 00-1.007-.823c-2.574-2.054-6.087-4.805-9.394-4.044-3.022.695-4.264 4.267-4.97 7.52a15.945 15.945 0 01-3.665-1.85c.366-3.242.89-6.675 2.405-9.364 2.315-4.107 6.287-3.072 9.613-1.132 3.36 1.96 6.417 4.572 9.313 7.417a16.097 16.097 0 01-2.295 2.275z"></path>
+                </svg>
               </Link>
 
               <p className="2xl:px-20">
@@ -182,11 +213,11 @@ const SignIn: React.FC = () => {
             </div>
           </div>
 
-          <div className="w-full border-stroke dark:border-strokedark xl:w-1/2 xl:border-l-2">
+          <div className="h-screen w-full border-stroke dark:border-strokedark xl:w-1/2 xl:border-l-2">
             <div className="w-full p-4 sm:p-12.5 xl:p-17.5">
               <span className="mb-1.5 block font-medium">Start for free</span>
               <h2 className="mb-9 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
-                Sign In to TailAdmin
+                Sign In to LinkUp Tournament
               </h2>
 
               <form onSubmit={handleLogin}>
@@ -195,15 +226,14 @@ const SignIn: React.FC = () => {
                     Email
                   </label>
                   <div className="relative">
-                  <input
-                                      className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-
-            type="email"
-            placeholder="Enter your email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          // other props
-        />
+                    <input
+                      className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                      type="email"
+                      placeholder="Enter your email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      // other props
+                    />
 
                     <span className="absolute right-4 top-4">
                       <svg
@@ -227,18 +257,17 @@ const SignIn: React.FC = () => {
 
                 <div className="mb-6">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
-                    Re-type Password
+                     Password
                   </label>
                   <div className="relative">
-                  <input
-                                      className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-
-          type="password"
-          placeholder="Enter your password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          // other props
-        />
+                    <input
+                      className="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                      type="password"
+                      placeholder="Enter your password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      // other props
+                    />
 
                     <span className="absolute right-4 top-4">
                       <svg
@@ -272,7 +301,7 @@ const SignIn: React.FC = () => {
                   />
                 </div>
 
-                <button className="flex w-full items-center justify-center gap-3.5 rounded-lg border border-stroke bg-gray p-4 hover:bg-opacity-50 dark:border-strokedark dark:bg-meta-4 dark:hover:bg-opacity-50">
+                <button className="bg-gray flex w-full items-center justify-center gap-3.5 rounded-lg border border-stroke p-4 hover:bg-opacity-50 dark:border-strokedark dark:bg-meta-4 dark:hover:bg-opacity-50">
                   <span>
                     <svg
                       width="20"

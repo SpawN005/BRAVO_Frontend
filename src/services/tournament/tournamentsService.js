@@ -45,10 +45,47 @@ const patchTournamentById = async (id, data) => {
     throw error;
   }
 };
+const getTournamentByUser = async (id) => {
+  try {
+    const response = await axios.get(`${API_URL}/users/tournaments/${id}`);
+
+    return response.data;
+  } catch (error) {
+    console.error("Error during tournament creation:", error);
+    throw error;
+  }
+};
+
+// const getsolde = async (userId) => {
+//   try {
+//     const response = await axios.get(`${API_BASE_URL}/api/v1/user-solde/${userId}`);
+//     console.log("ss"); // Fix log here
+
+//     return response.data.solde;
+//   } catch (error) {
+//     throw new Error('Failed to fetch user solder');
+//   }
+// };
+
+const getsolde = async (userId) => {
+  try {
+    const response = await axios.get(
+      `http://localhost:3001/api/v1/user-solde/${userId}`,
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching matches:", error);
+    throw error;
+  }
+};
+
+
 
 export default {
   CreateTournament,
   getTournaments,
   getTournamentById,
   patchTournamentById,
+  getTournamentByUser,
+  getsolde
 };

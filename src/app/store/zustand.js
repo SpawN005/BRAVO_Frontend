@@ -1,6 +1,9 @@
 import { create } from "zustand";
 
 export const useTournamentStore = create((set) => ({
+  tournamentWinner: {
+    name: null,
+  },
   tournament: {
     name: "",
     startDate: null,
@@ -10,7 +13,7 @@ export const useTournamentStore = create((set) => ({
       type: "",
       nbTeams: 0,
       nbPlayerPerTeam: 0,
-      teamsPerPool: 1,
+      teamsPerPool: 2,
       pointsPerWin: 0,
       pointsPerDraw: 0,
       pointsPerLoss: 0,
@@ -18,7 +21,7 @@ export const useTournamentStore = create((set) => ({
     },
     groups: [],
     sponsors: [],
-    managerEmails: [],
+    teams: [],
     matches: [],
   },
   updateTournament: (updatedFields) =>
@@ -27,7 +30,7 @@ export const useTournamentStore = create((set) => ({
         ...state.tournament,
         ...updatedFields,
         rules: {
-          ...state.tournament.rules,
+          ...state?.tournament?.rules,
           ...updatedFields.rules,
         },
       },
@@ -36,4 +39,10 @@ export const useTournamentStore = create((set) => ({
     set({
       tournament: null,
     }),
+  setWinner: (name) =>
+    set(() => ({
+      tournamentWinner: {
+        name: name !== null ? name : null,
+      },
+    })),
 }));
