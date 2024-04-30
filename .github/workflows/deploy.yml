@@ -27,8 +27,13 @@ jobs:
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
+        with:
+        args: >
+          - Dsonar.organization=spawn005
+          - Dsonar.projectKey=SpawN005_BRAVO_Frontend
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
       - name: Build and Push Docker Image
         uses: mr-smithers-excellent/docker-build-push@v4
         with:
