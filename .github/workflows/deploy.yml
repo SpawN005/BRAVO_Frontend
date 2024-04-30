@@ -35,9 +35,7 @@ jobs:
         uses: SonarSource/sonarcloud-github-action@master
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          args: >
-           -Dsonar.organization=spawn005
-           -Dsonar.projectKey=SpawN005_BRAVO_Frontend
+    
       
 
       - name: Build and Push Docker Image
