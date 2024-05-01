@@ -49,7 +49,7 @@ const UserMatches = () => {
   }, []);
   console.log(matches);
   useEffect(() => {
-    const socket = io("https://bravo-backend.onrender.com");
+    const socket = io("http://localhost:3001");
 
     // Listen for updates from the server
     socket.on("updateMatchStats", (updatedStats) => {

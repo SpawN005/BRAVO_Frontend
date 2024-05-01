@@ -28,7 +28,7 @@ const TeamDetails = () => {
     const fetchTeamDetails = async () => {
       try {
         const response = await axios.get(
-          `https://bravo-backend.onrender.com/team/team/manager/${user.userId}`,
+          `http://localhost:3001/team/team/manager/${user.userId}`,
         );
         setTeamData(response.data[0]);
       } catch (error) {
@@ -41,9 +41,7 @@ const TeamDetails = () => {
 
   const deletePlayer = async (playerId) => {
     try {
-      await axios.delete(
-        `https://bravo-backend.onrender.com/player/${playerId}`,
-      );
+      await axios.delete(`http://localhost:3001/player/${playerId}`);
       setTeamData((prevTeamData) => ({
         ...prevTeamData,
         players: prevTeamData.players.filter(
@@ -58,7 +56,7 @@ const TeamDetails = () => {
   const handleUpdatePlayer = async (playerId) => {
     try {
       const response = await axios.get(
-        `https://bravo-backend.onrender.com/player/${playerId}`,
+        `http://localhost:3001/player/${playerId}`,
       );
       setSelectedPlayer(response.data); // Stocker les détails du joueur sélectionné dans l'état
       setShowEditPopup(true); // Afficher la pop-up d'édition
@@ -75,7 +73,7 @@ const TeamDetails = () => {
   const handleSavePlayer = async (updatedPlayerData) => {
     try {
       await axios.put(
-        `https://bravo-backend.onrender.com/player/${selectedPlayer._id}`,
+        `http://localhost:3001/player/${selectedPlayer._id}`,
         updatedPlayerData,
       );
       console.log(updatedPlayerData);
@@ -109,14 +107,14 @@ const TeamDetails = () => {
   const handleAddPlayer = async () => {
     try {
       await axios.post(
-        `https://bravo-backend.onrender.com/player/assign/${teamData._id}`,
+        `http://localhost:3001/player/assign/${teamData._id}`,
         formData,
       );
       console.log("Joueur ajouté avec succès !");
 
       // Récupérer à nouveau les détails de l'équipe après l'ajout du joueur
       const response = await axios.get(
-        `https://bravo-backend.onrender.com/team/team/manager/${user.userId}`,
+        `http://localhost:3001/team/team/manager/${user.userId}`,
       );
       setTeamData(response.data[0]); // Mettre à jour l'état de l'équipe avec les nouvelles données
       setShowAddPlayerPopup(false);

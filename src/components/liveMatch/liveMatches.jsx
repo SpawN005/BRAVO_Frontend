@@ -10,16 +10,14 @@ import axios from "axios";
 const LiveMatches = () => {
   const [matches, setMatches] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [scoreTeam1, setScoreTeam1] = useState(0);
-  const [scoreTeam2, setScoreTeam2] = useState(0);
+  const [score, setScore] = useState(0);
+
   const router = useRouter();
   useEffect(() => {
     const fetchMatches = async () => {
       setIsLoading(true);
       try {
-        const response = await axios.get(
-          `https://bravo-backend.onrender.com/matches/`,
-        );
+        const response = await axios.get(`http://localhost:3001/matches/`);
         setMatches(response.data);
       } catch (error) {
         console.error("Error loading matches:", error);
@@ -29,21 +27,16 @@ const LiveMatches = () => {
     };
 
     fetchMatches();
-  }, []);
+  }, [score]);
   console.log(matches);
   useEffect(() => {
-    const socket = io("https://bravo-backend.onrender.com");
+    const socket = io("http://localhost:3001");
 
     // Listen for updates from the server
     socket.on("updateMatchStats", (updatedStats) => {
+      console.log("test", updatedStats);
       // Mettez à jour les scores des équipes correspondantes
-      if (matches.length > 0) {
-        if (updatedStats.team === matches[0].team1._id) {
-          setScoreTeam1(updatedStats.score);
-        } else if (updatedStats.team === matches[0].team2._id) {
-          setScoreTeam2(updatedStats.score);
-        }
-      }
+      setScore((prevScore) => prevScore + 1);
     });
 
     return () => {
@@ -77,7 +70,7 @@ const LiveMatches = () => {
                   ></Image>
                   {match.team1.name}
                 </span>
-                {scoreTeam1}
+                {match.matchStatsTeam1.score}
               </p>
 
               <div className="text-center ">
@@ -85,7 +78,7 @@ const LiveMatches = () => {
                 <div className="mt-3 text-center text-red-700">Live</div>
               </div>
               <p className="flex h-fit text-xl">
-                {scoreTeam2}
+                {match.matchStatsTeam2.score}
                 <span className="mx-6  flex font-semibold">
                   {match.team2.name}
                   <Image

@@ -45,7 +45,7 @@ export default function App() {
     const fetchPlayers = async () => {
       try {
         const response = await axios.get(
-          `https://bravo-backend.onrender.com/team/team/manager/${user.userId}`,
+          `http://localhost:3001/team/team/manager/${user.userId}`,
         );
         const players = response.data[0].players;
         setPlayersFromBackend(players);
@@ -110,7 +110,7 @@ export default function App() {
       homeTeam.squad.cm.forEach((player) => playerIds.push(player.id)); // Inclure les milieux de terrain
 
       await axios.post(
-        `https://bravo-backend.onrender.com/team/team/addToLineup/${teamid}`,
+        `http://localhost:3001/team/team/addToLineup/${teamid}`,
         { playerIds },
       );
 

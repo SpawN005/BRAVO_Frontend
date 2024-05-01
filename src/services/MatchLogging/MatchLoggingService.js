@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "https://bravo-backend.onrender.com"; // Replace with your API URL
+const API_URL = "http://localhost:3001"; // Replace with your API URL
 
 const getMatchDetails = async (matchId) => {
   try {

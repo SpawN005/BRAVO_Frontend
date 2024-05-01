@@ -1,5 +1,5 @@
 import axios from "axios";
-const API_URL = "https://bravo-backend.onrender.com";
+const API_URL = "http://localhost:3001";
 
 const CreateTournament = async (data) => {
   console.log(data);

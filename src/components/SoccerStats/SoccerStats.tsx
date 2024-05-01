@@ -53,7 +53,7 @@ const SoccerStats = () => {
     const fetchTeamDetails = async () => {
       try {
         const response = await axios.get(
-          `https://bravo-backend.onrender.com/team/team/manager/${user.userId}`,
+          `http://localhost:3001/team/team/manager/${user.userId}`,
         );
         setTeamData(response?.data[0]);
       } catch (error) {
@@ -67,7 +67,7 @@ const SoccerStats = () => {
   const highlightPlayerInfo = async (playerId) => {
     try {
       const response = await axios.get(
-        `https://bravo-backend.onrender.com/player/${playerId}`,
+        `http://localhost:3001/player/${playerId}`,
       );
       setPlayerHighlightInfo(response.data);
     } catch (error) {
@@ -80,7 +80,7 @@ const SoccerStats = () => {
     const fetchMatches = async () => {
       if (teamData) {
         const response = await axios.get(
-          `https://bravo-backend.onrender.com/matches/myteam/${teamData._id}`,
+          `http://localhost:3001/matches/myteam/${teamData._id}`,
         );
         setMatches(response?.data);
       }

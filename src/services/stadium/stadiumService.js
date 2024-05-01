@@ -1,5 +1,5 @@
 // services/stadium/stadiumService.js
-const API_BASE_URL = "https://bravo-backend.onrender.com";
+const API_BASE_URL = "http://localhost:3001";
 
 const StadiumService = {
   cachedStadiums: [],
