@@ -136,9 +136,7 @@ const TeamDetails = () => {
   };
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [playersPerPage] = useState(3); // Nombre de joueurs par page
-
-  // ...
+  const [playersPerPage] = useState(5); // Nombre de joueurs par page
 
   // Calcul du numéro du dernier joueur sur la page actuelle
   const indexOfLastPlayer = currentPage * playersPerPage;

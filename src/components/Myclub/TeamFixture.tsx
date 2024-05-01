@@ -9,8 +9,7 @@ const FixturesTable = styled.div`
   display: flex;
   flex-flow: row;
   flex-wrap: wrap;
-  max-height: 325px;
-  min-height: 325px;
+  max-height: 365px;
   overflow-x: hidden;
   width: 95%;
 

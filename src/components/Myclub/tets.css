@@ -1,0 +1,88 @@
+.match-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #f9f9f9;
+}
+
+.match-time {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.team-container {
+  display: flex;
+  align-items: center;
+}
+
+.vs {
+  margin: 0 10px;
+  font-size: 18px;
+}
+
+.team-info {
+  display: flex;
+  align-items: center;
+}
+
+.team-logo {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+}
+
+.team-name {
+  font-size: 16px;
+}
+
+.score-container {
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.score {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.score-divider {
+  margin: 0 5px;
+}
+
+.info-icon {
+  width: 24px;
+  height: 24px;
+  fill: #888;
+  margin-top: 5px;
+}
+
+.badge-form {
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  margin-top: 5px;
+  cursor: pointer;
+}
+.badge-formLoss {
+  background-color: red;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  margin-top: 5px;
+  cursor: pointer;
+}
+
+.badge-text {
+  font-size: 14px;
+  font-weight: bold;
+}

@@ -21,6 +21,7 @@ const MainBody = styled.div`
   min-width: 250px;
   padding-top: 5px;
   width: 80vw;
+  color:black;
 `;
 const ClubInformationSections = styled.div`
   display: flex;
@@ -80,8 +81,9 @@ const SoccerStats = () => {
     const fetchMatches = async () => {
       if (teamData) {
         const response = await axios.get(
-          `http://localhost:3001/matches/myteam/${teamData._id}`,
+          `http://localhost:3001/matches/upcomingteams/${teamData._id}`,
         );
+        
         setMatches(response?.data);
       }
     };

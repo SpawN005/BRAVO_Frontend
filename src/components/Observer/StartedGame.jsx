@@ -161,12 +161,12 @@ export default function StartedGame({
     }
     const socket = io("http://localhost:3001");
 
-    // Émettre l'événement 'yellowCardGiven' au serveur avec les données sous forme d'objet
     socket.emit("redCardGiven", {
       playerId: playerId,
       teamId: teamid,
       matchId: teamstatsid,
     });
+
     setRedCardPlayers([...redCardPlayers, playerId]);
   };
 

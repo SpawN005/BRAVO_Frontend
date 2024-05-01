@@ -29,6 +29,7 @@ const MatchForm = ({ match }) => {
         const resultR = await refereeService.getReferees();
         setReferees(resultR.data);
         const resultS = await StadiumService.getAllStadiums();
+        console.log(resultS);
         setStadiums(resultS);
 
         if (match) {
@@ -64,7 +65,7 @@ const MatchForm = ({ match }) => {
     try {
       console.log(data);
 
-      await matchService.patchMatchById(match._id, data);
+      // await matchService.patchMatchById(match._id, data);
     } catch (error) {
       console.error("Error updating match:", error);
     }
