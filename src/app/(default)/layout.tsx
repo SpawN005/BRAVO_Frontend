@@ -44,7 +44,7 @@ export default function DefaultLayout({
   return (
     <>
      
-      <div className={`${inter.variable} ${architects_daughter.variable} font-inter antialiased bg-gray-900 text-green-400 tracking-tight`}>
+      <div className={`${inter.variable} ${architects_daughter.variable} font-inter antialiased bg-neutral-50 text-green-400 tracking-tight`}>
           <Header />
         
           {children}

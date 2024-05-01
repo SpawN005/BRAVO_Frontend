@@ -1,3 +1,4 @@
+import Link from "next/link";
 import VideoThumb from "../../public/images/hero-image-01.jpg";
 import ModalVideo from "@/components/modal-video";
 
@@ -58,12 +59,12 @@ export default function Hero() {
             </p>
             <div className="mx-auto max-w-xs sm:flex sm:max-w-none sm:justify-center">
               <div data-aos="fade-up" data-aos-delay="400">
-                <a
+                <Link
                   className="btn mb-4 w-full bg-green-500 text-white hover:bg-green-600 sm:mb-0 sm:w-auto"
-                  href="#0"
+                  href="/auth/signin"
                 >
                   Start free trial
-                </a>
+                </Link>
               </div>
               <div data-aos="fade-up" data-aos-delay="600">
                 <a
