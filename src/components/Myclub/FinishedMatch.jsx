@@ -14,7 +14,7 @@ const Table = () => {
     const fetchTeamDetails = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3001/team/team/manager/${user.userId}`,
+          `https://bravo-backend.onrender.com/team/team/manager/${user.userId}`,
         );
         setTeamData(response?.data[0]);
       } catch (error) {
@@ -30,7 +30,7 @@ const Table = () => {
       if (teamData) {
         try {
           const response = await axios.get(
-            `http://localhost:3001/matches/matchess/${teamData._id}`,
+            `https://bravo-backend.onrender.com/matches/matchess/${teamData._id}`,
           );
           setMatches(response?.data);
         } catch (error) {

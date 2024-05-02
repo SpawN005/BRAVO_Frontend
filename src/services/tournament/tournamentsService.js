@@ -1,5 +1,5 @@
 import axios from "axios";
-const API_URL = "http://localhost:3001";
+const API_URL = "https://bravo-backend.onrender.com";
 
 const CreateTournament = async (data) => {
   console.log(data);
@@ -65,6 +65,30 @@ const getTournamentStandings = async (id) => {
     throw error;
   }
 };
+
+// const getsolde = async (userId) => {
+//   try {
+//     const response = await axios.get(`${API_BASE_URL}/api/v1/user-solde/${userId}`);
+//     console.log("ss"); // Fix log here
+
+//     return response.data.solde;
+//   } catch (error) {
+//     throw new Error('Failed to fetch user solder');
+//   }
+// };
+
+const getsolde = async (userId) => {
+  try {
+    const response = await axios.get(
+      `https://bravo-backend.onrender.com/api/v1/user-solde/${userId}`,
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching matches:", error);
+    throw error;
+  }
+};
+
 export default {
   CreateTournament,
   getTournaments,
@@ -72,4 +96,5 @@ export default {
   patchTournamentById,
   getTournamentByUser,
   getTournamentStandings,
+  getsolde,
 };

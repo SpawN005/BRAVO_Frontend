@@ -9,11 +9,18 @@ import TournamentSelect from "../SelectGroup/TournamentSelect";
 import getUserFromToken from "@/utilities/getUserFromToken ";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import touramentsService from "@/services/tournament/tournamentsService";
+import { confirmAlert } from "react-confirm-alert"; // Import react-confirm-alert package
+import "react-confirm-alert/src/react-confirm-alert.css";
+import axios from "axios";
 
 const Header = (props: {
   sidebarOpen: string | boolean | undefined;
   setSidebarOpen: (arg0: boolean) => void;
 }) => {
+  const [solde, setSolde] = useState<string | null>(null);
+  const [status, setStatus] = useState<string | null>(null);
+
   const router = useRouter();
   const [userData, setUserData] = useState<any>(null); // Added explicit type annotation for userData
   useEffect(() => {
@@ -21,7 +28,69 @@ const Header = (props: {
     if (user !== null) {
       setUserData(user);
     }
+    const fetchUserSolde = async () => {
+      try {
+        const userId = localStorage.getItem("userId");
+        console.log(userId);
+
+        if (userId) {
+          const userSolde = await touramentsService.getsolde(userId);
+          setSolde(userSolde);
+          console.log("Solde:", userSolde);
+        }
+      } catch (error) {
+        console.error("Error fetching user solde:", error.message);
+      }
+    };
+
+    fetchUserSolde();
+
+    const fetchUser = async () => {
+      try {
+        const userId = localStorage.getItem("userId");
+
+        const response = await axios.get(
+          `https://bravo-backend.onrender.com/users/${userId}`,
+        );
+        console.log("User data:", response.data.data.abonnement); // Log the abonnement object
+        const status = response.data.data.abonnement.status;
+        setStatus(status);
+        console.log(status);
+        const stat = String(status); // Corrected function name to String()
+        if (status == "active") {
+          // Using the converted string for comparison
+          console.log("true");
+        } else {
+          console.log("false");
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+    fetchUser();
   }, []);
+
+  const handleNewTournamentClick = async () => {
+    try {
+      if (status !== "active" && solde && solde.solde === 0) {
+        confirmAlert({
+          title: "Insufficient Credits",
+          message: "You have no credits. Buy a new subscription to have more.",
+          buttons: [
+            {
+              label: "OK",
+              onClick: () => {},
+            },
+          ],
+        });
+      } else {
+        router.push("/tournament/create");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
   return (
     <header className="sticky top-0 z-999 flex w-full bg-white drop-shadow-1 dark:bg-boxdark dark:drop-shadow-none">
       <div className="flex flex-grow items-center justify-end px-4 py-4 shadow-2 md:px-6 2xl:px-11">
@@ -81,17 +150,17 @@ const Header = (props: {
 
         {userData && userData.permissionLevel === 4 && (
           <div className="flex w-full">
-            {/* <TournamentSelect /> */}
             <button
-              onClick={() => {
-                router.push("/tournament/create");
-              }}
-              className="ml-4 flex w-40 justify-center rounded bg-primary p-3 font-normal  text-white hover:bg-opacity-90"
+              onClick={handleNewTournamentClick}
+              className="flex w-40 justify-center rounded bg-primary p-3 font-normal text-white hover:bg-opacity-90"
             >
               + New Tournament
             </button>
+
+            <div className="flex"></div>
           </div>
         )}
+
         {userData && userData.permissionLevel === 3 && (
           <div className="flex w-full">
             <button

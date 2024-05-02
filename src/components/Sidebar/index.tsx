@@ -29,7 +29,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
     const fetchGame = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3001/users/${userDetails.userId}`,
+          `https://bravo-backend.onrender.com/users/${userDetails.userId}`,
         );
         setPlanType(response.data.data.abonnement.planType);
       } catch (error) {

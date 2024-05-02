@@ -6,6 +6,9 @@ import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import { useRouter } from "next/navigation";
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import CSS
+
 //import useStore from '@/store'; // Adjust the path to your store.js
 
 import authService from "@/services/auth/authService"; // Adjust the path as per your project structure
@@ -15,7 +18,6 @@ const SignIn: React.FC = () => {
   const [password, setPassword] = useState("");
   //const setUser = useStore(state => state.setUser);
   const router = useRouter();
-
   const handleLogin = async (e: any) => {
     e.preventDefault();
     try {
@@ -24,8 +26,47 @@ const SignIn: React.FC = () => {
       router.push("/dashboard");
     } catch (error) {
       console.error("Login failed:", error);
+      if (error.response.status === 404) {
+        // Email doesn't exist
+        confirmAlert({
+          title: 'Alert',
+          message: 'Email doesn\'t exist. Please sign up.',
+          buttons: [
+            {
+              label: 'OK',
+              onClick: () => {} // You can add custom logic here if needed
+            }
+          ]
+        });
+      } else if (error.response.status === 401) {
+        // Wrong password
+        confirmAlert({
+          title: 'Alert',
+          message: 'Incorrect password. Please try again.',
+          buttons: [
+            {
+              label: 'OK',
+              onClick: () => {} // You can add custom logic here if needed
+            }
+          ]
+        });
+      } else {
+        // Other error, display generic message
+        confirmAlert({
+          title: 'Alert',
+          message: 'Login failed. Please try again later.',
+          buttons: [
+            {
+              label: 'OK',
+              onClick: () => {} // You can add custom logic here if needed
+            }
+          ]
+        });
+      }
     }
   };
+  
+  
   return (
     <>
       <div className=" h-screen rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
@@ -216,7 +257,7 @@ const SignIn: React.FC = () => {
 
                 <div className="mb-6">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
-                    Re-type Password
+                     Password
                   </label>
                   <div className="relative">
                     <input

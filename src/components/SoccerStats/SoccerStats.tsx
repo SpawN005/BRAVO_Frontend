@@ -21,7 +21,7 @@ const MainBody = styled.div`
   min-width: 250px;
   padding-top: 5px;
   width: 80vw;
-  color:black;
+  color: black;
 `;
 const ClubInformationSections = styled.div`
   display: flex;
@@ -54,7 +54,7 @@ const SoccerStats = () => {
     const fetchTeamDetails = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3001/team/team/manager/${user.userId}`,
+          `https://bravo-backend.onrender.com/team/team/manager/${user.userId}`,
         );
         setTeamData(response?.data[0]);
       } catch (error) {
@@ -68,7 +68,7 @@ const SoccerStats = () => {
   const highlightPlayerInfo = async (playerId) => {
     try {
       const response = await axios.get(
-        `http://localhost:3001/player/${playerId}`,
+        `https://bravo-backend.onrender.com/player/${playerId}`,
       );
       setPlayerHighlightInfo(response.data);
     } catch (error) {
@@ -81,9 +81,9 @@ const SoccerStats = () => {
     const fetchMatches = async () => {
       if (teamData) {
         const response = await axios.get(
-          `http://localhost:3001/matches/upcomingteams/${teamData._id}`,
+          `https://bravo-backend.onrender.com/matches/upcomingteams/${teamData._id}`,
         );
-        
+
         setMatches(response?.data);
       }
     };

@@ -4,6 +4,11 @@ import Format from "./Format";
 import Schedule from "./Schedule";
 import Rules from "./Rules";
 import InviteManagers from "./InviteManagers";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import axios from "axios";
+
+import touramentsService from "@/services/tournament/tournamentsService";
 
 const Index = () => {
   const steps = [
@@ -12,8 +17,12 @@ const Index = () => {
     { label: "Rules" },
     { label: "Invite Managers" },
   ];
+  const [solde, setSolde] = useState(null);
+  const [status, setStatus] = useState<string | null>(null);
   const [isNextDisabled, setIsNextDisabled] = useState(true);
   const [stepper, setStepper] = useState(1);
+  const router = useRouter();
+
   const nextStep = () => {
     setStepper((stepper) => stepper + 1);
     setIsNextDisabled(true);
@@ -22,6 +31,40 @@ const Index = () => {
     setStepper((stepper) => stepper - 1);
     setIsNextDisabled(false);
   };
+
+  useEffect(() => {
+    const fetchUserSolde = async () => {
+      try {
+        const userId = localStorage.getItem("userId");
+
+        console.log(userId);
+
+        const response = await axios.get(
+          `https://bravo-backend.onrender.com/users/${userId}`,
+        );
+        console.log("User data:", response.data.data.abonnement); // Log the abonnement object
+        const status = response.data.data.abonnement.status;
+        setStatus(status);
+        console.log("Stat:", status);
+
+        if (userId) {
+          const userSolde = await touramentsService.getsolde(userId);
+          setSolde(userSolde);
+          console.log("Solde:", userSolde);
+
+          // Redirect if solde is 0
+
+          if (status !== "active" && userSolde.solde === 0) {
+            router.push("/dashboard");
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching user solde:", error.message);
+      }
+    };
+
+    fetchUserSolde();
+  }, [router]);
 
   return (
     <>

@@ -19,7 +19,7 @@ export default function LiveStat({ matchId }) {
     const fetchGame = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3001/matches/${matchId}`,
+          `https://bravo-backend.onrender.com/matches/${matchId}`,
         );
         setGame(response.data);
         console.log(game);
@@ -36,7 +36,7 @@ export default function LiveStat({ matchId }) {
   useEffect(() => {
     if (!game) return;
 
-    const socket = io("http://localhost:3001");
+    const socket = io("https://bravo-backend.onrender.com");
 
     socket.on("updateMatchStats", (updatedStats) => {
       if (updatedStats.scoringTeamStats.team === game.team1._id) {

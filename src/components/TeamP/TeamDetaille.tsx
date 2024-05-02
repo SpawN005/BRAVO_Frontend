@@ -13,7 +13,7 @@ const TeamDetails = () => {
     const fetchTeamDetails = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3001/team/team/${userDetails}`,
+          `https://bravo-backend.onrender.com/team/team/${userDetails}`,
         );
         setTeamData(response.data);
       } catch (error) {
@@ -26,7 +26,9 @@ const TeamDetails = () => {
 
   const deletePlayer = async (playerId) => {
     try {
-      await axios.delete(`http://localhost:3001/player/${playerId}`);
+      await axios.delete(
+        `https://bravo-backend.onrender.com/player/${playerId}`,
+      );
       setTeamData((prevTeamData) => ({
         ...prevTeamData,
         players: prevTeamData.players.filter(
@@ -41,7 +43,7 @@ const TeamDetails = () => {
   const handleUpdatePlayer = async (playerId) => {
     try {
       const response = await axios.get(
-        `http://localhost:3001/player/${playerId}`,
+        `https://bravo-backend.onrender.com/player/${playerId}`,
       );
       setSelectedPlayer(response.data); // Stocker les détails du joueur sélectionné dans l'état
       setShowEditPopup(true); // Afficher la pop-up d'édition
@@ -58,7 +60,7 @@ const TeamDetails = () => {
   const handleSavePlayer = async (updatedPlayerData) => {
     try {
       await axios.put(
-        `http://localhost:3001/player/${selectedPlayer._id}`,
+        `https://bravo-backend.onrender.com/player/${selectedPlayer._id}`,
         updatedPlayerData,
       );
       console.log(updatedPlayerData);
@@ -84,7 +86,7 @@ const TeamDetails = () => {
           <div className="mb-6 rounded-lg bg-white p-6 shadow-md">
             <div className="mb-4 flex items-center justify-between">
               <img
-                src={`http://localhost:3001/uploads/1708437605158.png`}
+                src={`https://bravo-backend.onrender.com/uploads/1708437605158.png`}
                 alt="Team Logo"
                 className="h-16 w-16 rounded-full"
               />

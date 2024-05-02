@@ -16,7 +16,9 @@ const LiveMatchsSnaps = () => {
     const fetchMatches = async () => {
       setIsLoading(true);
       try {
-        const response = await axios.get(`http://localhost:3001/matches/`);
+        const response = await axios.get(
+          `https://bravo-backend.onrender.com/matches/`,
+        );
         setMatches(response.data);
       } catch (error) {
         console.error("Error loading matches:", error);
@@ -29,7 +31,7 @@ const LiveMatchsSnaps = () => {
   }, []);
   console.log(matches);
   useEffect(() => {
-    const socket = io("http://localhost:3001");
+    const socket = io("https://bravo-backend.onrender.com");
 
     // Listen for updates from the server
     socket.on("updateMatchStats", (updatedStats) => {

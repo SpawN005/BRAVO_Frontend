@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import axios from "axios";
-const API_URL = "http://localhost:3001/team";
+const API_URL = "https://bravo-backend.onrender.com/team";
 
 export const getTeams = async () => {
   try {
@@ -24,7 +24,9 @@ const getTeamById = async (teamId) => {
 };
 export const getTeamInfo = (callback) => {
   axios
-    .get("http://localhost:3001/team/team/65da70b9d228792b5811e469")
+    .get(
+      "https://bravo-backend.onrender.com/team/team/65da70b9d228792b5811e469",
+    )
     .then((team) => {
       callback(team.data);
     })
@@ -33,7 +35,9 @@ export const getTeamInfo = (callback) => {
 
 export const getTeamPlayers = (callback) => {
   axios
-    .get("http://localhost:3001/team/team/65da70b9d228792b5811e469")
+    .get(
+      "https://bravo-backend.onrender.com/team/team/65da70b9d228792b5811e469",
+    )
     .then((players) => {
       callback(players.data);
     })
@@ -42,7 +46,7 @@ export const getTeamPlayers = (callback) => {
 
 export const getPlayerStats = (id, callback) => {
   axios
-    .get(`http://localhost:3001/player/${id}`)
+    .get(`https://bravo-backend.onrender.com/player/${id}`)
     .then((player) => {
       callback(player.data);
     })

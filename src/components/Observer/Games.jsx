@@ -12,7 +12,7 @@ export default function Games({ matchId }) {
     const fetchGame = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3001/matches/${matchId}`,
+          `https://bravo-backend.onrender.com/matches/${matchId}`,
         );
         setGames([response.data]); // Mettez la réponse dans un tableau
         console.log(response.data);
@@ -26,7 +26,7 @@ export default function Games({ matchId }) {
   const goalScored = async (gameId, team, playerId, assister) => {
     try {
       const response = await axios.post(
-        `http://localhost:3001/match-stats/score/${gameId}`,
+        `https://bravo-backend.onrender.com/match-stats/score/${gameId}`,
         {
           idplayer1: playerId,
           idplayer2: assister,
@@ -40,7 +40,7 @@ export default function Games({ matchId }) {
   const assist = async (gameId, team, assister) => {
     try {
       const response = await axios.post(
-        `http://localhost:3001/match-stats/assist/${gameId}`,
+        `https://bravo-backend.onrender.com/match-stats/assist/${gameId}`,
         {
           idplayer: assister,
           idteam: team,
@@ -53,7 +53,7 @@ export default function Games({ matchId }) {
   const finalResult = async (gameId, team1, team2) => {
     try {
       await axios.post(
-        `http://localhost:3001/match-stats/updateTeamWin/${gameId}`,
+        `https://bravo-backend.onrender.com/match-stats/updateTeamWin/${gameId}`,
         {
           team1Id: team1,
           team2Id: team2,
@@ -66,7 +66,7 @@ export default function Games({ matchId }) {
   const startMatch = async (gameId) => {
     try {
       await axios.post(
-        `http://localhost:3001/match-stats/startMatch/${gameId}`,
+        `https://bravo-backend.onrender.com/match-stats/startMatch/${gameId}`,
         {},
       );
     } catch (error) {
@@ -77,7 +77,7 @@ export default function Games({ matchId }) {
   const cardGiven = async (gameId, team, playerId) => {
     try {
       const response = await axios.post(
-        `http://localhost:3001/match-stats/yellow-card/${gameId}`,
+        `https://bravo-backend.onrender.com/match-stats/yellow-card/${gameId}`,
         {
           idplayer: playerId,
           idteam: team,
@@ -94,7 +94,7 @@ export default function Games({ matchId }) {
   const redcard = async (gameId, teamN, playerId) => {
     try {
       const response = await axios.post(
-        `http://localhost:3001/match-stats/red-card/${gameId}`,
+        `https://bravo-backend.onrender.com/match-stats/red-card/${gameId}`,
         {
           idplayer: playerId,
           idteam: teamN,

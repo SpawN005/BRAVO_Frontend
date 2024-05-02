@@ -3,7 +3,7 @@ import getUserFromToken from "@/utilities/getUserFromToken ";
 import axios from "axios";
 import useStore from "@/store"; // Adjust the path as necessary
 import { useRouter } from "next/navigation"; // Corrected import statement
-const API_URL = "http://localhost:3001"; // Replace with your API URL
+const API_URL = "https://bravo-backend.onrender.com"; // Replace with your API URL
 
 const register = async (userData) => {
   try {
@@ -77,10 +77,25 @@ const getUserStats = async (userId) => {
     console.error("Failed to fetch user stats:", error);
   }
 };
+const fetchSolde = async () => {
+  try {
+    const response = await fetch("/api/solde"); // Assuming your Express.js API endpoint is '/api/solde'
+    if (!response.ok) {
+      throw new Error("Failed to fetch solde");
+    }
+    const data = await response.json();
+    return data.solde; // Assuming the response contains the 'solde' property
+  } catch (error) {
+    console.error("Error fetching solde:", error);
+    return null;
+  }
+};
+
 export default {
   register,
   login,
   logout,
   addUserTournament,
   getUserStats,
+  fetchSolde,
 };

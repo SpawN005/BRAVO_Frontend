@@ -100,7 +100,7 @@ export default function Form() {
 
       data.logo = result.data.secure_url;
       const response = await axios.post(
-        "http://localhost:3001/team/teamP",
+        "https://bravo-backend.onrender.com/team/teamP",
         data,
       );
       console.log("Team and players created successfully:", response.data);
@@ -195,23 +195,25 @@ export default function Form() {
                   Name
                 </label>
                 <input
-  type="text"
-  id="firstName"
-  {...register("name", {
-    required: "name is required",
-    minLength: {
-      value: 3,
-      message: "name must be at least 3 characters long",
-    },
-  })}
-  autoComplete="name"
-  className={`block w-full rounded-md border-0 py-1.5 pl-2 font-semibold text-black shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6 ${
-    errors.name ? "border-red-500" : ""
-  }`}
-/>
-{errors.name && (
-  <p className="text-red-500 text-sm mt-1">Name:{errors.name.message}</p>
-)}
+                  type="text"
+                  id="firstName"
+                  {...register("name", {
+                    required: "name is required",
+                    minLength: {
+                      value: 3,
+                      message: "name must be at least 3 characters long",
+                    },
+                  })}
+                  autoComplete="name"
+                  className={`block w-full rounded-md border-0 py-1.5 pl-2 font-semibold text-black shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6 ${
+                    errors.name ? "border-red-500" : ""
+                  }`}
+                />
+                {errors.name && (
+                  <p className="mt-1 text-sm text-red-500">
+                    Name:{errors.name.message}
+                  </p>
+                )}
               </div>
               <div className="sm:col-span-3">
                 <label
@@ -221,23 +223,25 @@ export default function Form() {
                   Country
                 </label>
                 <input
-  type="text"
-  id="country"
-  {...register("country", {
-    required: "country is required",
-    minLength: {
-      value: 3,
-      message: "country must be at least 3 characters long",
-    },
-  })}
-  autoComplete="city"
-  className={`block w-full rounded-md border-0 py-1.5 pl-2 font-semibold text-black shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6 ${
-    errors.country ? "border-red-500" : ""
-  }`}
-/>
-{errors.country && (
-  <p className="text-red-500 text-sm mt-1">Country:{errors.country.message}</p>
-)}
+                  type="text"
+                  id="country"
+                  {...register("country", {
+                    required: "country is required",
+                    minLength: {
+                      value: 3,
+                      message: "country must be at least 3 characters long",
+                    },
+                  })}
+                  autoComplete="city"
+                  className={`block w-full rounded-md border-0 py-1.5 pl-2 font-semibold text-black shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6 ${
+                    errors.country ? "border-red-500" : ""
+                  }`}
+                />
+                {errors.country && (
+                  <p className="mt-1 text-sm text-red-500">
+                    Country:{errors.country.message}
+                  </p>
+                )}
               </div>
               <div className="sm:col-span-3">
                 <label
@@ -247,23 +251,25 @@ export default function Form() {
                   City
                 </label>
                 <input
-  type="text"
-  id="city"
-  {...register("city", {
-    required: "City is required",
-    minLength: {
-      value: 3,
-      message: "City must be at least 3 characters long",
-    },
-  })}
-  autoComplete="city"
-  className={`block w-full rounded-md border-0 py-1.5 pl-2 font-semibold text-black shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6 ${
-    errors.city ? "border-red-500" : ""
-  }`}
-/>
-{errors.city && (
-  <p className="text-red-500 text-sm mt-1">City:{errors.city.message}</p>
-)}
+                  type="text"
+                  id="city"
+                  {...register("city", {
+                    required: "City is required",
+                    minLength: {
+                      value: 3,
+                      message: "City must be at least 3 characters long",
+                    },
+                  })}
+                  autoComplete="city"
+                  className={`block w-full rounded-md border-0 py-1.5 pl-2 font-semibold text-black shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6 ${
+                    errors.city ? "border-red-500" : ""
+                  }`}
+                />
+                {errors.city && (
+                  <p className="mt-1 text-sm text-red-500">
+                    City:{errors.city.message}
+                  </p>
+                )}
               </div>
               <div className="sm:col-span-3">
                 <label
@@ -311,14 +317,12 @@ export default function Form() {
                       Nom
                     </label>
                     <input
-            type="text"
-            id={`firstName${index}`}
-            {...register(`players.${index}.firstName`)}
-
-            autoComplete="given-name"
-            className={`block w-full rounded-md border-0 py-1.5 pl-2 text-black  shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6 `}
-          />
-       
+                      type="text"
+                      id={`firstName${index}`}
+                      {...register(`players.${index}.firstName`)}
+                      autoComplete="given-name"
+                      className={`block w-full rounded-md border-0 py-1.5 pl-2 text-black  shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6 `}
+                    />
                   </div>
                   <div className="sm:col-span-1">
                     <label
