@@ -6,6 +6,8 @@ import Rules from "./Rules";
 import InviteManagers from "./InviteManagers";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import axios from "axios";
+
 
 import touramentsService from "@/services/tournament/tournamentsService";
 
@@ -18,6 +20,7 @@ const index = () => {
     { label: "Invite Managers" },
   ];
   const [solde, setSolde] = useState(null);
+  const [status, setStatus] = useState<string | null>(null);
   const [isNextDisabled, setIsNextDisabled] = useState(true);
   const [stepper, setStepper] = useState(1);
   const router = useRouter();
@@ -35,7 +38,15 @@ const index = () => {
       const fetchUserSolde = async () => {
         try {
           const userId = localStorage.getItem("userId");
+
           console.log(userId);
+          
+          const response = await axios.get(`http://localhost:3001/users/${userId}`);
+          console.log("User data:", response.data.data.abonnement); // Log the abonnement object
+          const status = response.data.data.abonnement.status;
+          setStatus(status);
+          console.log('Stat:', status);
+
   
           if (userId) {
             const userSolde = await touramentsService.getsolde(userId);
@@ -43,8 +54,11 @@ const index = () => {
             console.log('Solde:', userSolde);
   
             // Redirect if solde is 0
-            if (userSolde && userSolde.solde===0) {
-              router.push('/dashboard');
+
+          if (( status !== 'active') && userSolde.solde===0) {
+               router.push('/dashboard');
+
+
             }
           }
         } catch (error) {
