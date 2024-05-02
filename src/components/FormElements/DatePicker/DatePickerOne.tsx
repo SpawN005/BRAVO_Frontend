@@ -1,23 +1,20 @@
 import flatpickr from "flatpickr";
 import { useEffect, forwardRef } from "react";
 
-const DatePickerOne = forwardRef(({ props }, ref) => {
+const DatePickerOne = forwardRef(({ ...props }, ref) => {
   useEffect(() => {
     // Init flatpickr
     flatpickr(".form-datepicker", {
       mode: "single",
       static: true,
       monthSelectorType: "static",
-      dateFormat: "M j, Y H:i",
-      enableTime: true,
-      minDate: "today",
+
+      dateFormat: "Y-m-d ",
+
       prevArrow:
         '<svg className="fill-current" width="7" height="11" viewBox="0 0 7 11"><path d="M5.4 10.8l1.4-1.4-4-4 4-4L5.4 0 0 5.4z" /></svg>',
       nextArrow:
         '<svg className="fill-current" width="7" height="11" viewBox="0 0 7 11"><path d="M1.4 10.8L0 9.4l4-4-4-4L1.4 0l5.4 5.4z" /></svg>',
-      time_24hr: true,
-      minTime: "8:00",
-      maxTime: "22:00",
     });
   }, [ref]);
 
@@ -53,5 +50,5 @@ const DatePickerOne = forwardRef(({ props }, ref) => {
     </div>
   );
 });
-DatePickerOne.displayName = "DatePickerOne";
+
 export default DatePickerOne;

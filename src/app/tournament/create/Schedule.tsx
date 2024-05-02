@@ -20,9 +20,9 @@ const Schedule: React.FC<ScheduleProps> = ({ onNextStep, onPrevStep }) => {
     control,
   } = useForm<typeof tournament>();
 
-  const startDateValidation = (date: any) => {
+  const startDateValidation = (date) => {
     const today = new Date();
-
+    today.setHours(0, 0, 0, 0);
     const inputDate = new Date(date);
 
     console.log(inputDate);
@@ -30,12 +30,12 @@ const Schedule: React.FC<ScheduleProps> = ({ onNextStep, onPrevStep }) => {
   };
 
   // Custom validation for end date
-  const endDateValidation = (date: any) => {
+  const endDateValidation = (date) => {
     const endDate = new Date(date);
-    console.log("start date", startDate);
+    console.log(startDate);
     if (startDate) {
       const startDateObj = new Date(startDate);
-      console.log("enddate :", endDate);
+      console.log(endDate);
       if (endDate < startDateObj) {
         // Return an error message if the end date is earlier than the start date
         return "End date cannot be before start date";
@@ -78,6 +78,9 @@ const Schedule: React.FC<ScheduleProps> = ({ onNextStep, onPrevStep }) => {
         {...register("startDate", {
           required: "Please enter your date.",
           validate: startDateValidation,
+          onChange: (e) => {
+            setStartDate(e.target.value);
+          },
         })}
       />
       <DatePickerOne
