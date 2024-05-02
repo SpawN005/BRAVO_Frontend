@@ -13,11 +13,19 @@ export default function MatchLive() {
   const pathSegments = pathname.split('/');
   const matchId = pathSegments[pathSegments.length - 1];
 console.log(matchId)
+//const user = getUserFromToken();
+    //console.log(user);
+    const user1=!true;
     return (
       <>
+        {user1 ? (
         <DefaultLayout>
+          <LiveStat matchId={matchId}/>  
+        </DefaultLayout>
+      ) : (
         <LiveStat matchId={matchId}/> 
-               </DefaultLayout>
+      )}
+       
       </>
     );
   }
