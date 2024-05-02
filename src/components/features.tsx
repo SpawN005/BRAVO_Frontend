@@ -26,7 +26,7 @@ export default function Features() {
               data-aos-anchor="[data-aos-id-blocks]"
             >
               <img
-                className="mb-4 h-16 w-16 rounded-full"
+                className="mb-4 h-16 w-16 "
                 src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Orange_logo.svg/1200px-Orange_logo.svg.png"
                 alt="Your Image"
               />
@@ -40,8 +40,8 @@ export default function Features() {
               data-aos-anchor="[data-aos-id-blocks]"
             >
               <img
-                className="mb-4 h-16 w-16 rounded-full"
-                src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Orange_logo.svg/1200px-Orange_logo.svg.png"
+                className="mb-4 h-16 w-16 "
+                src="https://is4-ssl.mzstatic.com/image/thumb/Purple111/v4/36/83/5d/36835dbe-1de1-0833-e92f-cf3de5882ebc/source/512x512bb.jpg"
                 alt="Your Image"
               />
             </div>
@@ -54,7 +54,7 @@ export default function Features() {
               data-aos-anchor="[data-aos-id-blocks]"
             >
               <img
-                className="mb-4 h-16 w-16 rounded-full"
+                className="mb-4 h-16 w-16 "
                 src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Orange_logo.svg/1200px-Orange_logo.svg.png"
                 alt="Your Image"
               />
@@ -68,8 +68,8 @@ export default function Features() {
               data-aos-anchor="[data-aos-id-blocks]"
             >
               <img
-                className="mb-4 h-16 w-16 rounded-full"
-                src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Orange_logo.svg/1200px-Orange_logo.svg.png"
+                className="mb-4 h-16 w-16 "
+                src="https://is4-ssl.mzstatic.com/image/thumb/Purple111/v4/36/83/5d/36835dbe-1de1-0833-e92f-cf3de5882ebc/source/512x512bb.jpg"
                 alt="Your Image"
               />
             </div>
@@ -82,7 +82,7 @@ export default function Features() {
               data-aos-anchor="[data-aos-id-blocks]"
             >
               <img
-                className="mb-4 h-16 w-16 rounded-full"
+                className="mb-4 h-16 w-16 "
                 src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Orange_logo.svg/1200px-Orange_logo.svg.png"
                 alt="Your Image"
               />
@@ -96,8 +96,8 @@ export default function Features() {
               data-aos-anchor="[data-aos-id-blocks]"
             >
               <img
-                className="mb-4 h-16 w-16 rounded-full"
-                src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Orange_logo.svg/1200px-Orange_logo.svg.png"
+                className="mb-4 h-16 w-16 "
+                src="https://is4-ssl.mzstatic.com/image/thumb/Purple111/v4/36/83/5d/36835dbe-1de1-0833-e92f-cf3de5882ebc/source/512x512bb.jpg"
                 alt="Your Image"
               />
             </div>

@@ -72,7 +72,7 @@ const LiveMatchsSnaps = () => {
                   onClick={() => router.push(`/MatchLive/${match._id}`)} 
                   data-aos="fade-up" 
                 >
-                  <div className="hover:border-gray flex w-full items-center justify-center gap-12 rounded-xl bg-white p-7 hover:cursor-pointer hover:border-2 hover:bg-slate-50">
+                  <div className="hover:border-gray flex w-full items-center justify-center gap-12 rounded-xl bg-white md:p-7 hover:cursor-pointer hover:border-2 hover:bg-slate-50">
                     <div className="flex items-center">
                      
                       <div className="mr-2 flex flex-col items-center">
