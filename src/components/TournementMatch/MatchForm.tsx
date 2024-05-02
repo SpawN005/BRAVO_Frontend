@@ -19,6 +19,7 @@ const MatchForm = ({ match }) => {
     register,
     handleSubmit,
     setValue,
+
     formState: { errors, isValid },
   } = useForm();
   useEffect(() => {
@@ -65,7 +66,7 @@ const MatchForm = ({ match }) => {
     try {
       console.log(data);
 
-      // await matchService.patchMatchById(match._id, data);
+      await matchService.patchMatchById(match._id, data);
     } catch (error) {
       console.error("Error updating match:", error);
     }
@@ -80,7 +81,7 @@ const MatchForm = ({ match }) => {
           </h3>
         </div>
         <div className="flex flex-col gap-5.5 p-6.5">
-          <DatePickerOne {...register("date", { defaultValue: match?.date })} />
+          <DatePickerOne {...register("date", {})} />
         </div>
         <div className="flex flex-col gap-5.5 p-6.5">
           <SelectGroupTwo

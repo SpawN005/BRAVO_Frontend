@@ -77,7 +77,7 @@ const Page = () => {
     checkGroupsEven();
     // Assuming you need to submit after each drag and drop
   };
-
+  console.log(tournamentData);
   const handleClick = () => {
     patchTournament(tournamentData);
     setIsSubmitted(true);
@@ -85,16 +85,16 @@ const Page = () => {
   };
 
   return (
-    <div className="flex h-screen w-screen flex-col items-start justify-center p-4 ">
+    <div className=" flex h-screen w-screen flex-col items-start justify-center	 bg-[url('https://images.unsplash.com/photo-1517747614396-d21a78b850e8?q=80&w=1854&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] bg-cover	 bg-bottom bg-no-repeat 	 p-4 backdrop-blur">
       <DragDropContext onDragEnd={handleDragEnd}>
-        <div className="grid w-full grid-cols-4 content-center items-center   gap-4">
+        <div className="grid w-full grid-cols-4 content-center items-center gap-4 ">
           {tournamentData?.groups.map((group) => (
             <Droppable key={group._id} droppableId={group._id}>
               {(provided) => (
                 <div
                   ref={provided.innerRef}
                   {...provided.droppableProps}
-                  className="mb-4 rounded-md bg-blue-600 p-4"
+                  className="mb-4 rounded-md border-2 border-green-500  bg-transparent p-4"
                 >
                   <h2 className="mb-2 text-lg font-semibold text-white">
                     {group.name}

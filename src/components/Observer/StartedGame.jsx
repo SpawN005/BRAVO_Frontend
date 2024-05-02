@@ -30,7 +30,7 @@ export default function StartedGame({
   const [selectedPlayerId, setSelectedPlayerId] = useState(null);
   const [gameTime, setGameTime] = useState(1);
   const [currentHalf, setCurrentHalf] = useState("first half");
-  const [matchState, setMatchState] = useState("not started");
+  const [matchState, setMatchState] = useState("started");
   const [scoreTeam1, setScoreTeam1] = useState(0);
   const [scoreTeam2, setScoreTeam2] = useState(0);
   const [yellowCardCount, setYellowCardCount] = useState({});

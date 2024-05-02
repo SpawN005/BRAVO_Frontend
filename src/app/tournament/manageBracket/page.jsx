@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Droppable, Draggable, DragDropContext } from "@hello-pangea/dnd";
 import tournamentsService from "@/services/tournament/tournamentsService";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 const Page = () => {
   const [isSubmitted, setIsSubmitted] = useState(true);
@@ -112,18 +113,18 @@ const Page = () => {
     setIsSubmitted(true);
     router.push(`/tournament/details`);
   };
-
+  console.log(tournamentData);
   return (
-    <div className="flex h-screen w-full flex-col items-center justify-center p-4 ">
+    <div className=" flex h-screen w-screen flex-col items-start justify-center	 bg-[url('https://images.unsplash.com/photo-1517747614396-d21a78b850e8?q=80&w=1854&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] bg-cover	 bg-bottom bg-no-repeat 	 p-4 backdrop-blur">
       <DragDropContext onDragEnd={handleDragEnd}>
-        <div className="flex w-1/2 flex-col content-center items-center justify-center gap-4  self-center">
+        <div className="flex w-full flex-col content-center items-center justify-center gap-4  self-center">
           {tournamentData?.groups.map((group, idx) => (
             <Droppable key={group._id} droppableId={group._id}>
               {(provided) => (
                 <div
                   ref={provided.innerRef}
                   {...provided.droppableProps}
-                  className="relative mb-4 w-full rounded-md bg-blue-600 p-4"
+                  className="relative mb-4 w-full rounded-md border-2 border-green-500 bg-transparent p-4"
                 >
                   <h2 className="mb-2 text-center text-lg font-semibold text-white">
                     Match {idx + 1}
@@ -140,15 +141,24 @@ const Page = () => {
                             ref={provided.innerRef}
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
-                            className="mb-2 rounded-md bg-green-400 p-2 text-white "
+                            className="flex  flex-col items-center justify-center  border-green-500 bg-transparent"
                           >
-                            {team.name}
+                            {" "}
+                            <Image
+                              className=" w-16 rounded-full bg-transparent"
+                              src={team.logo}
+                              width={0}
+                              height={0}
+                            />
+                            <div className="     p-2 text-center text-white">
+                              {team.name}
+                            </div>
                           </div>
                         )}
                       </Draggable>
                     ))}{" "}
                   </div>{" "}
-                  <h2 className="absolute bottom-7 left--10 right-100 text-center text-lg font-bold text-white ">
+                  <h2 className="absolute bottom-15  left-25 right-25 text-center text-lg font-bold text-white ">
                     VS
                   </h2>
                   {provided.placeholder}

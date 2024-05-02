@@ -19,7 +19,7 @@ const LiveMatches = () => {
       try {
         const response = await axios.get(`http://localhost:3001/matches/`);
         setMatches(response.data);
-        console.log(response.data)
+        console.log(response.data);
       } catch (error) {
         console.error("Error loading matches:", error);
       } finally {
@@ -36,12 +36,40 @@ const LiveMatches = () => {
     // Listen for updates from the server
     socket.on("updateMatchStats", (updatedStats) => {
       console.log("test", updatedStats);
-      // Mettez à jour les scores des équipes correspondantes
-      setScore((prevScore) => prevScore + 1);
+
+      // Find the match that is being updated in the matches state
+      setMatches((prevMatches) => {
+        return prevMatches.map((match) => {
+          if (match._id === updatedStats.scoringTeamStats.match) {
+            // Update the scores for the correct teams in the match
+            if (match.team1._id === updatedStats.scoringTeamStats.team) {
+              // Update team1's score
+              return {
+                ...match,
+                matchStatsTeam1: {
+                  ...match.matchStatsTeam1,
+                  score: updatedStats.scoringTeamStats.score,
+                },
+              };
+            } else if (match.team2._id === updatedStats.scoringTeamStats.team) {
+              // Update team2's score
+              return {
+                ...match,
+                matchStatsTeam2: {
+                  ...match.matchStatsTeam2,
+                  score: updatedStats.scoringTeamStats.score,
+                },
+              };
+            }
+          }
+          // Return the match unchanged if it's not being updated
+          return match;
+        });
+      });
     });
 
     return () => {
-      // Déconnectez le socket lorsque le composant est démonté
+      // Disconnect the socket when the component is unmounted
       socket.disconnect();
     };
   }, [matches]);
