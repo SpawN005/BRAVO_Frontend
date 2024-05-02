@@ -1,3 +1,4 @@
+"use client";
 import { useTournamentStore } from "@/app/store/zustand";
 import FormInput from "@/components/DefaultInput/FormInput";
 import React, { useEffect, useState } from "react";

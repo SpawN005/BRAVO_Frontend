@@ -1,5 +1,5 @@
 // observerService.js
-
+"use client";
 import axios from "axios";
 
 const API_URL = "http://localhost:3001"; // Replace with your API URL

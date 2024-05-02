@@ -73,7 +73,7 @@ const Rules = ({ onNextStep, onPrevStep }) => {
             </button>
           </div>
         </div>
-        <div className="flex flex-col space-y-2">
+        {/* <div className="flex flex-col space-y-2">
           <FormInput
             label="Number Player per Team"
             type="number"
@@ -103,7 +103,7 @@ const Rules = ({ onNextStep, onPrevStep }) => {
               8
             </button>
           </div>
-        </div>
+        </div> */}
         {tournament.rules.type === "GROUP_KNOCKOUT" ? (
           <FormInput
             label="Team per pool"

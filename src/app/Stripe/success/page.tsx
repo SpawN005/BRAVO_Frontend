@@ -1,16 +1,13 @@
 // pages/index.tsx
-import React from 'react';
-import Success from '@/components/Stripe/Success';
+"use client";
+import React from "react";
+import Success from "@/components/Stripe/Success";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
-
-
 
 const Home: React.FC = () => {
   return (
     <DefaultLayout>
- 
       <Success />
-    
     </DefaultLayout>
   );
 };

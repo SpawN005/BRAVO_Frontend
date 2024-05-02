@@ -1,12 +1,12 @@
+"use client";
 import React from "react";
 import { useRouter } from "next/navigation"; // Corrected import statement
 import getUserFromToken from "@/utilities/getUserFromToken ";
 import { usePathname } from "next/navigation";
 
 const RouteGuard = ({ children, requiredPermissionLevel }) => {
-  const user = getUserFromToken();
   const router = useRouter();
-
+  const user = getUserFromToken();
   const pathname = usePathname();
 
   React.useEffect(() => {

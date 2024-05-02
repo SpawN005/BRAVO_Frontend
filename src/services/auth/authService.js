@@ -1,3 +1,4 @@
+"use client";
 import getUserFromToken from "@/utilities/getUserFromToken ";
 import axios from "axios";
 import useStore from "@/store"; // Adjust the path as necessary
