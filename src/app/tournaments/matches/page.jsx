@@ -1,4 +1,5 @@
 "use client";
+
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import React, { useEffect, useState } from "react";
 import matchService from "@/services/match/matchService";
@@ -8,12 +9,15 @@ import Link from "next/link";
 import useWindowSize from "react-use/lib/useWindowSize";
 import Confetti from "react-confetti";
 import { useTournamentStore } from "@/app/store/zustand";
+
 const Page = () => {
   const { width, height } = useWindowSize();
   const { tournamentWinner } = useTournamentStore();
-  const [matches, setMatches] = useState();
+  const [matches, setMatches] = useState([]);
+  const [isModalVisible, setModalVisible] = useState(!!tournamentWinner.name);
   const router = useRouter();
   const id = localStorage.getItem("Mytournament");
+
   useEffect(() => {
     const fetchMatches = async () => {
       try {
@@ -25,7 +29,8 @@ const Page = () => {
     };
 
     fetchMatches();
-  }, []);
+  }, [id]);
+
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const dateOptions = { year: "numeric", month: "2-digit", day: "2-digit" };
@@ -33,21 +38,34 @@ const Page = () => {
 
     const formattedDate = date.toLocaleDateString("en-US", dateOptions);
     const formattedTime = date.toLocaleTimeString("en-US", timeOptions);
-
     return { date: formattedDate, time: formattedTime };
   };
-  console.log(matches);
+
+  const handleCloseModal = () => {
+    setModalVisible(false);
+  };
+
   return (
     <DefaultLayout>
-      {tournamentWinner.name ? (
-        <>
-          <Confetti width={width} height={height} />{" "}
-          <div> The Winner is {tournamentWinner.name}</div>
-        </>
-      ) : (
-        ""
+      {isModalVisible && tournamentWinner.name && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="rounded-lg bg-white p-6 text-center shadow-lg">
+            <Confetti width={width} height={height} />
+            <h1 className="mb-4 text-3xl font-bold">Congratulations!</h1>
+            <h2 className="mb-6 text-xl">
+              The Tournament Winner is {tournamentWinner.name}
+            </h2>
+            <button
+              className="rounded-lg bg-green-500 px-4 py-2 text-white hover:bg-green-600"
+              onClick={handleCloseModal}
+            >
+              Close
+            </button>
+          </div>
+        </div>
       )}
 
+      {/* Rest of the page content */}
       <div className="inline-flex rounded-md shadow-sm">
         <Link
           href="/tournaments/matches"
@@ -63,34 +81,34 @@ const Page = () => {
           Standings
         </Link>
       </div>
+
       {matches?.map((match) => {
         const { date, time } = formatDate(match.date);
 
         return (
           <div
-            className="mb-2 "
+            className="mb-2"
             key={match._id}
             onClick={() => router.push(`/matches/${match._id}`)}
           >
-            <div className="hover:border-gray flex w-full items-center justify-center gap-12 rounded-xl bg-white p-7 hover:cursor-pointer hover:border-2 hover:bg-slate-50">
+            <div className="flex w-full items-center justify-center gap-12 rounded-xl bg-white p-7 hover:cursor-pointer hover:border-2 hover:border-gray-200 hover:bg-slate-50">
               <div className="flex h-fit flex-row items-center space-x-2 text-xl font-semibold">
                 <Image
                   className="mr-2 rounded-full"
-                  alt="iamge logo"
+                  alt="image logo"
                   src={
-                    match?.team1?.logo
-                      ? match?.team1?.logo
-                      : "https://bramptonsc.com/wp-content/uploads/2018/07/TBD.jpg"
+                    match?.team1?.logo ||
+                    "https://bramptonsc.com/wp-content/uploads/2018/07/TBD.jpg"
                   }
                   width={80}
                   height={80}
-                ></Image>
+                />
                 <p>{match?.team1?.name}</p>
               </div>
 
-              <div className="text-center ">
-                <p className="text-sm ">{match.stage}</p>
-                {match.date != null ? (
+              <div className="text-center">
+                <p className="text-sm">{match.stage}</p>
+                {match.date ? (
                   <>
                     <p className="text-sm font-bold">{time}</p>
                     <p className="text-sm font-bold">{date}</p>
@@ -103,15 +121,14 @@ const Page = () => {
                 <p>{match?.team2?.name}</p>
                 <Image
                   className="mr-2 rounded-full"
-                  alt="iamge logo"
+                  alt="image logo"
                   src={
-                    match?.team2?.logo
-                      ? match?.team2?.logo
-                      : "https://bramptonsc.com/wp-content/uploads/2018/07/TBD.jpg"
+                    match?.team2?.logo ||
+                    "https://bramptonsc.com/wp-content/uploads/2018/07/TBD.jpg"
                   }
                   width={80}
                   height={80}
-                ></Image>
+                />
               </div>
             </div>
           </div>

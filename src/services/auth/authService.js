@@ -44,7 +44,6 @@ const logout = () => {
   localStorage.removeItem("accessToken");
   localStorage.removeItem("refreshToken");
   localStorage.removeItem("user");
-  localStorage.removeItem("selectedTournamentId");
 };
 
 const fetchUserData = async () => {
@@ -54,7 +53,6 @@ const fetchUserData = async () => {
     if (response.data && response.data.code === 200) {
       useStore.getState().setUser(response.data.data.userIdentity);
       useStore.getState().setPermissionLevel(user.permissionLevel);
-      localStorage.setItem("selectedTournamentId", "65d8c7850cf35186c1fb2640");
     }
   } catch (error) {
     console.error("Failed to fetch user data:", error);
@@ -70,10 +68,18 @@ const addUserTournament = async (userId, tournamentId) => {
     console.error("Failed to fetch user data:", error);
   }
 };
-
+const getUserStats = async (userId) => {
+  try {
+    const response = await axios.get(`${API_URL}/stats/${userId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Failed to fetch user stats:", error);
+  }
+};
 export default {
   register,
   login,
   logout,
   addUserTournament,
+  getUserStats,
 };

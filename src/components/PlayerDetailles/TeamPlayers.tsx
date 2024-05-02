@@ -57,7 +57,7 @@ const TeamPlayersTabelRow = styled.div`
   padding: 5px;
 
   &:hover {
-    background-color: #00d4b1;
+    background-color: #22c55e;
   }
 `;
 
@@ -110,7 +110,7 @@ const TeamPlayers = ({ players, highlightPlayerInfo }) => (
   <TeamPlayersContainer>
     <TeamPlayersTabelHeader>
       <PlayerFirstName>Name</PlayerFirstName>
-      <PlayerLastName>prenom</PlayerLastName>
+      <PlayerLastName>LastName</PlayerLastName>
       <PlayerPosition>Position </PlayerPosition>
     </TeamPlayersTabelHeader>
     <TeamPlayersTabelContainer>

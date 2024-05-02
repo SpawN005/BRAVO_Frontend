@@ -40,11 +40,17 @@ const SelectGroupTwo: React.FC<SelectGroupTwoProps> = ({ title, options, name, o
             isOptionSelected ? "text-black dark:text-white" : ""
           }`}
         >
-          {options.map((option, index) => (
-            <option key={index} value={option.value} className="text-body dark:text-bodydark">
-              {option.label}
+          {options.length === 0 ? (
+            <option value="" >
+              No options available
             </option>
-          ))}
+          ) : (
+            options.map((option, index) => (
+              <option key={index} value={option.value} className="text-body dark:text-bodydark">
+                {option.label}
+              </option>
+            ))
+          )}
         </select>
 
        

@@ -280,12 +280,15 @@ export default function App() {
         </div>
         <div className="flex justify-evenly">
           <button
-            className="mb-2 me-2 rounded-lg bg-green-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+            className="mb-2 mt-2 rounded-lg bg-green-500 px-5 py-2.5 text-sm font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
             onClick={addPlayer}
           >
             Add Player
           </button>
-          <button className="btn btn-success" onClick={addToLineup}>
+          <button
+            className="mb-2 mt-2 rounded-lg bg-green-500 px-5 py-2.5 text-sm font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+            onClick={addToLineup}
+          >
             Finish Lineup
           </button>
         </div>

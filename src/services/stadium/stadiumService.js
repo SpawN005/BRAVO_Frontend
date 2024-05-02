@@ -18,6 +18,16 @@ const StadiumService = {
       throw error;
     }
   },
+  getAllStadiumsByDate: async (date) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/stadiums/available/${date}`);
+      const data = await response.json(); // Extract JSON data from the response
+      return data.data;
+    } catch (error) {
+      console.error('Error fetching stadiums:', error);
+      throw error;
+    }
+  },
   getStadiumById: async (id) => {
     try {
       const response = await fetch(`${API_BASE_URL}/stadiums/${id}`);

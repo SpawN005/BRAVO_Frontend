@@ -13,6 +13,15 @@ const getObservers = async () => {
     throw error;
   }
 };
+const getObserversByDate = async (date) => {
+  try {
+    const response = await axios.get(`${API_URL}/availableobservers/${date}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error during fetching observers by date:", error);
+    throw error;
+  }
+};
 const getAllObservers = async () => {
   const tournamentId = localStorage.getItem("selectedTournamentId"); // Retrieve tournamentId from local storage
   if (!tournamentId) {
@@ -92,6 +101,7 @@ const deleteObserver = async (observerId) => {
 
 export default {
   getObservers,
+  getObserversByDate,
   addObserver,
   updateObserver,
   getAllObservers,

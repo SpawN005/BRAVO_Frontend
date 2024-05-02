@@ -20,24 +20,25 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   const trigger = useRef<any>(null);
   const sidebar = useRef<any>(null);
   let storedSidebarExpanded = "true";
-  const [planType, setPlanType] = useState()
+  const [planType, setPlanType] = useState();
 
   const [sidebarExpanded, setSidebarExpanded] = useState(
     storedSidebarExpanded === null ? false : storedSidebarExpanded === "true",
   );
   useEffect(() => {
     const fetchGame = async () => {
-            try {
-                const response = await axios.get(`http://localhost:3001/users/${userDetails.userId}`);
-                setPlanType(response.data.data.abonnement.planType)
-            } catch (error) {
-                console.error(':', error);
-            }
-        
+      try {
+        const response = await axios.get(
+          `http://localhost:3001/users/${userDetails.userId}`,
+        );
+        setPlanType(response.data.data.abonnement.planType);
+      } catch (error) {
+        console.error(":", error);
+      }
     };
 
     fetchGame();
-},);
+  });
   // close on click outside
   useEffect(() => {
     const clickHandler = ({ target }: MouseEvent) => {
@@ -84,7 +85,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
       <div className="flex w-full  items-center justify-center gap-2 px-6 py-5.5 text-center lg:py-6.5">
         <Link href="/dashboard">
           <svg
-            className="h-12 w-12 animate-bounce fill-current text-blue-600"
+            className="h-12 w-12 animate-bounce fill-current text-green-500"
             viewBox="0 0 32 32"
             xmlns="http://www.w3.org/2000/svg"
           >
@@ -190,7 +191,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                       My Dashboard
                     </Link>
                   </li>
-                  
                 </>
               )}
               {userPermissionLevel === 2 && <h6></h6>}
@@ -224,11 +224,11 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   </li>
 
                   <li>
-                  <Link 
-    href={planType === "premium" ? "/team" : "/Stripe"} 
-    className={`group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 }`}
->
-<svg
+                    <Link
+                      href={planType === "premium" ? "/team" : "/Stripe"}
+                      className={`} group relative flex items-center gap-2.5 rounded-sm px-4 py-2 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4`}
+                    >
+                      <svg
                         className="fill-current"
                         width="18"
                         height="18"
@@ -245,9 +245,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                           fill=""
                         />
                       </svg>
-                      My Team    </Link>
-
-
+                      My Team{" "}
+                    </Link>
                   </li>
                   <li>
                     <Link
@@ -321,7 +320,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                           fill=""
                         />
                       </svg>
-Abonnement                    </Link>
+                      Abonnement{" "}
+                    </Link>
                   </li>
                 </ul>
               )}
@@ -455,7 +455,8 @@ Abonnement                    </Link>
                           fill=""
                         />
                       </svg>
-Abonnement                    </Link>
+                      Abonnement{" "}
+                    </Link>
                   </li>
                   {/* <!-- Menu Item referees --> */}
                 </>

@@ -3,12 +3,22 @@
 import axios from "axios";
 
 const API_URL = "http://localhost:3001"; // Replace with your API URL
+
 const getReferees = async () => {
   try {
     const response = await axios.get(`${API_URL}/referees`);
     return response.data;
   } catch (error) {
     console.error("Error during fetching referees:", error);
+    throw error;
+  }
+};
+const getRefereesByDate = async (date) => {
+  try {
+    const response = await axios.get(`${API_URL}/availablereferees/${date}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error during fetching referees by date:", error);
     throw error;
   }
 };
@@ -91,6 +101,7 @@ const deleteObserver = async (observerId) => {
 
 export default {
   getReferees,
+  getRefereesByDate,
   addObserver,
   updateObserver,
   getAllReferees,

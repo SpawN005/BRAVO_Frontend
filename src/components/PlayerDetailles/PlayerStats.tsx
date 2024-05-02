@@ -60,7 +60,7 @@ const PlayerHighlightedStats = ({ playerHighlightInfo }) => (
           </PlayerStatsTableRowBody>
         </PlayerStatsTable>
         <PlayerStatsTable>
-          <PlayerStatsTableRowHead>prenom</PlayerStatsTableRowHead>
+          <PlayerStatsTableRowHead>LastName</PlayerStatsTableRowHead>
           <PlayerStatsTableRowBody>
             {playerHighlightInfo.lastName}
           </PlayerStatsTableRowBody>

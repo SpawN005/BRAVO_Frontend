@@ -1,7 +1,7 @@
 import flatpickr from "flatpickr";
 import { useEffect, forwardRef } from "react";
 
-const DatePickerOne = forwardRef((props, ref) => {
+const DatePickerOne = forwardRef(({ props }, ref) => {
   useEffect(() => {
     // Init flatpickr
     flatpickr(".form-datepicker", {
@@ -19,7 +19,7 @@ const DatePickerOne = forwardRef((props, ref) => {
       minTime: "8:00",
       maxTime: "22:00",
     });
-  }, []);
+  }, [ref]);
 
   return (
     <div>
@@ -29,7 +29,7 @@ const DatePickerOne = forwardRef((props, ref) => {
       <div className="relative">
         <input
           className="form-datepicker w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-          placeholder="mm/dd/yyyy"
+          placeholder="dd/mm/yyyy H:i"
           data-class="flatpickr-right"
           {...props}
           ref={ref}

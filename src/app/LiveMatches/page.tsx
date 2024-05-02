@@ -1,19 +1,23 @@
-import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
-import Image from "next/image";
-import { Metadata } from "next";
+
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
-import Link from "next/link";
 import LiveMatches from "@/components/liveMatch/liveMatches";
-import { usePathname } from 'next/navigation'
+import getUserFromToken from "@/utilities/getUserFromToken ";
 
 
 export default function LiveMatche() {
+    //const user = getUserFromToken();
+    //console.log(user);
+    const user1=!true;
   
     return (
       <>
+         {user1 ? (
         <DefaultLayout>
-        <LiveMatches /> 
-               </DefaultLayout>
+          <LiveMatches /> 
+        </DefaultLayout>
+      ) : (
+        <LiveMatches />
+      )}
       </>
     );
   }
