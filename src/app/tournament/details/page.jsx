@@ -14,11 +14,13 @@ const Page = () => {
   const [loading, setLoading] = useState(true);
   const [tournamentType, setTournamentType] = useState();
   const id = localStorage.getItem("Mytournament");
+
   const fetchTournament = async () => {
     try {
       const tournament = await tournamentsService.getTournamentById(id);
       setTournamentData(tournament);
       setTournamentType(tournament.rules.type);
+
       setLoading(false);
     } catch (error) {
       console.error("Error fetching tournament:", error);
@@ -29,6 +31,7 @@ const Page = () => {
   };
   useEffect(() => {
     fetchTournament();
+    console.log("tournamentData");
   }, [id]); // Dependency array should only include params.tournamentId
 
   return loading || !tournamentData ? (

@@ -4,7 +4,7 @@ import Table from "@/components/Tables/TableOne";
 import matchService from "@/services/match/matchService";
 const GroupStage = ({ tournamentData }) => {
   const [winner, setWinner] = useState(false);
-  console.log(tournamentData.tournamentWinner);
+
   const finish = async () => {
     const result = await matchService.finishLeague(
       localStorage.getItem("Mytournament"),

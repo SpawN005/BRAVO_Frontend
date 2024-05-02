@@ -107,7 +107,7 @@ const TableOne = ({ data }) => {
             </div>
 
             <div className="flex items-center justify-center p-2.5 xl:p-5">
-              <p className="text-black dark:text-white">{team?.wins}</p>
+              <p className="text-black dark:text-white">{team?.gamesPlayed}</p>
             </div>
 
             <div className="flex items-center justify-center p-2.5 xl:p-5">
