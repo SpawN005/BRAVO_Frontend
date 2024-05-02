@@ -9,8 +9,9 @@ import StadiumService from "@/services/stadium/stadiumService";
 import matchService from "@/services/match/matchService";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
-
+import { useRouter } from "next/navigation";
 const MatchForm = ({ match, tournamentStartDate, tournamentFinishDate }) => {
+  const router = useRouter();
   const [observers, setObservers] = useState([]);
   const [referees, setReferees] = useState([]);
   const [stadiums, setStadiums] = useState([]);
@@ -105,6 +106,7 @@ const MatchForm = ({ match, tournamentStartDate, tournamentFinishDate }) => {
       console.log(data);
 
       await matchService.patchMatchById(match._id, data);
+      router.push("/tournaments/matches");
     } catch (error) {
       console.error("Error updating match:", error);
     }
@@ -199,7 +201,7 @@ const MatchForm = ({ match, tournamentStartDate, tournamentFinishDate }) => {
             }}
             disabled={match?.status === "FINISHED"}
           >
-            <Link href="/tournaments/matches">Save changes</Link>
+            Save changes
           </button>
         </div>
       </div>
