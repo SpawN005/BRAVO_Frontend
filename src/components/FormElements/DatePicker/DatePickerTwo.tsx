@@ -55,5 +55,6 @@ const DatePickerTwo = forwardRef(
     );
   },
 );
+DatePickerTwo.displayName = "DatePickerTwo";
 
 export default DatePickerTwo;
