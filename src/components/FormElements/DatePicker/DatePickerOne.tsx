@@ -8,9 +8,9 @@ const DatePickerOne = forwardRef(({ mindate, maxdate, ...props }, ref) => {
       mode: "single",
       static: true,
       monthSelectorType: "static",
-     // enableTime: true,
-      dateFormat: "Y-m-d ",
-     // time_24hr: true,
+      enableTime: true,
+      dateFormat: "Y-m-d H:i",
+      time_24hr: true,
       prevArrow:
         '<svg className="fill-current" width="7" height="11" viewBox="0 0 7 11"><path d="M5.4 10.8l1.4-1.4-4-4 4-4L5.4 0 0 5.4z" /></svg>',
       nextArrow:

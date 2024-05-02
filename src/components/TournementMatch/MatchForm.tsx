@@ -2,11 +2,13 @@
 import React, { useEffect, useState } from "react";
 import SelectGroupTwo from "@/components/SelectGroup/SelectGroupTwo";
 import DatePickerOne from "@/components/FormElements/DatePicker/DatePickerOne";
+import DatePickerTwo from "@/components/FormElements/DatePicker/DatePickerTwo";
 import obserservice from "../../services/observer/observerService";
 import refereeService from "@/services/referee/refereeService";
 import StadiumService from "@/services/stadium/stadiumService";
 import matchService from "@/services/match/matchService";
 import { useForm } from "react-hook-form";
+import Link from "next/link";
 
 const MatchForm = ({ match,tournamentStartDate,tournamentFinishDate }) => {
   const [observers, setObservers] = useState([]);
@@ -15,7 +17,10 @@ const MatchForm = ({ match,tournamentStartDate,tournamentFinishDate }) => {
   const [selectedObserver, setSelectedObserver] = useState("");
   const [selectedReferee, setSelectedReferee] = useState("");
   const [selectedStadium, setSelectedStadium] = useState("");
-  const [selectedDate, setSelectedDate] = useState(match?.date || null); // Track selected date
+  const [selectedDate, setSelectedDate] = useState(match?.date ||  null); // Track selected date
+  let st;
+  let ob;
+  let ref;
   const {
     register,
     handleSubmit,
@@ -25,21 +30,46 @@ const MatchForm = ({ match,tournamentStartDate,tournamentFinishDate }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const resultO = await obserservice.getObservers();
-        setObservers(resultO.data);
-        const resultR = await refereeService.getReferees();
-        setReferees(resultR.data);
-        const resultS = await StadiumService.getAllStadiums();
-        setStadiums(resultS);
+       
 
         
         if (match) {
+          if (match.date){
           setValue("date", match.date);
-          setValue("observer", match.observer);
-          setValue("referee", match.referee);
-          setValue("stadium", match.stadium);
+          
+          if (match.observer){
+            setValue("observer", match.observer);
+            ob= await obserservice.getObserverById(match.observer);
+            setSelectedObserver(ob.data);
+            setObservers(ob.data);
+          }else{
+            const resultO = await obserservice.getObserversByDate(selectedDate);
+    setObservers(resultO.data);
+          }
+          if (match.referee){
+            setValue("referee", match.referee);
+            ref= await refereeService.getObserverById(match.referee);
+            setSelectedReferee(ref.data);
+            setReferees(ref.data); 
+          }else{
+            const resultR = await refereeService.getRefereesByDate(selectedDate);
+    setReferees(resultR.data);
+          }
+          if (match.stadium){
+            setValue("stadium", match.stadium);
+            st= await StadiumService.getStadiumById(match.stadium);
+            setSelectedStadium(st);
+            setStadiums(st);
+          }else{
+            const resultS = await StadiumService.getAllStadiumsByDate(selectedDate);
+    setStadiums(resultS);
+          }
+          
+          
           
         }
+      }
+        
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -47,12 +77,19 @@ const MatchForm = ({ match,tournamentStartDate,tournamentFinishDate }) => {
 
     fetchData();
   }, []);
-  const handleDateSelectChange = (selectedValue) => {
-    setSelectedDate(selectedValue); // Update selected date
-    console.log("Selected Date:", selectedValue); // Add this line
+ 
+
+  const handleDateChange = async (selectedDate) => {
+    console.log("Selected Date:", selectedDate);
+    setSelectedDate(selectedDate);
+    const resultS = await StadiumService.getAllStadiumsByDate(selectedDate);
+    setStadiums(resultS);
+    const resultO = await obserservice.getObserversByDate(selectedDate);
+    setObservers(resultO.data);
+    const resultR = await refereeService.getRefereesByDate(selectedDate);
+    setReferees(resultR.data);
+          
   };
-
-
   const handleObserverSelectChange = (selectedValue, name) => {
     setSelectedObserver(selectedValue);
     setValue(name, selectedValue);
@@ -87,49 +124,61 @@ const MatchForm = ({ match,tournamentStartDate,tournamentFinishDate }) => {
           </h3>
         </div>
         <div className="flex flex-col gap-5.5 p-6.5">
-          <DatePickerOne {...register("date", { defaultValue: match?.date })}
+          <DatePickerTwo {...register("date", { defaultValue: match?.date })}
           mindate={tournamentStartDate}
           maxdate={tournamentFinishDate} 
-          onSelectChange={handleDateSelectChange} // Pass the callback function
-          />
+          onSelectChange={handleDateChange}
+          
+/>
         </div>
         <div className="flex flex-col gap-5.5 p-6.5">
           <SelectGroupTwo
-            title="Observer"
-            options={observers.map((observer) => ({
-              label: observer.userIdentity.email,
+            title="Available Observers"
+            
+            options={Array.isArray(observers) ? observers.map((observer) => ({
+              label: observer.userIdentity.firstName,
               value: observer._id,
-            }))}
+            })) : [{
+              label: observers.userIdentity.firstName,
+              value: observers._id,
+            }]}
             name="observer" // Name for react-hook-form
             onSelectChange={handleObserverSelectChange}
-            defaultValue={match?.observer} // Set default value
+            defaultValue={selectedObserver } // Set default value
           />
         </div>
         <div className="flex flex-col gap-5.5 p-6.5">
           <SelectGroupTwo
-            title="Referee"
-            options={referees.map((referee) => ({
-              label: referee.userIdentity.email,
+            title="Available Referees"
+            options={Array.isArray(referees) ? referees.map((referee) => ({
+              label: referee.userIdentity.firstName,
               value: referee._id,
-            }))}
+            })) : [{
+              label: referees.userIdentity.firstName,
+              value: referees._id,
+            }]}
             name="referee" // Name for react-hook-form
             onSelectChange={handleRefereeSelectChange}
-            defaultValue={match?.referee} // Set default value
+            defaultValue={selectedReferee } // Set default value
           />
         </div>
         <div className="flex flex-col gap-5.5 p-6.5">
           <SelectGroupTwo
-            title="Stadium"
-            options={stadiums.map((stadium) => ({
+            title="Available Stadiums"
+            options={Array.isArray(stadiums) ? stadiums.map((stadium) => ({
               label: stadium.name,
               value: stadium._id,
-            }))}
+            })) : [{
+              label: stadiums.name,
+              value: stadiums._id,
+            }]}
             name="stadium" // Name for react-hook-form
             onSelectChange={handleStadiumSelectChange}
-            defaultValue={match?.stadium} // Set default value
+            defaultValue={selectedStadium } // Set default value
           />
         </div>
         <div className="flex flex-col items-end gap-3.5 p-4.5">
+       
           <button
             type="submit"
             className="mt-2 h-12 w-32 rounded-md bg-green-500 font-semibold text-white "
@@ -139,8 +188,11 @@ const MatchForm = ({ match,tournamentStartDate,tournamentFinishDate }) => {
             }}
             disabled={match?.status === "FINISHED"}
           >
+            <Link href="/tournaments/matches">
             Save changes
+            </Link>
           </button>
+          
         </div>
       </div>
     </form>
