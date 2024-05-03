@@ -154,7 +154,7 @@ const Rules = ({ onNextStep, onPrevStep }) => {
         </div> */}
       </div>
       {tournament.rules.type === "GROUP_KNOCKOUT" ||
-      tournament.rules.type === "GROUP" ? (
+      tournament.rules.type === "LEAGUE" ? (
         <>
           {" "}
           <p className="w-full border-b border-slate-400 text-xl font-bold text-black">
